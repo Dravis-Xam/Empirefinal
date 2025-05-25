@@ -1,0 +1,38 @@
+.topSearchCard {
+    font-size: 14px;
+    padding: 5px 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--topSearchBtn-bg);
+    color: var(--topSearchBtn-fg);
+    height: 15px;
+    width: fit-content;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.topSearchCard > small {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.topSearchCard > small > button {
+    border-radius: 15px;
+    height: 15px;
+    width: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.topSearchCard > small > button> img {
+    height: 15px;
+    width: 15px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 0;
+}

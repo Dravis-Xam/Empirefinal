@@ -1,0 +1,31 @@
+.socialLinks {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--social-links-bg);
+    border-radius: 30px;
+    padding: 5px 8px;
+    width: 80%;
+}
+
+.socialLinks > span {
+    transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.socialLinks > span:hover {
+    transform: translateY(-3px);
+}
+
+.socialLinks > span > a > img {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.socialLinks > span,
+.socialLinks > span > a,
+.socialLinks > span > a > img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

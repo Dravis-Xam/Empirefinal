@@ -1,0 +1,83 @@
+/* Rewards.css */
+
+.RewardsContainer {
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.RewardsContainer h1 {
+  color: #f0f0f0;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.RewardCardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Styles for when coupons are enabled */
+.CouponContainer {
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 20px;
+}
+
+.CouponContainer h2 {
+  color: #f0f0f0;
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.CouponContainer p {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(20, 20, 20, 0.5);
+  border-radius: 8px;
+}
+
+/* Discount card adjustments */
+.RewardCardsContainer .DiscountCard {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .RewardsContainer {
+    padding: 30px 20px;
+  }
+  
+  .RewardCardsContainer {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .RewardsContainer {
+    padding: 25px 15px;
+  }
+  
+  .RewardsContainer h1 {
+    font-size: 24px;
+  }
+  
+  .CouponContainer h2 {
+    font-size: 20px;
+  }
+}

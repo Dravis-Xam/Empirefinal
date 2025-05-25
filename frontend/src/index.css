@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  font-family: Montserrat, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --social-links-bg: white;
+  --getRecoveryCodeBtn-bg: rgb(0, 238, 0);
+  --welcomecard-fg: #ffffff;
+  --signupBtn-bg: #222;
+  --signupbtn-fg: #ffffff;
+  --seeMoreBrands: #fff;  
+  --searchBtn-bg: rgb(0, 238, 0);
+  --searchBtn-fg: #fff;
+  --topSearchBtn-bg: #fff;
+  --topSearchBtn-fg: #22a;  
+  --phonecard-fg: #222;
+  --paymentInputs-bg: rgba(255, 255, 255, 0.2);
+  --paymentInputsFocus-bg: rgba(255, 255, 255, 0.3);
+  --paymentInputs-fg: #fff;
+  --sub-option-bg: rgba(255, 255, 255, 0.05);
+  --save-btn-bg: linear-gradient(135deg, #28a745, #218838);
+  --save-btnhover-bg: linear-gradient(135deg, #218838, #28a745);
+}
+
+button {
+  cursor: pointer;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+input, select {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+}

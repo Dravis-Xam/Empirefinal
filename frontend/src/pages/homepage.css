@@ -1,0 +1,398 @@
+/* Base Styles */
+.homePage {
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  background-blend-mode: overlay;
+}
+
+.headerContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Brands Section */
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  z-index: 1;
+}
+
+.brands span {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background-color: rgba(77, 144, 254, 0.2);
+  color: #4d90fe;
+  transition: all 0.3s ease;
+}
+
+.brands span:hover {
+  background-color: rgba(77, 144, 254, 0.4);
+  transform: translateY(-2px);
+}
+
+.separator {
+  color: #555;
+  margin: 0 0.5rem;
+}
+
+.seeMoreBrands {
+  background: linear-gradient(135deg, #4d90fe 0%, #357ae8 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.seeMoreBrands:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(53, 122, 232, 0.3);
+}
+
+/* Phones Container */
+.phonesContainer {
+  padding: 3rem 1rem;
+  background-color: #1e1e1e;
+}
+
+.phonesContainer h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+/* Services Section */
+.et000 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 1rem;
+  background-color: #121212;
+}
+
+.phoneCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.serviceCard {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.serviceCard:hover {
+  transform: translateY(-5px);
+}
+
+.serviceCard h3 {
+  color: #4d90fe;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.serviceCard p {
+  color: #aaa;
+  line-height: 1.6;
+}
+
+/* Support Chat Link */
+.supportChatLink {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #4d90fe 0%, #357ae8 100%);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.supportChatLink:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.supportChatLink img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .brands {
+    gap: 0.3rem;
+  }
+
+  .brands span {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .separator {
+    margin: 0 0.3rem;
+  }
+
+  .seeMoreBrands {
+    padding: 0.3rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .phonesContainer, .et000 {
+    padding: 2rem 1rem;
+  }
+
+  footer > div {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .supportChatLink {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .brands {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .seeMoreBrands {
+    margin-top: 0.5rem;
+    margin-left: 0;
+  }
+
+  .serviceCard {
+    min-width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.homePage {
+  animation: fadeIn 0.5s ease-out;
+}
+
+footer {
+  background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
+  color: #e0e0e0;
+  padding: 40px 20px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+}
+
+footer > div:first-child {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+footer h2 {
+  color: #f0f0f0;
+  font-size: 24px;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+footer h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: cornflowerblue;
+  border-radius: 3px;
+}
+
+footer h3 {
+  color: #f0f0f0;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+footer p {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #c0c0c0;
+}
+
+footer strong {
+  color: #f0f0f0;
+  min-width: 80px;
+  display: inline-block;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer li {
+  margin-bottom: 12px;
+}
+
+footer a {
+  color: #c0c0c0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 0;
+  position: relative;
+}
+
+footer a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: cornflowerblue;
+  transition: width 0.3s ease;
+}
+
+footer a:hover {
+  color: cornflowerblue;
+}
+
+footer a:hover::before {
+  width: 100%;
+}
+
+footer small {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: #888;
+  font-size: 12px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Social links container */
+footer .social-links {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  footer > div:first-child {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  footer h2 {
+    font-size: 22px;
+  }
+  
+  footer h3 {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 30px 15px;
+  }
+  
+  footer h2::after {
+    width: 40px;
+    bottom: -5px;
+  }
+}
+
+@media (max-width: 768px) {
+    section.hero > h1 {
+        font-size: 36px;
+    }
+    section.hero > .brands {
+        height: 30px;
+        width: 80%;
+    }
+    section.hero > .brands > span {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+    section.hero > .brands > button {
+        right: -20px;
+    }
+}

@@ -1,0 +1,64 @@
+.rhombus-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .rhombus-ring {
+    width: 100px;
+    height: 100px;
+    transform: rotate(45deg);
+    border: 3px solid transparent;
+    position: relative;
+    animation: rotate 2s linear infinite;
+  }
+  
+  .rhombus-ring::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    padding: 3px;
+    background: conic-gradient(
+      white,
+      black,
+      gold,
+      rgb(238, 255, 0),
+      white
+    );
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: destination-out;
+    border-radius: 50px;
+    animation: animateBorder 2s linear infinite;
+    z-index: -1;
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(45deg);
+    }
+    50% {
+      transform: rotate(245deg);
+      width: 50px;
+      height: 50px;
+    }
+    100% {
+      transform: rotate(405deg);
+    }
+  }
+  
+  @keyframes animateBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  

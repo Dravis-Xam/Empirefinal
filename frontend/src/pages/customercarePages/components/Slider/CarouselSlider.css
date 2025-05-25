@@ -1,0 +1,261 @@
+.orderContainer01 {
+    display: flex;
+    width: 100%;
+}
+
+.carousel-container {
+  position: relative;
+  width: 60%;
+  height: 370px;
+  color: #eee;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.carousel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 60px;
+  box-sizing: border-box;
+  overflow: visible;
+  perspective: 1000px;
+}
+
+.carousel-card {
+  position: absolute;
+  height: 320px;
+  width: 250px;
+  background: #222;
+  border-radius: 10px;
+  padding: 1rem;
+  box-sizing: border-box;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+  color: #ccc;
+  opacity: 0.6;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease,
+    box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  cursor: default;
+  user-select: none;
+}
+
+.status-badge {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 12px;
+  color: #111;
+  user-select: none;
+  pointer-events: none;
+}
+
+.status-pending-delivery {
+  background-color: #ff9800;
+}
+
+.status-Dispatched {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.status-In-delivery {
+  background-color: #3f51b5;
+  color: #fff;
+}
+
+.status-Awaiting-pickup {
+  background-color: #9c27b0;
+  color: #fff;
+}
+
+.status-Arrived-at-destination {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.status-complete {
+  background-color: #607d8b;
+  color: #fff;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 30px;
+  font-size: 20px;
+  color: #2196f3;
+  background: none;
+  padding: none;
+  border: none;
+  transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 200;
+  border-radius: 5px;
+}
+
+.nav-button:hover {
+    transform: scale(1.1) translateY(-50%);
+    border: .1px solid #2196f3;
+    top: 50%;
+}
+
+.nav-button:first-of-type {
+  left: 10px;
+}
+
+.nav-button:last-of-type {
+  right: 59.5%;
+}
+
+.carousel-card h3 {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.carousel-card p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carousel-card.active {
+  opacity: 1;
+  transform: scale(1.15) translateZ(40px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  z-index: 10;
+}
+
+.carousel-card.next {
+  opacity: 0.75;
+  transform: scale(0.9) translateX(100px) translateZ(-20px);
+  filter: blur(1px);
+  z-index: 5;
+  color: #bbb;
+}
+
+.carousel-card.prev {
+  opacity: 0.75;
+  transform: scale(0.9) translateX(-100px) translateZ(-20px);
+  filter: blur(1px);
+  z-index: 5;
+  color: #bbb;
+}
+
+.carousel-card:not(.active):not(.next):not(.prev) {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8) translateX(0) translateZ(-50px);
+  filter: blur(3px);
+  z-index: 1;
+}
+
+.list-card > .status-badge {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 8px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.status-pending-delivery {
+  background-color: #ffc107;
+  color: #000;
+}
+.status-dispatched {
+  background-color: #17a2b8;
+  color: #fff;
+}
+.status-in-delivery {
+  background-color: #007bff;
+  color: #fff;
+}
+.status-dismissed {
+  background-color: #80193b;
+  color: #fff;
+}
+.status-awaiting-pickup {
+  background-color: #6610f2;
+  color: #fff;
+}
+.status-arrived-at-destination {
+  background-color: #6f42c1;
+  color: #fff;
+}
+.status-complete {
+  background-color: #28a745;
+  color: #fff;
+}
+.status-rejected {
+  background-color: #dc3545;
+  color: #fff;
+}
+.status-approved {
+  background-color: #20c997;
+  color: #fff;
+}
+
+.cardList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-card {
+    width: 120px;
+    height: fit-content;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    background-color: #222;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: default;
+    padding-top: 15px;
+    transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.list-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+.list-user, .list-amount {
+    font-size: 10px;
+}

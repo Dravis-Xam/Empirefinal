@@ -1,0 +1,224 @@
+/* maintenance.css */
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 20px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-areas:
+    "stats stats"
+    "machines machines"
+    "trend trend"
+    "breakdown breakdown";
+  gap: 20px;
+}
+
+.stats-overview {
+  grid-area: stats;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.stat-card {
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.stat-card.critical { border-top: 4px solid #ff4d4f; }
+.stat-card.error { border-top: 4px solid #ff7875; }
+.stat-card.warning { border-top: 4px solid #ffc069; }
+.stat-card.total { border-top: 4px solid #69c0ff; }
+
+.stat-card .value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.machine-status {
+  grid-area: machines;
+}
+
+.machine-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.machine-card {
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.machine-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.machine-stats .stat {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.machine-stats .critical { background: rgba(255, 77, 79, 0.2); }
+.machine-stats .error { background: rgba(255, 120, 117, 0.2); }
+.machine-stats .warning { background: rgba(255, 192, 105, 0.2); }
+.machine-stats .total { background: rgba(105, 192, 255, 0.2); }
+
+.trend-visualization {
+  grid-area: trend;
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.error-breakdown {
+  grid-area: breakdown;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+.severity-breakdown, .machine-activity {
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.custom-tooltip {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.custom-tooltip .time {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.custom-tooltip .machine {
+  color: #69c0ff;
+  margin-bottom: 5px;
+}
+
+.custom-tooltip .severity {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.time-selector {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.logout-btn {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: rgba(231, 76, 60, 0.3);
+}
+
+.time-range-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 4px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.time-range-tabs button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.time-range-tabs button:hover {
+  background: #2a2a2a;
+  color: #ddd;
+}
+
+.time-range-tabs button.active {
+  background: #434343;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* For better mobile responsiveness */
+@media (max-width: 768px) {
+  .time-range-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .time-range-tabs button {
+    flex: 1 0 calc(50% - 8px);
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-range-tabs button {
+    flex: 1 0 100%;
+  }
+}
+
+.time-range-tabs button.active {
+  position: relative;
+}
+
+.time-range-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background: #69c0ff;
+  border-radius: 3px;
+}
+
+.time-range-tabs button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.time-range-tabs button:focus-visible {
+  outline: 2px solid #69c0ff;
+  outline-offset: 2px;
+}

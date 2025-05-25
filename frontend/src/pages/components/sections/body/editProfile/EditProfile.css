@@ -1,0 +1,137 @@
+/* EditProfile.css */
+
+.editprofilesection {
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.editprofilesection h1 {
+  color: #f0f0f0;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.editProfileInput {
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.editProfileInput input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f0f0f0;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.editProfileInput input:focus {
+  outline: none;
+  border-color: cornflowerblue;
+  box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
+}
+
+.editProfileInput input:disabled {
+  background: rgba(30, 30, 30, 0.5);
+  color: #888;
+  cursor: not-allowed;
+}
+
+.editProfileInput input::placeholder {
+  color: #666;
+}
+
+.editProfileBtns {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.EditProfileBtn, 
+.SaveProfileBtn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.EditProfileBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.EditProfileBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.EditProfileBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.SaveProfileBtn {
+  background: linear-gradient(to right, #4169e1, #6495ed);
+  color: white;
+  box-shadow: 0 2px 8px rgba(100, 149, 237, 0.3);
+}
+
+.SaveProfileBtn:hover:not(:disabled) {
+  background: linear-gradient(to right, #3a5fcd, #5a86e6);
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.4);
+  transform: translateY(-1px);
+}
+
+.SaveProfileBtn:disabled {
+  background: rgba(100, 149, 237, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Toast container positioning */
+.editprofilesection .ToastContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editprofilesection {
+    padding: 30px 15px;
+  }
+  
+  .editProfileInput {
+    padding: 25px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .editprofilesection h1 {
+    font-size: 24px;
+  }
+  
+  .editProfileBtns {
+    flex-direction: column;
+  }
+}

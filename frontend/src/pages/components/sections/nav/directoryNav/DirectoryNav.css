@@ -1,0 +1,86 @@
+/* DirectoryNav.css */
+
+.directory-nav {
+  background: rgba(20, 20, 20, 0.9);
+  padding: 12px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  position: relative;
+  z-index: 10;
+  animation: slideDown 0.4s ease-out;
+}
+
+.directory-nav small {
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.directory-nav a {
+  color: #ddd;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.directory-nav a:hover {
+  color: cornflowerblue;
+  background: rgba(100, 149, 237, 0.1);
+}
+
+.directory-nav a::after {
+  content: '>';
+  margin-left: 5px;
+  color: #666;
+}
+
+.directory-nav a:last-child::after {
+  content: '';
+}
+
+/* Current page text styling */
+.directory-nav small > span:last-child {
+  color: #f0f0f0;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+/* Animation for initial load */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .directory-nav {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+  
+  .directory-nav small {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+  
+  .directory-nav a::after {
+    margin-left: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .directory-nav {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
