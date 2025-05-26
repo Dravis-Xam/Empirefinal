@@ -4,12 +4,15 @@ import './index.css'
 import Routes from './Routing.jsx'
 import { CartProvider } from './modules/Store/CartContext.jsx'
 import { AuthProvider } from "./modules/Store/AuthContext.jsx"
+import { ThemeProvider } from './modules/Store/ThemeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <CartProvider>
-        <Routes />
+        <ThemeProvider>
+          <Routes />
+        </ThemeProvider>
       </CartProvider>
     </AuthProvider>
   </StrictMode>,

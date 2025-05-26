@@ -1,68 +1,65 @@
-/* Header Styles */
+/* Header with Transparency */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #1e1e1e;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   position: sticky;
   top: 0;
   z-index: 1000;
+  backdrop-filter: blur(8px); /* Adds glass effect */
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-primary);
+  box-shadow: 0 2px 10px var(--shadow-primary);
 }
 
+/* Header content styling */
 header h1 {
-  color: #4d90fe;
+  color: var(--text-primary); /* Gold text */
   font-size: 1.5rem;
   margin: 0;
   cursor: pointer;
   transition: color 0.3s ease;
+  text-shadow: 0 2px 4px var(--shadow-primary);
 }
 
 header h1:hover {
-  color: #6ba4ff;
+  color: var(--text-primary);
 }
 
+/* Navigation links - transparent background */
 .leftTop {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  background-color: transparent;
 }
 
 .leftTop span {
-  color: #e0e0e0;
+  color: var(--text-secondary);
   cursor: pointer;
   font-weight: 500;
-  padding: 0.5rem 0;
-  position: relative;
-  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 .leftTop span:hover {
-  color: #ffffff;
+  color: var(--accent-secondary);
+  background-color: var(--blue-light); /* Blue tint on hover */
 }
 
 .leftTop span.active {
-  color: #4d90fe;
+  color: var(--accent-secondary);
+  background-color: var(--blue-light);
 }
 
-.leftTop span.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #4d90fe;
-  animation: underline 0.3s ease;
+.hamburger {
+  display: none;
+  visibility: hidden;
 }
 
-@keyframes underline {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-/* Button Styles */
 .logoutBtn,
 .loginBtn,
 .signupBtn {
@@ -71,81 +68,70 @@ header h1:hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  background-color: transparent;
 }
 
 .logoutBtn {
-  background-color: transparent;
-  color: #ff4d4f;
-  border: 1px solid #ff4d4f;
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 .logoutBtn:hover {
-  background-color: rgba(255, 77, 79, 0.1);
+  background-color: rgba(244, 67, 54, 0.1);
 }
 
 .loginBtn {
-  background-color: transparent;
-  color: #4d90fe;
-  border: 1px solid #4d90fe;
+  color: var(--accent-secondary);
+  border: 1px solid var(--accent-secondary);
 }
 
 .loginBtn:hover {
-  background-color: rgba(77, 144, 254, 0.1);
-}
-
-.loginBtn.active {
-  background-color: rgba(77, 144, 254, 0.2);
+  background-color: var(--gold-light);
+  color: var(--text-primary);
 }
 
 .signupBtn {
-  background-color: #4d90fe;
-  color: white;
-  border: 1px solid #4d90fe;
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary);
 }
 
 .signupBtn:hover {
-  background-color: #357ae8;
-  box-shadow: 0 2px 8px rgba(53, 122, 232, 0.3);
+  background-color: var(--blue-light);
 }
 
-.signupBtn.active {
-  background-color: #357ae8;
-}
+/* Mobile menu styles */
+@media (max-width: 800px) {
+  .hamburger {
+    display: flex;
+    visibility: visible;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-  header {
-    padding: 1rem;
+  .leftTop {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
     flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 4rem;
     gap: 1rem;
+    background-color: var(--bg-tertiary);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: right 0.3s ease;
   }
 
-  .leftTop {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  header h1 {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .leftTop {
-    gap: 0.8rem;
+  .leftTop.open {
+    right: 0;
   }
 
   .leftTop span {
-    font-size: 0.9rem;
-  }
-
-  .logoutBtn,
-  .loginBtn,
-  .signupBtn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+    width: 80%;
+    text-align: center;
+    padding: 1rem;
   }
 }
 

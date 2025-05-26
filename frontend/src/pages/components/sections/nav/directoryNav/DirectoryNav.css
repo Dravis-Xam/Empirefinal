@@ -1,10 +1,8 @@
-/* DirectoryNav.css */
-
 .directory-nav {
-  background: rgba(20, 20, 20, 0.9);
+  background: var(--bg-secondary);
   padding: 12px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border-secondary);
+  box-shadow: 0 2px 10px var(--shadow-primary);
   font-size: 14px;
   position: relative;
   z-index: 10;
@@ -12,14 +10,14 @@
 }
 
 .directory-nav small {
-  color: #aaa;
+  color: var(--text-tertiary);
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
 .directory-nav a {
-  color: #ddd;
+  color: var(--text-secondary);
   text-decoration: none;
   position: relative;
   transition: all 0.3s ease;
@@ -29,13 +27,13 @@
 
 .directory-nav a:hover {
   color: cornflowerblue;
-  background: rgba(100, 149, 237, 0.1);
+  background: var(--bg-tertiary);
 }
 
 .directory-nav a::after {
   content: '>';
   margin-left: 5px;
-  color: #666;
+  color: var(--text-tertiary);
 }
 
 .directory-nav a:last-child::after {
@@ -44,7 +42,7 @@
 
 /* Current page text styling */
 .directory-nav small > span:last-child {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-weight: 500;
   margin-left: 5px;
 }

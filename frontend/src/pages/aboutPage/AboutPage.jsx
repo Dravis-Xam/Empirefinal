@@ -23,11 +23,24 @@ export default function AboutPage() {
                 <p>By making sure our clients get Quality devices in Quality time.</p>
             </div>
             <div>
-                <small>Where to find us?</small>
+                <small>How to reach us?</small>
                 <h1 className="titles">Call us on:</h1>
-                <p>0700000000</p>
-                <p>0700000000</p>
-                <p>0700000000</p>
+                <p>0700029555</p>
+                <p>0700023555</p>
+                <p>0711489056</p>
+                <p>empirehub254@gmail.com</p>
+            </div>
+            <div>
+                <small>Where to find us?</small>
+                <h1 className="titles">We are at:</h1>
+                <p>Moi avenue, bazaar plaza, floor M1, Unit 3, Shop A2</p>
+            </div>
+            <div>
+                <small>For comments, support or queries </small>
+                <h1 className="titles">Reach us at:</h1>
+                <p><i>Facebook</i></p>
+                <p><i>Instagram</i></p>
+                <p><i>Whatsapp</i></p>
             </div>
         </div>
         <div className="valuesContainer">

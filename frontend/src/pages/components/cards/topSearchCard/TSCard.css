@@ -5,12 +5,19 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--topSearchBtn-bg);
-    color: var(--topSearchBtn-fg);
+    background-color: var(--blue-light);
+    color: var(--accent-primary);
     height: 15px;
     width: fit-content;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid var(--border-primary);
+    transition: all 0.2s ease;
+}
+
+.topSearchCard:hover {
+    background-color: var(--accent-tertiary);
+    color: white;
 }
 
 .topSearchCard > small {
@@ -21,6 +28,7 @@
     font-size: 14px;
     font-weight: 600;
 }
+
 .topSearchCard > small > button {
     border-radius: 15px;
     height: 15px;
@@ -28,11 +36,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    transition: all 0.2s ease;
 }
-.topSearchCard > small > button> img {
+
+.topSearchCard > small > button:hover {
+    background-color: var(--error);
+    border-color: var(--error);
+}
+
+.topSearchCard > small > button > img {
     height: 15px;
     width: 15px;
     object-fit: cover;
     border-radius: 15px;
     margin: 0;
+    filter: invert(1);
 }

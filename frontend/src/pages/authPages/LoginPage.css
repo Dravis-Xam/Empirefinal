@@ -125,6 +125,11 @@ input[type=password].login-input {
 
 .login-toggle-password:hover {
   color: #4d90fe;
+  box-shadow: none;
+  background: none;
+  padding: none;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Submit Button */

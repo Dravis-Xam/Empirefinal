@@ -25,7 +25,7 @@ export default function PasswordRecovery() {
         setBtnDisabled(true);
         setBtnText('Sending code...');
 
-        const res = await fetch(`${API_BASE}/send-recovery-code?email=${email}`);
+        const res = await fetch(`${API_BASE}/send-recovery-code/${email}`);
         const data = await res.json();
 
         if (res.ok) {
@@ -108,7 +108,6 @@ export default function PasswordRecovery() {
     return (
         <div className='passwordRecoveryContainer'>
             <Header />
-            <DirectoryNavigation />
             <h1>Password Recovery</h1>
             <p>Make sure you enter the correct email. Enter the code that will be sent to the email.</p>
 

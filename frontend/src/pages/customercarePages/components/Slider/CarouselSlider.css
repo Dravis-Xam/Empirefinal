@@ -43,7 +43,7 @@
   padding: 1rem;
   box-sizing: border-box;
   box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-  color: #ccc;
+  color: #eeeeee;
   opacity: 0.6;
   transform-style: preserve-3d;
   transition:
@@ -67,7 +67,7 @@
   font-weight: 600;
   text-transform: uppercase;
   border-radius: 12px;
-  color: #111;
+  color: #eeeeee;
   user-select: none;
   pointer-events: none;
 }
@@ -146,6 +146,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: white;
 }
 
 .carousel-card.active {
@@ -243,12 +244,16 @@
     position: relative;
     display: flex;
     align-items: flex-end;
-    background-color: #222;
+    background-color: #7e7e7e;
     padding: 10px;
     border-radius: 5px;
     cursor: default;
     padding-top: 15px;
     transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.list-info p {
+    color: white;
 }
 
 .list-card:hover {

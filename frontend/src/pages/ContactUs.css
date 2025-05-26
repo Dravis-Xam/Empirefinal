@@ -1,8 +1,8 @@
 /* ContactUs.css */
 
 .contactPage {
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--bg-primary);
+  color:var(--text-secondary);
   min-height: 100vh;
   padding: 30px;
   max-width: 1200px;
@@ -11,21 +11,21 @@
 }
 
 .contactPage h1 {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 28px;
   margin-bottom: 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 15px;
   font-weight: 500;
 }
 
 .contactPage section {
-  background: rgba(30, 30, 30, 0.7);
+  background: var(--bg-primary);
   border-radius: 12px;
   padding: 25px;
   margin-bottom: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-primary);
+  border: 1px solid var(--border-primary);
   transition: transform 0.3s ease;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .contactPage h3 {
-  color: #f0f0f0;
+  color: var(--text-secondary);
   font-size: 20px;
   margin-bottom: 20px;
   position: relative;
@@ -59,10 +59,10 @@
 input, textarea {
   width: 100%;
   padding: 14px 16px;
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 16px;
   transition: all 0.3s ease;
 }
@@ -70,7 +70,7 @@ input, textarea {
 input:focus, textarea:focus {
   outline: none;
   border-color: cornflowerblue;
-  box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
+  box-shadow: 0 0 0 2px var(--shadow-secondary);
 }
 
 textarea {
@@ -82,7 +82,7 @@ textarea {
   position: absolute;
   left: 15px;
   top: 14px;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 16px;
   pointer-events: none;
   transition: all 0.3s ease;
@@ -96,7 +96,7 @@ textarea:not(:placeholder-shown) + .floatingLabel {
   left: 10px;
   font-size: 12px;
   color: cornflowerblue;
-  background: rgba(30, 30, 30, 0.9);
+  background: var(--bg-tertiary);
   padding: 0 5px;
   border-radius: 4px;
 }
@@ -123,14 +123,14 @@ textarea:not(:placeholder-shown) + .floatingLabel {
 
 details {
   margin: 15px 0;
-  background: rgba(20, 20, 20, 0.5);
+  background: var(--bg-secondary);
   border-radius: 8px;
   padding: 10px;
   border-left: 3px solid cornflowerblue;
 }
 
 summary {
-  color: #f0f0f0;
+  color: var(--text-secondary);
   font-weight: 500;
   cursor: pointer;
   padding: 8px;
@@ -145,7 +145,7 @@ summary:hover {
 details p {
   padding: 10px;
   margin: 10px 0 0 0;
-  color: #c0c0c0;
+  color: var(--text-primary);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -159,7 +159,8 @@ ul {
 li {
   margin-bottom: 12px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-primary);
 }
 
 li:last-child {
@@ -169,7 +170,7 @@ li:last-child {
 }
 
 strong {
-  color: #f0f0f0;
+  color: var(--text-primary);
   min-width: 120px;
   display: inline-block;
 }

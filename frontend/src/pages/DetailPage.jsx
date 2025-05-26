@@ -5,6 +5,8 @@ import RhombusLoader from './components/loading/RhombusLoading';
 import { useCart } from "../modules/Store/CartContext";
 import DirectoryNavigation from "./components/sections/nav/directoryNav/DirectoryNavigation";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "../modules/Store/ToastStore";
+import ToastContainer from "./components/toasts/ToastContainer";
 
 export default function DetailPage() {
   const { state } = useLocation();
@@ -70,9 +72,13 @@ export default function DetailPage() {
   const item = { brand, build, model, price, details };
   const quantity = cart.filter(p => p.build === build && p.model === model).length;
 
-  const handleAddToCart = () => addToCart(item);
+  const handleAddToCart = () => {
+    toast.success("Item added")
+    addToCart(item)};
+  
   const handleRemoveFromCart = () => {
     if (quantity > 0) removeFromCart(item);
+    toast.success("Item removed")
   };
 
   return (
@@ -139,6 +145,7 @@ export default function DetailPage() {
             >
               -
             </button>
+            <ToastContainer />
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 /* EditProfile.css */
 
 .editprofilesection {
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   padding: 40px 20px;
   max-width: 600px;
@@ -10,7 +10,7 @@
 }
 
 .editprofilesection h1 {
-  color: #f0f0f0;
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 30px;
   font-size: 28px;
@@ -19,22 +19,22 @@
 }
 
 .editProfileInput {
-  background: rgba(30, 30, 30, 0.7);
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-secondary),
+              inset 0 1px 0 var(--shadow-primary);
+  border: 1px solid var(--border-primary);
 }
 
 .editProfileInput input {
-  width: 100%;
+  width: 94%;
   padding: 14px 16px;
   margin-bottom: 20px;
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 16px;
   transition: all 0.3s ease;
 }
@@ -47,12 +47,12 @@
 
 .editProfileInput input:disabled {
   background: rgba(30, 30, 30, 0.5);
-  color: #888;
+  color: var(--text-tertiary);
   cursor: not-allowed;
 }
 
 .editProfileInput input::placeholder {
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .editProfileBtns {
@@ -74,9 +74,9 @@
 }
 
 .EditProfileBtn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
 }
 
 .EditProfileBtn:hover:not(:disabled) {

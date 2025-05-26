@@ -128,8 +128,9 @@ router.put('/update-profile', authenticateToken, async (req, res) => {
 
 const recoveryCodes = new Map();
 
-router.get('/send-recovery-code', async (req, res) => {
-  const { email } = req.query;
+router.get('/send-recovery-code/:email', async (req, res) => {
+  const { email } = req.params;
+  console.log(email)
 
   if (!email) return res.status(400).json({ message: 'Email is required' });
 
@@ -156,6 +157,7 @@ router.get('/send-recovery-code', async (req, res) => {
 
   res.json({ message: 'Recovery code sent' });
 });
+
 
 router.post('/verify-recovery-code', (req, res) => {
   const { email, code } = req.body;

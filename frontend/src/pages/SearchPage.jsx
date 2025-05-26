@@ -141,24 +141,6 @@ export default function SearchPage() {
                     </div>
                     
                     <div className="inputContainer">
-                        <input
-                            type="number"
-                            placeholder="Min Price"
-                            value={filters.minPrice}
-                            onChange={(e) => setFilters(f => ({ ...f, minPrice: e.target.value }))}
-                        />
-                    </div>
-                    
-                    <div className="inputContainer">
-                        <input
-                            type="number"
-                            placeholder="Max Price"
-                            value={filters.maxPrice}
-                            onChange={(e) => setFilters(f => ({ ...f, maxPrice: e.target.value }))}
-                        />
-                    </div>
-                    
-                    <div className="inputContainer">
                         <select 
                             style={{margin: 0}}
                             value={filters.ram} 

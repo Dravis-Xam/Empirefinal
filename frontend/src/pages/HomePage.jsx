@@ -57,10 +57,10 @@ export default function HomePage() {
           <span onClick={() =>handleTagClick('realme')}>Realme</span><small className="separator">|</small>
           <span onClick={() =>handleTagClick('oppo')}>OPPO</span><small className="separator">|</small>
           <span onClick={navigateSearch}>....</span>
-          <button className="seeMoreBrands" onClick={navigateSearch}>
-            Search
-          </button>
         </div>
+        <button className="seeMoreBrands" onClick={navigateSearch}>
+            Search
+        </button>
       </section>
 
       <section className="phonesContainer">

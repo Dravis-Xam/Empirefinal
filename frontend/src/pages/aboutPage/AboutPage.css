@@ -1,8 +1,8 @@
 /* AboutPage.css */
 
 section {
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
 }
 
 .aboutUsSection {
@@ -16,18 +16,18 @@ section {
 }
 
 .aboutUsSection > div {
-  background: rgba(30, 30, 30, 0.7);
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-secondary);
+  border: 1px solid var(--border-primary);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .aboutUsSection > div:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
-  border-color: rgba(100, 149, 237, 0.3);
+  box-shadow: 0 12px 28px var(--shadow-primary);
+  border-color: var(--border-secondary);
 }
 
 .aboutUsSection small {
@@ -40,7 +40,7 @@ section {
 }
 
 .titles {
-  color: #f0f0f0;
+  color: var(--text-secondary);
   font-size: 24px;
   margin: 15px 0;
   font-weight: 500;
@@ -48,10 +48,31 @@ section {
 }
 
 .aboutUsSection p {
-  color: #c0c0c0;
+  color: var(--text-tertiary);
   font-size: 16px;
   line-height: 1.6;
   margin: 10px 0;
+}
+
+.aboutUsSection > div > p > i::before{  
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  text-decoration: none;
+  background: cornflowerblue;
+  transition: width 0.3s ease;
+}
+
+.aboutUsSection > div > p > i:hover {
+  color: cornflowerblue;
+  text-decoration: none;
+}
+
+.aboutUsSection > div > p > i:hover::before {
+  width: 100%;
 }
 
 .valuesContainer {
@@ -62,7 +83,7 @@ section {
 }
 
 .valuesContainer h1 {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 28px;
   margin-bottom: 30px;
   padding-bottom: 15px;
@@ -71,11 +92,11 @@ section {
 }
 
 .valuesContainer p {
-  background: rgba(30, 30, 30, 0.7);
+  background: var(--bg-tertiary);
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-primary);
+  border: 1px solid var(--border-secondary);
 }
 
 .valuesContainer span {
@@ -84,7 +105,7 @@ section {
 }
 
 .valuesContainer strong {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 20px;
   font-weight: 500;
   display: block;
@@ -106,7 +127,7 @@ section {
 }
 
 .valuesContainer small {
-  color: #888;
+  color: var(--text-tertiary);
   font-size: 14px;
   padding-left: 25px;
   display: block;

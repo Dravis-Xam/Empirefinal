@@ -1,8 +1,6 @@
-/* styles.css */
-
 .payment-container {
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
   min-height: 100vh;
   padding: 30px;
   max-width: 1200px;
@@ -11,23 +9,23 @@
 }
 
 .payment-container h1 {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 28px;
   margin-bottom: 10px;
   font-weight: 500;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 15px;
 }
 
 .payment-container h2 {
-  color: cornflowerblue;
+  color: var(--accent-primary);
   font-size: 22px;
   margin-bottom: 30px;
   font-weight: 400;
 }
 
 .payment-container h3 {
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 20px;
   margin: 25px 0 15px;
   font-weight: 400;
@@ -41,7 +39,7 @@
   left: 0;
   width: 60px;
   height: 2px;
-  background: cornflowerblue;
+  background: var(--accent-primary);
 }
 
 .sections {
@@ -53,25 +51,32 @@
 
 .payment-section, 
 .delivery-section {
-  background: rgba(30, 30, 30, 0.7);
+  background: var(--bg-tertiary);
   border-radius: 12px;
   padding: 25px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.delivery-section .inputContainer {
+  padding: 20px 0;
 }
 
 label {
   display: block;
   margin: 15px 0;
-  color: #c0c0c0;
+  color: var(--text-secondary);
   position: relative;
-  padding-left: 30px;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
+label  input {
+  width: 90%;
+}
+
 label:hover {
-  color: #f0f0f0;
+  color: var(--text-primary);
 }
 
 input[type="radio"] {
@@ -87,26 +92,26 @@ input[type="radio"] + span::before {
   top: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--border-primary);
   border-radius: 50%;
   transition: all 0.3s ease;
 }
 
 input[type="radio"]:checked + span::before {
-  border-color: cornflowerblue;
-  background: radial-gradient(cornflowerblue 0%, cornflowerblue 40%, transparent 50%);
+  border-color: var(--accent-primary);
+  background: radial-gradient(var(--accent-primary) 0%, var(--accent-primary) 40%, transparent 50%);
 }
 
 input[type="radio"]:focus + span::before {
-  box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3);
+  box-shadow: 0 0 0 3px var(--blue-light);
 }
 
 .sub-option {
   margin: 15px 0 25px 30px;
   padding: 15px;
-  background: rgba(20, 20, 20, 0.5);
+  background: var(--bg-secondary);
   border-radius: 8px;
-  border-left: 3px solid cornflowerblue;
+  border-left: 3px solid var(--accent-primary);
   animation: slideDown 0.3s ease-out;
 }
 
@@ -115,10 +120,10 @@ input[type="text"],
 input[type="email"] {
   padding: 12px 15px;
   margin: 8px 0;
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  color: #f0f0f0;
+  color: var(--text-primary);
   font-size: 16px;
   transition: all 0.3s ease;
 }
@@ -127,8 +132,8 @@ select:focus,
 input[type="text"]:focus,
 input[type="email"]:focus {
   outline: none;
-  border-color: cornflowerblue;
-  box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--blue-light);
 }
 
 .card-inputs {
@@ -154,8 +159,8 @@ input[type="email"]:focus {
 .floatingLabel {
   position: absolute;
   left: 15px;
-  top: 30px;
-  color: #888;
+  top: 40px;
+  color: var(--text-tertiary);
   font-size: 16px;
   pointer-events: none;
   transition: all 0.3s ease;
@@ -166,8 +171,8 @@ input[type="email"]:focus {
   top: -20px;
   left: 10px;
   font-size: 12px;
-  color: cornflowerblue;
-  background: rgba(30, 30, 30, 0.9);
+  color: var(--accent-primary);
+  background: var(--bg-tertiary);
   padding: 0 5px;
   border-radius: 4px;
 }
@@ -184,13 +189,14 @@ input[type="email"]:focus {
 }
 
 .save-location-btn {
-  background: rgba(100, 149, 237, 0.2);
-  color: cornflowerblue;
-  border: 1px solid rgba(100, 149, 237, 0.3);
+  background: var(--blue-light);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-primary);
 }
 
 .save-location-btn:hover {
-  background: rgba(100, 149, 237, 0.3);
+  background: var(--accent-tertiary);
+  color: white;
   transform: translateY(-2px);
 }
 
@@ -207,25 +213,25 @@ input[type="email"]:focus {
 }
 
 .checkout-buttons button:first-child {
-  background: linear-gradient(135deg, #4169e1, #6495ed);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
   color: white;
-  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+  box-shadow: 0 4px 12px var(--shadow-primary);
 }
 
 .checkout-buttons button:first-child:hover {
-  background: linear-gradient(135deg, #3a5fcd, #5a86e6);
+  background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(100, 149, 237, 0.4);
+  box-shadow: 0 6px 16px var(--shadow-primary);
 }
 
 .checkout-buttons button:last-child {
   background: rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
 }
 
 .checkout-buttons button:last-child:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-tertiary);
   transform: translateY(-2px);
 }
 
@@ -278,6 +284,7 @@ input[type="email"]:focus {
   
   .payment-container h2 {
     font-size: 20px;
+  margin-bottom: 20px;
   }
   
   .sub-option {

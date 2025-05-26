@@ -34,7 +34,7 @@ export default function CarouselSlider({ orderList = [], rotateNext, rotatePrev,
                       : order?.items?.devices?.map(device => device.name || device.model || 'Device').join(', ')
                   }
                 </p>
-                <p><strong>Amount:</strong> {order.paymentDetails.details.currency} {order.paymentDetails.details.pay}</p>
+                <p>{order.paymentDetails.details.currency} {order.paymentDetails.details.pay}</p>
               </div>
             ))}
           </div>
