@@ -2,7 +2,7 @@
 
 .settingsContainer {
   background-color: var(--bg-primary);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   min-height: 100vh;
   padding: 40px;
   max-width: 800px;
@@ -27,6 +27,7 @@
 
 .settingsContainer p {
   display: flex;
+  color: var(--text-secondary);
   align-items: center;
   justify-content: space-between;
   background: var(--bg-tertiary);
@@ -38,7 +39,7 @@
 }
 
 .settingsContainer small {
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-size: 14px;
 }
 

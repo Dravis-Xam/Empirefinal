@@ -15,9 +15,9 @@ export default function Settings() {
             <ToggleButton
                 isOnDefault={false}
                 onToggle={()=>toggleTheme()}
-                labels={['Light', 'Dark']}
-                colors={['#eee' , '#333']}
-                icons={['🌞', '🌙']}
+                labels={['Dark', 'Light']}
+                colors={['#333', '#eee']}
+                icons={['🌙', '🌞']}
             />
         </p>
         <h3>Notifications</h3>

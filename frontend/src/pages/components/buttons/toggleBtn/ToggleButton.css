@@ -38,6 +38,6 @@
 .toggle-label {
     font-size: 12px;
     margin-left: 6px;
-    color: #fff;
+    color: var(--text-secondary);
     transition: opacity 0.3s;
 }

@@ -80,6 +80,12 @@ export default function Header() {
                         >
                             Profile
                         </span>
+                        <span
+                            className={activeTab === 'settings' ? 'active' : ''}
+                            onClick={() => navigate('/profile', {state: {activeTab: 'settings'}})}
+                        >
+                            Settings
+                        </span>
                         {deliveryS === 'ongoing' && <span
                             className={activeTab === 'delivery' ? 'active' : ''}
                             onClick={()=> handleNavigate('/track-delivery')}
@@ -95,6 +101,12 @@ export default function Header() {
                     </>
                 ) : (
                     <>
+                        <span
+                            className={activeTab === 'settings' ? 'active' : ''}
+                            onClick={() => navigate('/profile', {state: {activeTab: 'settings'}})}
+                        >
+                            Settings
+                        </span>
                         <button
                             className={`loginBtn ${activeTab === 'login' ? 'active' : ''}`}
                             onClick={() => handleNavigate('/login')}

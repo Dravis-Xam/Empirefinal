@@ -2,15 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "./ToastStore";
 
 const AuthContext = createContext();
-
 export const useAuth = () => useContext(AuthContext);
 
-// Use Vite or your bundler's environment config
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // not loading by default
 
   const fetchUser = async () => {
     try {
@@ -33,17 +31,39 @@ export const AuthProvider = ({ children }) => {
       console.error("Fetch user failed:", err);
       setUser(null);
       clearStoredAuth();
-    } finally {
-      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // ❌ Remove this — don't auto-fetch on mount
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
-  const login = async () => {
-    await fetchUser();
+  const login = async (credentials) => {
+    try {
+      setLoading(true);
+
+      const res = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Login failed");
+      }
+
+      // ✅ Only fetch user after successful login
+      await fetchUser();
+    } catch (err) {
+      console.error("Login failed:", err);
+      toast.error(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = async () => {
@@ -66,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.removeItem("role");
   };
 
-  // Auto logout on token/session expiration
+  // Auto logout when session expires
   useEffect(() => {
     if (user?.exp) {
       const timeout = user.exp * 1000 - Date.now();
@@ -85,7 +105,15 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

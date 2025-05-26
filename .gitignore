@@ -17,7 +17,8 @@ certs
 .env
 dist-ssr
 *.local
-
+*/.txt
+.txt
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -27,9 +27,10 @@
   border: 1px solid var(--border-primary);
 }
 
-.inputContainer {
+.ct000 > .inputContainer {
   position: relative;
   margin-bottom: 20px;
+  width: 400px;
 }
 
 .inputContainer > input,
@@ -51,11 +52,11 @@
   box-shadow: 0 0 0 2px var(--blue-light);
 }
 
-.floatingLabel {
+.ct000 > .inputContainer > .floatingLabel {
   position: absolute;
   left: 15px;
-  top: 30px;
-  color: var(--text-tertiary);
+  top: 3px;
+  color: var(--bg-primary);
   font-size: 16px;
   pointer-events: none;
   transition: all 0.3s ease;
@@ -111,7 +112,7 @@
 }
 
 .searchBtn {
-  width: 100%;
+  width: 40%;
   padding: 12px;
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
   color: white;
@@ -204,6 +205,8 @@
 
 .clearAllBtn:hover {
   color: var(--error);
+  background-color: transparent;
+  background: transparent;
 }
 
 .recentTags {

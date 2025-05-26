@@ -8,12 +8,13 @@ export default function ToggleButton({
     colors = ['#ccc', '#4caf50'],
     icons = [null, null],
 }) {
-    const [isOn, setIsOn] = useState(isOnDefault);
+    const [isOn, setIsOn] = useState(isOnDefault || localStorage.getItem('newState'));
 
     const toggle = () => {
-        const newState = !isOn;
+        let newState = !isOn;
         setIsOn(newState);
         onToggle(newState);
+        localStorage.setItem('newstate', newState)
     };
 
     return (

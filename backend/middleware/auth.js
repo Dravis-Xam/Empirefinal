@@ -5,7 +5,7 @@ const SECRET_KEY = process.env.SECRET_KEY || "BDJBGJSBGKJ_AHKJBDKJ";
 export const authenticateToken = (req, res, next) => {
   console.log("Cookies received:", req.cookies);
 
-  const token = req.cookies.token;
+  const token = req.cookies?.token;
   if (!token) {
     console.log("No token found in cookies");
     return res.status(401).json({ message: 'Unauthorized: No token' });

@@ -51,13 +51,14 @@
   background: cornflowerblue;
 }
 
-.inputContainer {
+.contact-form > .inputContainer {
   position: relative;
   margin: 25px 0;
+  width: 400px;
 }
 
-input, textarea {
-  width: 100%;
+.contact-form > .inputContainer > input, .contact-form > .inputContainer > textarea {
+  width: 400px;
   padding: 14px 16px;
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);

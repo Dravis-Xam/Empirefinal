@@ -106,13 +106,49 @@ header h1:hover {
     visibility: visible;
     color: var(--text-primary);
     cursor: pointer;
+    background: transparent;
+    background-color: transparent;
+    position: relative;
+    align-items: center;
+  }
+
+  .hamburger > span {
+    background-color: var(--accent-primary);
+    width: 50%;
+    position: absolute;
+    height: 2px;
+  }
+
+  .hamburger > span:first-child {
+    transform: translateY(-5px);
+  }
+
+  .hamburger > span:last-child {
+    transform: translateY(5px);
+  }
+
+  .hamburger.open > span:first-child {
+    transform: rotate(45deg);
+  }
+
+  .hamburger.open > span:nth-child(2) {
+    visibility: hidden;
+  }
+
+  .hamburger.open, .hamburger:hover {
+    background-color: transparent;
+    background: transparent;
+  }
+
+  .hamburger.open > span:last-child {
+    transform: rotate(-45deg);
   }
 
   .leftTop {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
+    width: 30%;
     height: 100vh;
     flex-direction: column;
     justify-content: flex-start;
@@ -126,6 +162,10 @@ header h1:hover {
 
   .leftTop.open {
     right: 0;
+  }
+
+  .leftTop > button {
+    width: 90%;
   }
 
   .leftTop span {

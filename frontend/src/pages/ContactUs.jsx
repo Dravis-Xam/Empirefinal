@@ -40,7 +40,7 @@ export default function ContactUs() {
       <DirectoryNavigation />
       <h1>Contact Us</h1>
 
-      <section>
+      <section className='contact-form'>
         <h3>Send us a message</h3>
         <div className="inputContainer">
           <input

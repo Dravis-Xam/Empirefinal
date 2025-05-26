@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import profileIcon from '../assets/icons/user.png';
 import EditProfile from "./components/sections/body/editProfile/EditProfile";
 import Settings from "./components/sections/body/settings/Settings";
@@ -14,7 +14,14 @@ import './Profile.css';
 export default function Profile() {
     const [activeTab, setActiveTab] = useState('edit');
     const navigate = useNavigate();
+    const { state } = useLocation();
     const { user, logout } = useAuth();
+
+   useEffect(() => {
+    if (state?.activeTab) {
+      setActiveTab(state.activeTab);
+    }
+  }, [state]);
 
     const renderActiveSection = () => {
         switch (activeTab) {
