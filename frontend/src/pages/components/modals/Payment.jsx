@@ -7,6 +7,8 @@ import ToastContainer from "../toasts/ToastContainer";
 import { toast } from "../../../modules/Store/ToastStore";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../modules/Store/AuthContext";
+import { runSTK } from "../../../modules/STK/stkpush.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Payment() {
   const navigate = useNavigate();
@@ -18,8 +20,8 @@ export default function Payment() {
   const [mpesaNumber, setMpesaNumber] = useState("");
   const [paypalEmail, setPaypalEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [t_ID, setTIDCode] = useState("");
   const { user } = useAuth();
+  const t_ID = uuidv4()
 
   const [location, setLocation] = useState({
     county: "",
@@ -82,21 +84,29 @@ export default function Payment() {
     if (!paymentMethod) return toast.error("Please select a payment method.");
     if (!validateLocation()) return;
     if (!validatePhone(contactNumber)) return toast.error("Invalid contact number.");
-    if (!t_ID.trim()) return toast.error("Please enter transaction code.");
+    if (!t_id.trim()) return toast.error("Please enter transaction code.");
 
+    let details = {};
     if (paymentMethod === "mpesa") {
       if (!validatePhone(mpesaNumber)) return toast.error("Invalid Mpesa number.");
       details = { number: mpesaNumber };
-    } else if (paymentMethod === "paypal") {
+      
+      try {
+        await runSTK({ mpesaNumber, totalAmount }); // ✅ call STK push here
+      } catch (err) {
+        console.error(err);
+        return toast.error("STK Push failed.");
+      }
+    } /*else if (paymentMethod === "paypal") {
       if (!validateEmail(paypalEmail)) return toast.error("Invalid PayPal email address.");
       details = { email: paypalEmail };
     } else if (paymentMethod === "bank") {
       if (!bankType) return toast.error("Please select a bank card type.");
       details = { cardType: bankType, cardNumber: '**** **** **** 1234' };
-    }
+    }*/
 
     const payload = {
-      username: user.username,
+      username,
       contact: contactNumber,
       coordinates: location,
       items: {
@@ -111,7 +121,7 @@ export default function Payment() {
       status: 'pending delivery',
       paymentDetails: {
         method: paymentMethod,
-        details:  {
+        details: {
           t_id: t_ID,
           pay: totalAmount,
           currency: 'Ksh',
@@ -119,10 +129,6 @@ export default function Payment() {
         }
       }
     };
-
-    details
-
-//console.log("Payload:", payload);
 
     try {
       const response = await fetch('http://localhost:5000/api/buy/', {
@@ -147,9 +153,7 @@ export default function Payment() {
 
       setPaymentInfo({ method: paymentMethod, bankType, mpesaNumber, paypalEmail, contactNumber, totalAmount });
       setDeliveryInfo(location);
-
       toast.success('Purchase completed successfully!');
-
       clearCart();
     } catch (err) {
       toast.error('Something went wrong while completing the purchase.');
@@ -175,7 +179,7 @@ export default function Payment() {
       <div className="sections">
         <section className="payment-section">
           <h3>Select Payment Method</h3>
-
+{/** 
           <label><input type="radio" value="bank" checked={paymentMethod === "bank"} onChange={() => setPaymentMethod("bank")} /> Bank Payment</label>
           {paymentMethod === "bank" && (
             <div className="sub-option">
@@ -199,7 +203,7 @@ export default function Payment() {
               )}
             </div>
           )}
-
+*/}
           <label><input type="radio" value="mpesa" checked={paymentMethod === "mpesa"} onChange={() => setPaymentMethod("mpesa")} /> Mpesa Payment</label>
           {paymentMethod === "mpesa" && (
             <div className="sub-option">
@@ -208,7 +212,7 @@ export default function Payment() {
               </label>
             </div>
           )}
-
+{/** 
           <label><input type="radio" value="paypal" checked={paymentMethod === "paypal"} onChange={() => setPaymentMethod("paypal")} /> PayPal</label>
           {paymentMethod === "paypal" && (
             <div className="sub-option">
@@ -216,7 +220,7 @@ export default function Payment() {
                 <input type="email" value={paypalEmail} onChange={(e) => setPaypalEmail(e.target.value)} placeholder="Enter PayPal email" />
               </label>
             </div>
-          )}
+          )}*/}
         </section>
 
         <section className="delivery-section">
@@ -232,10 +236,10 @@ export default function Payment() {
               <input name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
               <label className="floatingLabel">Contact number</label>
             </div>
-            <div className="inputContainer">
+            {/** <div className="inputContainer">
               <input name="t_id" value={t_ID} onChange={(e) => setTIDCode(e.target.value)} />
               <label className="floatingLabel">Transaction code</label>
-            </div>
+            </div>*/}
           </form>
           <button type="button" onClick={handleSaveLocation} className="save-location-btn">Save</button>
         </section>

@@ -44,7 +44,7 @@ export default function Profile() {
         <div className="profileContainer">
             <DirectoryNavigation />
             <div className="profileHeader">
-                <h1>Profile</h1>
+                <h1>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
                 <img src={profileIcon} alt="profile" />
                 <p>Hi, <b>{user?.username || 'Guest'}</b></p>
             </div>

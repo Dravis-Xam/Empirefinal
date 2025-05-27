@@ -7,6 +7,7 @@ import {
 } from 'recharts';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ToastContainer from '../components/toasts/ToastContainer'
 import { toast } from '../../modules/Store/ToastStore';
 
 const SEVERITY_COLORS = {
@@ -364,11 +365,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 
     return (
       <div className="custom-tooltip" style={{ 
-        background: '#333', 
+        background: 'var(--bg-tertiary)', 
         padding: '10px', 
         borderRadius: '4px',
         maxWidth: '400px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+        boxShadow: '0 4px 8px var(--shadow-secondary)'
       }}>
         <p style={{ 
           fontWeight: 'bold', 
@@ -705,7 +706,6 @@ const TrendVisualization = () => {
 
 //console.log(statusData);
 
-
 return (
   <div className='maintenance-page dark-theme'>
     <header>
@@ -721,6 +721,8 @@ return (
           <option value="days">Daily</option>
           <option value="weeks">Weekly</option>
         </select>
+        <span onClick={()=> navigate('/profile')}>Profile</span>
+        <span onClick={()=> navigate('/profile', {state: {activeTab: 'settings'}})}>Settings</span>
         <button onClick={logout} className='logout-btn'>
           Logout
         </button>
@@ -911,6 +913,7 @@ return (
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <ToastContainer />
       </div>
     </div>
 );

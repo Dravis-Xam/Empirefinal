@@ -62,7 +62,7 @@ const TrackDeliveryPage = () => {
     <div className="track-delivery-container">
       <Header />
       <DirectoryNavigation />
-      <h1>Order #{t_ID} - Delivery Status</h1>
+      <h1>Order #{t_ID.slice(0, 6)} - Delivery Status</h1>
 
       {loading ? (
         <p>Loading status...</p>

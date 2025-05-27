@@ -269,13 +269,6 @@ const updateOrderStatus = async (newStatus) => {
       <header>
         <h1>Customer Care</h1>
         <div>
-          <ToggleButton
-            isOnDefault={false}
-            onToggle={(state) => console.log('Dark mode:', state)}
-            labels={['Light', 'Dark']}
-            colors={['#eee', '#333']}
-            icons={['🌞', '🌙']}
-          />
           <span
             role="button"
             tabIndex={0}

@@ -7,9 +7,11 @@ import ReusableDropdown from "../customercarePages/components/Dropdown/Dropdown"
 import DeviceModal from "./modal/deviceModal";
 import { mockDevices, mockOrders } from "./mockData";
 import { useAuth } from "../../modules/Store/AuthContext";
+import { useNavigate} from 'react-router-dom';
 
 export default function InventoryPage() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("stocks");
   const [devices, setDevices] = useState(mockDevices);
   const [selectedDevice, setSelectedDevice] = useState(null);
@@ -94,14 +96,8 @@ export default function InventoryPage() {
       <header>
         <h1>Inventory</h1>
         <span className="topLeft">
-          <span>Profile</span>
-          <ToggleButton
-            isOnDefault={false}
-            onToggle={(state) => console.log("Dark mode:", state)}
-            labels={["Light", "Dark"]}
-            colors={["#eee", "#333"]}
-            icons={["🌞", "🌙"]}
-          />
+          <span onClick={()=> navigate('/profile')}>Profile</span>
+          <span onClick={() => navigate('/profile', {state: {activeTab: "settings"}})}>Settings</span>
           <button className="logOutBtn" onClick={logout}>Logout</button>
         </span>
       </header>

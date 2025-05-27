@@ -34,63 +34,27 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData)
-      });
+    const role = await login(formData);
+    if (!role) return;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast.error(data.error || data.message || 'Login failed');
-        setLoading(false);
-        return;
-      }
-
-      if (!data.role) {
-        toast.error('Incomplete login response from server');
-        setLoading(false);
-        return;
-      }
-
-      sessionStorage.setItem('role', data.role);
-      localStorage.setItem('username', formData.username);
-
-      await login();
-
-      toast.success('Login successful');
-
-      const role = data.role.toLowerCase();
-
-      switch (role) {
-        case 'developer':
-          navigate('/maintenance');
-          break;
-        case 'inventory manager':
-          navigate('/inventory');
-          break;
-        case 'customer care':
-          navigate('/customer-care');
-          break;
-        case 'client':
-        default:
-          navigate('/');
-          break;
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred during login');
-    } finally {
-      setLoading(false);
+    switch (role.toLowerCase()) {
+      case "developer":
+        navigate("/maintenance");
+        break;
+      case "inventory manager":
+        navigate("/inventory");
+        break;
+      case "customer care":
+        navigate("/customer-care");
+        break;
+      case "client":
+      default:
+        navigate("/");
+        break;
     }
   };
+
 
   return (
     <div className={`login-page-container ${mounted ? 'mounted' : ''}`}>

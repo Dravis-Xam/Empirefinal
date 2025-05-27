@@ -34,33 +34,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ❌ Remove this — don't auto-fetch on mount
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
-
-  const login = async (credentials) => {
+  useEffect(() => { fetchUser(); }, []);
+  const login = async (formData) => {
+    setLoading(true);
     try {
-      setLoading(true);
-
-      const res = await fetch(`${BASE_URL}/api/auth/login`, {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
+        credentials: "include",
+        body: JSON.stringify(formData),
       });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Login failed");
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || data.message || "Login failed");
+        return null;
       }
 
-      // ✅ Only fetch user after successful login
-      await fetchUser();
-    } catch (err) {
-      console.error("Login failed:", err);
-      toast.error(err.message);
-      throw err;
+      if (!data.role) {
+        toast.error("Incomplete login response from server");
+        return null;
+      }
+
+      sessionStorage.setItem("role", data.role);
+      localStorage.setItem("username", formData.username);
+      toast.success("Login successful");
+
+      await fetchUser(); // Fetch user info after login
+
+      return data.role; // Return role so the component can decide what to do
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login");
+      return null;
     } finally {
       setLoading(false);
     }
@@ -109,9 +116,10 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         isAuthenticated: !!user,
-        login,
         logout,
         loading,
+        login,
+        fetchUser
       }}
     >
       {children}

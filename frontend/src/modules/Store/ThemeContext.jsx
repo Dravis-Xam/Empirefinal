@@ -1,27 +1,31 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useContext } from 'react';
-import { useAuth } from './AuthContext'
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { useAuth } from './AuthContext';
 
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const {user} = useAuth();
-  const username = user?.username
-  if(!username) return
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem(`${username}'s theme`) || 'dark';
-  });
+  const { user } = useAuth();
+  const username = user?.username;
+
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    if (username) {
+      const savedTheme = localStorage.getItem(`${username}-theme`) || 'dark';
+      setTheme(savedTheme);
+    }
+  }, [username]);
 
   useEffect(() => {
     document.body.className = theme;
-    localStorage.setItem(`${username}'s theme`, theme);
-  }, [theme]);
+    if (username) {
+      localStorage.setItem(`${username}-theme`, theme);
+    }
+  }, [theme, username]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
-
- // const current = () => [`${username}'s theme`, theme]
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

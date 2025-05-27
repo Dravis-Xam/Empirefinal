@@ -9,11 +9,11 @@ import { ThemeProvider } from './modules/Store/ThemeContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <CartProvider>
-        <ThemeProvider>
+      <ThemeProvider> 
+        <CartProvider>
           <Routes />
-        </ThemeProvider>
-      </CartProvider>
+        </CartProvider>
+      </ThemeProvider>
     </AuthProvider>
   </StrictMode>,
 )

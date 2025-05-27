@@ -30,13 +30,14 @@ router.post('/signup', async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: "client",
       preferredPaymentOption: 'mpesa',
     });
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, username: user.username },
+      { id: user._id, email: user.email, username: user.username, role: user.role },
       SECRET_KEY,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
 
     res.status(201).json({ token });
@@ -47,6 +48,7 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  console.log(req.body.username)
   try {
     const { username, password } = req.body;
 
@@ -55,7 +57,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    console.log('Signing token with secret:', process.env.SECRET_KEY);
+    //console.log('Signing token with secret:', process.env.SECRET_KEY);
     const token = jwt.sign(
       {
         id: user._id,
@@ -63,7 +65,7 @@ router.post('/login', async (req, res) => {
         role: user.role,
       },
       process.env.SECRET_KEY,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
 
     res.cookie('token', token, {
