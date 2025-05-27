@@ -5,6 +5,7 @@ import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
 
 let orderI = 0 
+let pay_details = [];
 
 const router = express.Router();
 
@@ -119,5 +120,34 @@ router.put(
     }
   }
 );
+
+router.post('/callback', (req, res) => {
+  const callbackData = req.body;
+
+  const result_code = callbackData.Body.stkCallback.ResultCode;
+
+  if (result_code !== 0) {
+    const error_message = callbackData.Body.stkCallback.ResultDesc;
+    const response_data = { ResultCode: result_code, ResultDesc: error_message };
+    return res.json(response_data);
+  }
+
+  const body = req.body.Body.stkCallback.CallbackMetadata;
+
+  const amountObj = body.Item.find(obj => obj.Name === 'Amount');
+  const amount = amountObj.Value
+
+  const codeObj = body.Item.find(obj => obj.Name === 'MpesaReceiptNumber');
+  const mpesaCode = codeObj.Value 
+
+  const phoneNumberObj = body.Item.find(obj => obj.Name === 'PhoneNumber');
+  const phone = phoneNumberObj.Value
+
+  pay_details.push(mpesaCode,amount, phone);
+
+  // Save the variables to a file or database, etc.
+  // ...
+  return res.json("success");
+});
 
 export default router;

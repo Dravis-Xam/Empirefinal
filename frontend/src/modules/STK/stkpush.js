@@ -5,7 +5,7 @@ const API_ID = import.meta.env.VITE_MID;
 const API_KEY = import.meta.env.VITE_MKEY;
 const PASSKEY = import.meta.env.VITE_MPASSKEY;
 const SHORT_CODE = "542542";
-const CALLBACK_URL = "https://yourwebsite.co.ke/callbackurl";//must be a secure site
+const CALLBACK_URL = "http://localhost:5000/api/buy/callback";//must be a secure site
 
 const generateAccessToken = async () => {
   const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
@@ -54,7 +54,7 @@ export const runSTK = async (n) => {
     const response = await axios.post("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", requestBody, { headers });
     return response.data;
   } catch (e) {
-    //console.error(e.response?.data || e.message);
+    console.error(e.response?.data || e.message);
     throw new Error('Failed to initiate STK');
   }
 };
