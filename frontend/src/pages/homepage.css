@@ -89,6 +89,7 @@
 .phonesContainer {
   padding: 3rem 1rem;
   background-color: var(--bg-tertiary);
+  overflow: hidden;
 }
 
 .phonesContainer h1 {
@@ -114,7 +115,7 @@
   align-items: center;
   gap: 20px;
   transition: all .4s ease-in-out;
-  overflow-x: hidden;
+  overflow-x: auto;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
   scroll-behavior: smooth;
