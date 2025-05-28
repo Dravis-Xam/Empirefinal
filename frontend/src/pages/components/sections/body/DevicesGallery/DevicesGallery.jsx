@@ -39,7 +39,10 @@ export default function DeviceGallery() {
       {loading ? (
         <p>Loading devices...</p>
       ) : error ? (
-        <p>{error}</p>
+        <>
+          <p>Unable to load information on available phones </p>
+          {console.log(error)}
+        </>
       ) : devices.length === 0 ? (
         <p>No devices available.</p>
       ) : (
