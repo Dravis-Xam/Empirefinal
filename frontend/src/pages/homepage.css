@@ -116,13 +116,13 @@
   transition: all .4s ease-in-out;
   overflow-x: auto;
   -ms-overflow-style: none; 
-  scrollbar-width: none; 
+  scrollbar-width: 3px; 
   scroll-behavior: smooth;
 }
 
 /*not display any scrollbar*/
 .phoneCardsContainer::-webkit-scrollbar {
-  content: none; display: none;
+  
 }
 
 .serviceCard {
