@@ -9,6 +9,8 @@ import { mockDevices, mockOrders } from "./mockData";
 import { useAuth } from "../../modules/Store/AuthContext";
 import { useNavigate} from 'react-router-dom';
 
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
+
 export default function InventoryPage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate()
@@ -54,7 +56,7 @@ export default function InventoryPage() {
 
   const fetchDevices = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/inventory", {
+        const res = await fetch(`${BASE_URL}/inventory`, {
           credentials: "include",
         });
         const data = await res.json();

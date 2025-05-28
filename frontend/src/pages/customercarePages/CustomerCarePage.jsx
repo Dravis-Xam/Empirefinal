@@ -12,6 +12,8 @@ import { toast } from "../../modules/Store/ToastStore";
 // import { CouponCard } from "./components/Cards/couponcard";
 import axios from 'axios';
 
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
+
 const statuses = [
   'pending delivery',
   'dispatched',
@@ -112,7 +114,7 @@ const updateOrderStatus = async (newStatus) => {
   
   try {
     const orderId = focusedOrder._id;
-    await axios.put(`http://localhost:5000/api/buy/update-status/${orderId}`, {
+    await axios.put(`${BASE_URL}/buy/update-status/${orderId}`, {
       status: newStatus}, {
       withCredentials: true, 
     });

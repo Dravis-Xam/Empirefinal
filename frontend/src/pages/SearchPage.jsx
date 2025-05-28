@@ -57,7 +57,7 @@ export default function SearchPage() {
         if (filters.ram) params.append('ram', filters.ram);
       
         try {
-            const res = await fetch(`http://localhost:5000/api/devices/search?${params.toString()}`);
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/devices/search?${params.toString()}`);
             const data = await res.json();
             setSearchResults(data);
         } catch (err) {

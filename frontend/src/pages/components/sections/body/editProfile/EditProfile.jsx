@@ -24,7 +24,7 @@ export default function EditProfile() {
 
     const handleSaveClick = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/update-profile`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/update-profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

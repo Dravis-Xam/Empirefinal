@@ -28,7 +28,7 @@ class GlobalErrorBoundary extends React.Component {
     try {
       const { user } = this.props;
 
-      await axios.post('http://localhost:5000/api/maintenance/errors', {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/maintenance/errors`, {
         message: error.message,
         stack: error.stack,
         location: {

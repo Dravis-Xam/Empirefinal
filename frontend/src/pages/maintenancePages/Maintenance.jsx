@@ -10,6 +10,8 @@ import axios from 'axios';
 import ToastContainer from '../components/toasts/ToastContainer'
 import { toast } from '../../modules/Store/ToastStore';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const SEVERITY_COLORS = {
   critical: '#ff4d4f',
   error: '#ff7875',
@@ -233,7 +235,7 @@ const processErrorData = (errorData, existingData = {}) => {
   useEffect(() => {
     const fetchErrorData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/maintenance/errors/log', {
+        const response = await axios.get(`${BASE_URL}/maintenance/errors/log`, {
           withCredentials: true,
           headers: {'Content-Type': 'application/json'}
         });

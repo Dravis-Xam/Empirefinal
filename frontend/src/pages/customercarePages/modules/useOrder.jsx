@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/customercare/orders`;
+
 const useOrders = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
@@ -11,7 +13,7 @@ const useOrders = () => {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/customercare/orders/get-latest', {
+        const res = await fetch(`${BASE_URL}/get-latest`, {
           method: 'GET',
           credentials: 'include', 
           headers: {
@@ -32,7 +34,7 @@ const useOrders = () => {
         console.warn('Live fetch failed, trying fallback...');
 
         try {
-          const resFallback = await fetch('http://localhost:5000/api/customercare/orders/fallback', {
+          const resFallback = await fetch(`${BASE_URL}/fallback`, {
             method: 'GET',
             credentials: 'include',
             headers: {

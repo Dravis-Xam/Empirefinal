@@ -3,6 +3,8 @@ import './modal.css';
 
 const generateUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const DeviceModal = ({ device, onClose, onSave }) => {
   const [updatedDevice, setUpdatedDevice] = useState({
     deviceId: device?.deviceId || generateUniqueId(),
@@ -61,8 +63,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
   const isEditing = !!device;
   const endpoint = isEditing
-    ? `http://localhost:5000/api/inventory/devices/update/${updatedDevice._id || updatedDevice.deviceId}`
-    : "http://localhost:5000/api/inventory/devices/add";
+    ? `${BASE_URL}/inventory/devices/update/${updatedDevice._id || updatedDevice.deviceId}`
+    : `${BASE_URL}/inventory/devices/add`;
 
   const method = isEditing ? "PUT" : "POST";
 

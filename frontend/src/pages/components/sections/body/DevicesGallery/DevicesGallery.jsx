@@ -10,7 +10,7 @@ export default function DeviceGallery() {
   useEffect(() => {
     const fetchDevices = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/devices/get');
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/devices/get`);
         
         if (!res.ok) {
           throw new Error('Failed to fetch devices');

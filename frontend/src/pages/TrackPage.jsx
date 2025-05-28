@@ -23,7 +23,7 @@ const TrackDeliveryPage = () => {
 
   const fetchStatus = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/buy/status/by-transaction/${t_ID}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/buy/status/by-transaction/${t_ID}`);
       const statusMap = {
         'rejected': 'Order confirmed',
         'pending delivery': 'Payment pending',
