@@ -119,6 +119,8 @@
   -ms-overflow-style: none; 
   scrollbar-width: none; 
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: hidden;
 }
 
 /*not display any scrollbar*/
