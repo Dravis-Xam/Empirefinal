@@ -23,6 +23,7 @@ export default function DirectoryNavigation() {
     "/maintenance":"Maintenance",
     "/customer-care":"Customer care",
     "/inventory":"Inventory management",
+    "/privacy-policy":"Privacy policy"
   };
 
   const currentPathName = pathMap[location.pathname] || "Unknown Page";

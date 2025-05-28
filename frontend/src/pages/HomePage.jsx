@@ -99,7 +99,8 @@ export default function HomePage() {
             <ul>
               <li><a onClick={()=>navigate('/about-us')}>About us</a></li>
               <li><a onClick={()=> navigate('/contact-us')}>Contact us</a></li>
-              <li><a href="">Privacy policy</a></li>
+              <li><a >Docs</a></li>
+              <li><a onClick={() => navigate("/privacy-policy")}>Privacy policy</a></li>
             </ul>
           </div>
           <div>

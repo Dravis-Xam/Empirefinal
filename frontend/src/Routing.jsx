@@ -19,6 +19,7 @@ import MaintenancePage from "./pages/maintenancePages/Maintenance";
 import InventoryPage from "./pages/inventoryPages/InventoryPage";
 import CustomerCarePage from "./pages/customercarePages/CustomerCarePage";
 import GlobalErrorBoundary from './modules/globalErrorBoundary.jsx'
+import PrivacyPolicy from "./PrivacyPolicy.jsx";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           } />
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/track-delivery" element={<TrackDeliveryPage />} />
           <Route path="/maintenance" element={
             <ProtectedRoute>

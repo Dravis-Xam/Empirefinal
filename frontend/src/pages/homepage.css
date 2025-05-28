@@ -123,7 +123,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/*not display any scrollbar*/
 .phoneCardsContainer::-webkit-scrollbar {
   content: none; display: none;
 }
