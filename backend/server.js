@@ -11,7 +11,7 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://empirefinal-en7m.vercel.app/',
   credentials: true,
 }));
 app.use(express.json());
