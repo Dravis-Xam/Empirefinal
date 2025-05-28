@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/auth/me`, {
+      const res = await fetch(`${BASE_URL}/auth/me/`, {
         method: "GET",
         credentials: "include",
       });
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (formData) => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
+      const response = await fetch(`${BASE_URL}/auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${BASE_URL}/auth/logout`, {
+      await fetch(`${BASE_URL}/auth/logout/`, {
         method: "POST",
         credentials: "include",
       });
