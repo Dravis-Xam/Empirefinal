@@ -23,34 +23,63 @@ const PrivacyPolicy = () => {
       }
     };
 
-    fetchPolicyText();
+    fetchPolicyText(policyText);
   }, []);
 
-  const formatPolicyText = (text) => {
-    if (!text) return null;
+const formatPolicyText = (text) => {
+  if (!text) return null;
 
-    return text.split('\n\n').map((paragraph, index) => {
-      const trimmed = paragraph.trim();
+  const lines = text.split('\n');
+  const paragraphs = [];
+  let currentParagraph = '';
 
-      if (trimmed.endsWith(':')) {
-        return <h2 key={index} className="policy-heading">{trimmed.replace(':', '')}</h2>;
+  lines.forEach((line) => {
+    if (line.includes('\n')) {
+      // Split the line into paragraphs
+      const subParagraphs = line.split('\n');
+      subParagraphs.forEach((subLine) => {
+        currentParagraph += subLine + '\n';
+      });
+    } else {
+      // Trim the line and add it to the current paragraph
+      const trimmed = line.trim();
+      currentParagraph += trimmed + '\n';
+      // If the current paragraph is not empty and ends with a colon, add it to the paragraphs array
+      if (currentParagraph.trim().endsWith(':') && currentParagraph.trim() !== ':') {
+        paragraphs.push({
+          type: 'heading',
+          text: currentParagraph.trim().replace(':', ''),
+        });
+        currentParagraph = '';
       }
-
-      if (trimmed.match(/^[\w\s]+$/) && trimmed.length < 80) {
-        return <h3 key={index} className="policy-subheading">{trimmed}</h3>;
+      else if (currentParagraph.trim().match(/^[\w\s]+$/) && currentParagraph.trim().length < 80) {
+        paragraphs.push({
+          type: 'subheading',
+          text: currentParagraph.trim(),
+        });
+        currentParagraph = '';
       }
+    }
+  });
 
-      return (
-        <p key={index} className="policy-paragraph">
-          {trimmed.split('\n').map((line, lineIndex) => (
-            <React.Fragment key={lineIndex}>
-              {line}<br />
-            </React.Fragment>
-          ))}
-        </p>
-      );
+  if (currentParagraph.trim()) {
+    paragraphs.push({
+      type: 'paragraph',
+      text: currentParagraph.trim(),
     });
-  };
+  }
+
+  return paragraphs.map((paragraph, index) => {
+    const className = paragraph.type === 'heading' ? 'policy-heading' : paragraph.type === 'subheading' ? 'policy-subheading' : 'policy-paragraph';
+
+    return (
+      <div key={index} className={className}>
+        {paragraph.text}
+      </div>
+    );
+  });
+};
+
 
   return (
     <>
