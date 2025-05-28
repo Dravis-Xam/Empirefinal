@@ -368,7 +368,7 @@ footer .social-links {
   .phoneCardsContainer {
     gap: 10px;
     scale: .7;
-    transform: translateY(-810px);
+    transform: translateY(-510px);
   }
   .phonesContainer {
     display: flex;
