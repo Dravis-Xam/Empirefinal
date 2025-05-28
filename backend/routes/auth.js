@@ -70,10 +70,11 @@ router.post('/login', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      //secure: true, 
-      sameSite: 'Lax',
-      maxAge: 24 * 7 * 60 * 60 * 1000, 
+      secure: true,         // ✅ only over HTTPS
+      sameSite: 'None',     // ✅ required for cross-site
+      maxAge: 24 * 7 * 60 * 60 * 1000
     });
+
 
     res.status(200).json({ role: user.role, token });
   } catch (error) {

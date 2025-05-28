@@ -8,13 +8,14 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false); // not loading by default
+  const [loading, setLoading] = useState(false)
 
   const fetchUser = async () => {
     try {
       const res = await fetch(`${BASE_URL}/auth/me/`, {
         method: "GET",
         credentials: "include",
+        headers: {"Content-Type": "application/json"}
       });
 
       if (!res.ok) throw new Error("Not authenticated");
@@ -35,43 +36,47 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => { fetchUser(); }, []);
+  
   const login = async (formData) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`${BASE_URL}/auth/login/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
+  setLoading(true);
+  try {
+    const response = await fetch(`${BASE_URL}/auth/login/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(formData),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        toast.error(data.error || data.message || "Login failed");
-        return null;
-      }
-
-      if (!data.role) {
-        toast.error("Incomplete login response from server");
-        return null;
-      }
-
-      sessionStorage.setItem("role", data.role);
-      localStorage.setItem("username", formData.username);
-      toast.success("Login successful");
-
-      await fetchUser(); // Fetch user info after login
-
-      return data.role; // Return role so the component can decide what to do
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login");
+    if (!response.ok) {
+      toast.error(data.error || data.message || "Login failed");
       return null;
-    } finally {
-      setLoading(false);
     }
-  };
+
+    if (!data.role) {
+      toast.error("Incomplete login response from server");
+      return null;
+    }
+
+    sessionStorage.setItem("role", data.role);
+    localStorage.setItem("username", formData.username);
+    toast.success("Login successful");
+
+    // ✅ Wait briefly for cookie to be available
+    await new Promise(resolve => setTimeout(resolve, 100));
+    await fetchUser();
+
+    return data.role;
+  } catch (error) {
+    console.error("Login error:", error);
+    toast.error("An error occurred during login");
+    return null;
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const logout = async () => {
     try {
