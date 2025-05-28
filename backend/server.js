@@ -57,6 +57,8 @@ app.use('/api/customercare', customercare);
 app.use('/api/maintenance', maintenance);
 app.use('/api/inventory', inventory);
 
+app.get('/test', (req,res)=> res.send("test"));
+
 // Start HTTP server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
