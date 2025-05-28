@@ -5,7 +5,7 @@ const API_ID = import.meta.env.VITE_MID;
 const API_KEY = import.meta.env.VITE_MKEY;
 const PASSKEY = import.meta.env.VITE_MPASSKEY;
 const SHORT_CODE = "542542";
-const CALLBACK_URL = "http://localhost:5000/api/buy/callback";//must be a secure site
+const CALLBACK_URL = `${import.meta.env.VITE_API_BASE_URL}/buy/callback`;//must be a secure site
 
 const generateAccessToken = async () => {
   const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";

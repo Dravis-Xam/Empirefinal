@@ -202,11 +202,18 @@ iframe:hover {
   .contactPage section {
     padding: 20px;
   }
+  .contact-form > .inputContainer > input, .contact-form > .inputContainer > textarea {
+    width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
   .contactPage {
     padding: 15px;
+  }
+  
+  .contact-form > .inputContainer > input, .contact-form > .inputContainer > textarea {
+    width: 290px;
   }
   
   .contactPage h1 {
