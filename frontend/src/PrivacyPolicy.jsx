@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
   useEffect(() => {
     const fetchPolicyText = async () => {
       try {
-        const response = await fetch('/privacy-policy.txt');
+        const response = await fetch('/PrivacyPolicy.txt');
         const text = await response.text();
         setPolicyText(text);
       } catch (error) {
