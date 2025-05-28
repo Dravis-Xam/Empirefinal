@@ -114,12 +114,15 @@
   align-items: center;
   gap: 20px;
   transition: all .4s ease-in-out;
-  overflow: scroll;
+  overflow-x: auto;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+  scroll-behavior: smooth;
 }
 
+/*not display any scrollbar*/
 .phoneCardsContainer::-webkit-scrollbar {
-  content: none;
-  visibility: hidden;
+  content: none; display: none;
 }
 
 .serviceCard {
