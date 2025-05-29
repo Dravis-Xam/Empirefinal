@@ -26,27 +26,44 @@ const PrivacyPolicy = () => {
     fetchPolicyText();
   }, []);
 
-  const formatLine = (line, key) => {
-    if (line.startsWith('### ')) {
-      return <h3 key={key} className="policy-subheading">{line.replace(/^###\s\*\*(.*?)\*\*/, '$1')}</h3>;
-    }
-    if (line.startsWith('#### ')) {
-      return <h4 key={key} className="policy-subsubheading">{line.replace(/^####\s\*\*(.*?)\*\*/, '$1')}</h4>;
-    }
-    if (line.startsWith('- ')) {
-      return <li key={key}>{line.replace('- ', '')}</li>;
-    }
-    if (line.startsWith('**') && line.endsWith('**')) {
-      return <strong key={key}>{line.replace(/\*\*/g, '')}</strong>;
-    }
-    if (line.includes(':') && !line.includes('- ')) {
-      const [label, ...rest] = line.split(':');
-      return (
-        <p key={key}><strong>{label}:</strong>{rest.join(':')}</p>
-      );
-    }
-    return <p key={key}>{line}</p>;
+ const formatLine = (line, key) => {
+  const renderInlineBold = (text) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g); // Split around **bold** parts
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      }
+      return <React.Fragment key={index}>{part}</React.Fragment>;
+    });
   };
+
+  if (line.startsWith('### ')) {
+    const content = line.replace(/^###\s\*\*(.*?)\*\*/, '$1');
+    return <h3 key={key} className="policy-subheading">{renderInlineBold(content)}</h3>;
+  }
+
+  if (line.startsWith('#### ')) {
+    const content = line.replace(/^####\s\*\*(.*?)\*\*/, '$1');
+    return <h4 key={key} className="policy-subsubheading">{renderInlineBold(content)}</h4>;
+  }
+
+  if (line.startsWith('- ')) {
+    return <li key={key}>{renderInlineBold(line.replace('- ', ''))}</li>;
+  }
+
+  if (line.includes(':') && !line.startsWith('- ')) {
+    const [label, ...rest] = line.split(':');
+    return (
+      <p key={key}>
+        <strong>{label}:</strong>
+        {renderInlineBold(rest.join(':'))}
+      </p>
+    );
+  }
+
+  return <p key={key}>{renderInlineBold(line)}</p>;
+};
+
 
   const formatPolicyText = (text) => {
     if (!text) return null;
