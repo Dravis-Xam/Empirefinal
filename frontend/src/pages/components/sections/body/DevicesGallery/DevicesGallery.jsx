@@ -41,7 +41,7 @@ export default function DeviceGallery() {
     const updateCardsPerView = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const totalCardWidth = cardWidth + gap;
+        const totalCardWidth = cardWidth + gap*2;
         setCardsPerView(Math.floor(containerWidth / totalCardWidth) + 1);
       }
     };
@@ -54,18 +54,18 @@ export default function DeviceGallery() {
   const maxIndex = Math.max(0, devices.length - cardsPerView);
 
   const movetoNext = () => {
-    setSlideIndex((prev) => (prev < maxIndex ? prev + 1 : 0)); // loop back
+    setSlideIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
   const movetoPrev = () => {
-    setSlideIndex((prev) => (prev > 0 ? prev - 1 : maxIndex)); // loop back
+    setSlideIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
   // Auto-scroll
   useEffect(() => {
     autoScrollInterval.current = setInterval(() => {
       movetoNext();
-    }, 20000); // 4 seconds
+    }, 20000);
     return () => clearInterval(autoScrollInterval.current);
   }, [cardsPerView, devices]);
 
@@ -103,7 +103,7 @@ export default function DeviceGallery() {
         movetoPrev();
       }
 
-      autoScrollInterval.current = setInterval(movetoNext, 4000); // restore
+      autoScrollInterval.current = setInterval(movetoNext, 20000); 
     };
 
     slider.addEventListener('touchstart', onTouchStart);
