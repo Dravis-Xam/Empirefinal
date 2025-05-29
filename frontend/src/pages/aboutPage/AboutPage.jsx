@@ -1,3 +1,4 @@
+import MoveToTop from "../components/buttons/movetotop/MoveToTop";
 import Header from "../components/sections/header/Header";
 import DirectoryNavigation from "../components/sections/nav/directoryNav/DirectoryNavigation";
 import './AboutPage.css';
@@ -54,5 +55,6 @@ export default function AboutPage() {
                 <strong>Motivated</strong><br /><small>We are highly motivated to serve you.</small></span>
             </p>
         </div>
+        <MoveToTop />
     </section>
 }
