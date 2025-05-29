@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
       }
     };
 
-    fetchPolicyText(policyText);
+    fetchPolicyText();
   }, []);
 
 const formatPolicyText = (text) => {
