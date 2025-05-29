@@ -8,5 +8,6 @@ import twitterForLight from './twitter-light.png';
 import telegramForLight from './telegram-light.png';
 import userDark from './user.png';
 import userLight from './user light.png';
+import whatsappicon from './whatsapp.png'
 
-export {facebookForDark, facebookForLight, instagramForDark, instagramForLight, twitterForDark, twitterForLight, telegramForDark, telegramForLight, userDark, userLight}
+export {facebookForDark, facebookForLight, instagramForDark, instagramForLight, twitterForDark, twitterForLight, telegramForDark, telegramForLight, userDark, userLight, whatsappicon}
