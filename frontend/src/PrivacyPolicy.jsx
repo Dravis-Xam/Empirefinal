@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
               This Privacy Policy describes how <strong>Empire Hub Phones</strong> ("the Site", "we", "us", or "our") collects, uses, and discloses your personal information when you:
             </p>
             <ul>
-              <li>Visit or use our website: <strong>https://empirefinal-osrw.vercel.app</strong> ("the Site")</li>
+              <li>Visit or use our website: <strong><a href='https://empirefinal-osrw.vercel.app'>empirefinal-osrw.vercel.app</a></strong> ("the Site")</li>
               <li>Use our services or make a purchase</li>
               <li>Communicate with us regarding the Site (collectively, "the Services")</li>
             </ul>
