@@ -109,6 +109,10 @@
   background-color: var(--bg-primary);
 }
 
+.phoneCardsContainer {
+  position: relative;
+}
+
 .phoneCardsContainer > div {
   display: flex;
   flex-wrap: nowrap;
@@ -124,7 +128,7 @@
   position: relative;
 }
 
-.phoneCardsContainer > div > button {
+.phoneCardsContainer > button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -134,11 +138,11 @@
   transition: .3s ease-in-out;
 }
 
-.phoneCardsContainer > div > button.prev-button {
+.phoneCardsContainer > button.prev-button {
   left: 10px
 }
 
-.phoneCardsContainer > div > button.next-button {
+.phoneCardsContainer > button.next-button {
   right: 10px
 }
 

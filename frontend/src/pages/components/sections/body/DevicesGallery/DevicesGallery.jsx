@@ -45,6 +45,7 @@ export default function DeviceGallery() {
 
   return (
     <div className="phoneCardsContainer">
+          <button onClick={()=>movetoPrev()} className="prev-button">‹</button>
       {loading ? (
         <p>Loading devices...</p>
       ) : error ? (
@@ -56,13 +57,12 @@ export default function DeviceGallery() {
         <p>No devices available.</p>
       ) : (
         <div style={style}>
-          <button onClick={()=>movetoPrev()} className="prev-button">‹</button>
         {devices.map((device) => (
           <PhoneCard key={device._id} device={device} />
         ))}
-        <button onClick={()=>movetoNext()} className="next-button">›</button>
         </div>
       )}
+        <button onClick={()=>movetoNext()} className="next-button">›</button>
     </div>
   );
 }
