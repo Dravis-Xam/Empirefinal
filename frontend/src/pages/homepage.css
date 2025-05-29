@@ -407,9 +407,10 @@ footer .social-links {
     justify-content: flex-start;
     max-height: 2700px;
   }
-  .phonesContainer {
-    width: 100%;
-  }
+.phonesContainer {
+  width: 100%;
+  margin: none;
+}
 
 }
 
@@ -445,6 +446,7 @@ footer .social-links {
 }
 .phonesContainer {
   width: 100%;
+  margin: none;
 }
 }
 
@@ -479,6 +481,11 @@ footer .social-links {
   section.hero > .brands > button {
     right: -20px;
   }
+  
+.phonesContainer {
+  width: 100%;
+  margin: none;
+}
 }
 
 @media (max-width: 480px) {
@@ -490,4 +497,9 @@ footer .social-links {
     width: 40px;
     bottom: -5px;
   }
+  
+.phonesContainer {
+  width: 100%;
+  margin: none;
+}
 }
