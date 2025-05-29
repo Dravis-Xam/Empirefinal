@@ -12,8 +12,7 @@ export default function DeviceGallery() {
 
   function getCardWidth() {
     const width = window.innerWidth;
-    if (width <= 500) return 250;
-    if (width <= 800) return 280;
+    if (width <= 800) return 300;
     return 350;
   }
 
