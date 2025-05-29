@@ -133,6 +133,12 @@
   z-index: 2;
 }
 
+.prev-button:hover,
+.next-button:hover {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .prev-button {
   left: 10px;
 }
