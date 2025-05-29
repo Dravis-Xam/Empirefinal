@@ -41,8 +41,8 @@ export default function DeviceGallery() {
     const updateCardsPerView = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const totalCardWidth = cardWidth + gap*2;
-        setCardsPerView(Math.floor(containerWidth / totalCardWidth) + 1);
+        const totalCardWidth = cardWidth + gap;
+        setCardsPerView(Math.floor(containerWidth / totalCardWidth));
       }
     };
 
