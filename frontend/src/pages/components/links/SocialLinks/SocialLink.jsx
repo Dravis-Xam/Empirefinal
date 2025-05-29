@@ -1,7 +1,7 @@
 import React from "react";
 import './SocialLink.css';
 import { FiFacebook, FiInstagram } from "react-icons/fi";
-import { FaWhatsapp, FaTiktok, FiXTwitter } from "react-icons/fa6";
+import { FaWhatsapp, FaTiktok, FaXTwitter } from "react-icons/fa6";
 
 export default function SocialLinks() {
   return (
@@ -18,7 +18,7 @@ export default function SocialLinks() {
       </span>
       <span>
         <a href="https://x.com/empirehub_254" target="_blank" rel="noopener noreferrer" title="Twitter">
-          <FiXTwitter size={20} />
+          <FaXTwitter size={20} />
         </a>
       </span>
       <span>
