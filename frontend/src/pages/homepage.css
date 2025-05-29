@@ -398,6 +398,7 @@ footer .social-links {
   .phoneCardsContainer > div {
     gap: 10px;
     scale: .7;
+    width: 100%;
   }
   .phonesContainer {
     display: flex;
@@ -448,6 +449,10 @@ footer .social-links {
   width: 100%;
   margin: none;
 }
+
+  .phoneCardsContainer > div {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -462,6 +467,10 @@ footer .social-links {
   
   footer h3 {
     font-size: 17px;
+  }
+  
+  .phoneCardsContainer > div {
+    width: 100%;
   }
   
   section.hero > h1 {
@@ -502,4 +511,8 @@ footer .social-links {
   width: 100%;
   margin: none;
 }
+
+  .phoneCardsContainer > div {
+    width: 100%;
+  }
 }
