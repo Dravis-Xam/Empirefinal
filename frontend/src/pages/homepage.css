@@ -111,39 +111,39 @@
 
 .phoneCardsContainer {
   position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
-.phoneCardsContainer > div {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  transition: all .4s ease-in-out;
-  overflow-x: auto;
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
+.phonesContainer {
+  width: 94%;
+  margin: auto;
+  overflow: hidden;
 }
 
-.phoneCardsContainer > button {
+.prev-button,
+.next-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  border: .1px solid var(--accent-primary);
-  color: var(--text-secondary);
-  background-color: var(--bg-tertiary);
-  transition: .3s ease-in-out;
+  font-size: 2rem;
+  background: #eee;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
 }
 
-.phoneCardsContainer > button.prev-button {
-  left: 10px
+.prev-button {
+  left: 10px;
 }
 
-.phoneCardsContainer > button.next-button {
-  right: 10px
+.next-button {
+  right: 10px;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease;
 }
 
 .phoneCardsContainer > div::-webkit-scrollbar {
