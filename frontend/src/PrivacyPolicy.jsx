@@ -1,9 +1,11 @@
-import React from 'react';
+import Header from './pages/components/sections/header/Header'
+import DirectoryNavigation from './pages/components/sections/nav/directoryNav/DirectoryNavigation'
 import './PrivacyPolicy.css';
 
 const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy-container">
+      <Header /><DirectoryNavigation />
       <div className="privacy-policy-card">
         <h1 className="policy-title">Privacy Policy</h1>
         <h2 className="policy-subtitle">Empire Hub Phones</h2>
