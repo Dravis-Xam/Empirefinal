@@ -8,8 +8,8 @@ export default function DeviceGallery() {
   const [slideIndex, setSlideIndex] = useState(0);
   const containerRef = useRef(null);
   const sliderRef = useRef(null);
-  const cardWidth = 220;
-  const gap = 10;
+  const cardWidth = 250;
+  const gap = 20;
   const autoScrollInterval = useRef(null);
 
   const [cardsPerView, setCardsPerView] = useState(1);
@@ -42,7 +42,7 @@ export default function DeviceGallery() {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const totalCardWidth = cardWidth + gap;
-        setCardsPerView(Math.floor(containerWidth / totalCardWidth));
+        setCardsPerView(Math.floor(containerWidth / totalCardWidth) + 1);
       }
     };
 
@@ -65,7 +65,7 @@ export default function DeviceGallery() {
   useEffect(() => {
     autoScrollInterval.current = setInterval(() => {
       movetoNext();
-    }, 4000); // 4 seconds
+    }, 20000); // 4 seconds
     return () => clearInterval(autoScrollInterval.current);
   }, [cardsPerView, devices]);
 
