@@ -407,6 +407,10 @@ footer .social-links {
     justify-content: flex-start;
     max-height: 2700px;
   }
+  .phonesContainer {
+    width: 100%;
+  }
+
 }
 
 
