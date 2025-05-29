@@ -8,7 +8,24 @@ export default function DeviceGallery() {
   const [slideIndex, setSlideIndex] = useState(0);
   const containerRef = useRef(null);
   const sliderRef = useRef(null);
-  const cardWidth = 350;
+  const [cardWidth, setCardWidth] = useState(getCardWidth());
+
+  function getCardWidth() {
+    const width = window.innerWidth;
+    if (width <= 500) return 200;
+    if (width <= 800) return 250;
+    return 350;
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCardWidth(getCardWidth());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
   const gap = 20;
   const autoScrollInterval = useRef(null);
 
