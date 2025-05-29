@@ -8,7 +8,7 @@ export default function DeviceGallery() {
   const [slideIndex, setSlideIndex] = useState(0);
   const containerRef = useRef(null);
   const sliderRef = useRef(null);
-  const cardWidth = 330;
+  const cardWidth = 350;
   const gap = 20;
   const autoScrollInterval = useRef(null);
 
