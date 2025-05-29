@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PhoneCard from '../../../cards/phoneCard/PhoneCard';
-import './DeviceGallery.css'; 
+import './DevicesGallery.css'; 
 
 export default function DeviceGallery() {
   const [devices, setDevices] = useState([]);
