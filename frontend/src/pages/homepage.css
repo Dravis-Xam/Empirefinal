@@ -109,7 +109,7 @@
   background-color: var(--bg-primary);
 }
 
-.phoneCardsContainer {
+.phoneCardsContainer > div {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -121,9 +121,28 @@
   scrollbar-width: none; 
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
-.phoneCardsContainer::-webkit-scrollbar {
+.phoneCardsContainer > div > button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: .1px solid var(--accent-primary);
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  transition: .3s ease-in-out;
+}
+
+.phoneCardsContainer > div > button.prev-button {
+  left: 10px
+}
+
+.phoneCardsContainer > div > button.next-button {
+  right: 10px
+}
+
+.phoneCardsContainer > div::-webkit-scrollbar {
   content: none; display: none;
 }
 
@@ -367,7 +386,7 @@ footer .social-links {
     width: 90%;
   }
 
-  .phoneCardsContainer {
+  .phoneCardsContainer > div {
     gap: 10px;
     scale: .7;
   }
