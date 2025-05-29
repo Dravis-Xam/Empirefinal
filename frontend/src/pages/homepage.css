@@ -129,7 +129,7 @@
   font-size: 2rem;
   border: none;
   cursor: pointer;
-  z-index: 2;
+  z-index: 300;
 }
 
 .prev-button:hover,
