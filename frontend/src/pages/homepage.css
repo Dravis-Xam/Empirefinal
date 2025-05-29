@@ -439,6 +439,9 @@ footer .social-links {
 .next-button {
   right: -10px;
 }
+.phonesContainer {
+  width: 100%;
+}
 }
 
 @media (max-width: 768px) {
