@@ -12,8 +12,8 @@ export default function DeviceGallery() {
 
   function getCardWidth() {
     const width = window.innerWidth;
-    if (width <= 500) return 200;
-    if (width <= 800) return 250;
+    if (width <= 500) return 250;
+    if (width <= 800) return 280;
     return 350;
   }
 
@@ -25,7 +25,7 @@ export default function DeviceGallery() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   const gap = 20;
   const autoScrollInterval = useRef(null);
 
