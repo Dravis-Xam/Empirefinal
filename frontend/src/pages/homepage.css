@@ -432,6 +432,13 @@ footer .social-links {
   .serviceCard {
     min-width: 100%;
   }
+  .prev-button {
+  left: -10px;
+}
+
+.next-button {
+  right: -10px;
+}
 }
 
 @media (max-width: 768px) {
