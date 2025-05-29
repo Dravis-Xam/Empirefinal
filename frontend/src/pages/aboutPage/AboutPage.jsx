@@ -1,4 +1,5 @@
 import MoveToTop from "../components/buttons/movetotop/MoveToTop";
+import SocialLinks from "../components/links/SocialLinks/SocialLink";
 import Header from "../components/sections/header/Header";
 import DirectoryNavigation from "../components/sections/nav/directoryNav/DirectoryNavigation";
 import './AboutPage.css';
@@ -39,9 +40,7 @@ export default function AboutPage() {
             <div>
                 <small>For comments, support or queries </small>
                 <h1 className="titles">Reach us at:</h1>
-                <p><i>Facebook</i></p>
-                <p><i>Instagram</i></p>
-                <p><i>Whatsapp</i></p>
+                <SocialLinks />
             </div>
         </div>
         <div className="valuesContainer">
