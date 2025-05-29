@@ -1,13 +1,41 @@
 import React from "react";
 import './SocialLink.css';
-import { facebookForDark, instagramForDark, twitterForDark, whatsappicon, titkokicon } from '../../../../assets/icons/GetIcons.js';
+import { FiFacebook, FiInstagram, FiTwitter } from "react-icons/fi";
+import { FaWhatsapp, FaTiktok } from "react-icons/fa";
 
 export default function SocialLinks() {
-    return <div className="socialLinks">
-        <span><a href="https://www.facebook.com/empirehubphones" target="_blank"><img src={facebookForDark} alt="..." /></a></span>
-        <span><a href="https://www.tiktok.com/@empirehub3" target="_blank"><img src={titkokicon} alt="..." /></a></span>
-        <span><a href="https://x.com/empirehub_254" target="_blank"><img src={twitterForDark} alt="..." /></a></span>
-        <span><a href="https://www.instagram.com/empirehub_phones/" target="_blank"><img src={instagramForDark} alt="..." /></a></span>
-        <span><a href="https://l.instagram.com/?u=https%3A%2F%2Fwa.me%2F%2B254711489056%3Ffbclid%3DPAZXh0bgNhZW0CMTEAAac0QZ1A_JjTEQD5tWiPZdK54K7G2x2-1aixynKpz9qohUU43dE7IeZ8xfWnsQ_aem_O0JAm4UTPmmAPQ-5u2kXUQ&e=AT2giPvuz_1H89YtKogtJbMKCjnkvGvnxXqImAsHlAVvvUfghrrJ39vItqnHexPjMxu6wfuJAmJuovDZpn2RyZ1Tic0PUDBaQ3FYxPs" target="_blank"><img src={whatsappicon} alt="..." /></a></span>
+  return (
+    <div className="socialLinks">
+      <span>
+        <a href="https://www.facebook.com/empirehubphones" target="_blank" rel="noopener noreferrer" title="Facebook">
+          <FiFacebook size={20} />
+        </a>
+      </span>
+      <span>
+        <a href="https://www.tiktok.com/@empirehub3" target="_blank" rel="noopener noreferrer" title="TikTok">
+          <FaTiktok size={20} />
+        </a>
+      </span>
+      <span>
+        <a href="https://x.com/empirehub_254" target="_blank" rel="noopener noreferrer" title="Twitter">
+          <FiTwitter size={20} />
+        </a>
+      </span>
+      <span>
+        <a href="https://www.instagram.com/empirehub_phones/" target="_blank" rel="noopener noreferrer" title="Instagram">
+          <FiInstagram size={20} />
+        </a>
+      </span>
+      <span>
+        <a
+          href="https://wa.me/+254711489056"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="WhatsApp"
+        >
+          <FaWhatsapp size={20} />
+        </a>
+      </span>
     </div>
+  );
 }
