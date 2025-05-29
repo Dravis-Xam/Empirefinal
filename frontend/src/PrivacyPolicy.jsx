@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = "Privacy Policy - Empire Hub Phones Kenya";
+    document.title = "Privacy Policy - Empire Hub";
 
     const fetchPolicyText = async () => {
       try {
@@ -26,60 +26,63 @@ const PrivacyPolicy = () => {
     fetchPolicyText();
   }, []);
 
-const formatPolicyText = (text) => {
-  if (!text) return null;
-
-  const lines = text.split('\n');
-  const paragraphs = [];
-  let currentParagraph = '';
-
-  lines.forEach((line) => {
-    if (line.includes('\n')) {
-      // Split the line into paragraphs
-      const subParagraphs = line.split('\n');
-      subParagraphs.forEach((subLine) => {
-        currentParagraph += subLine + '\n';
-      });
-    } else {
-      // Trim the line and add it to the current paragraph
-      const trimmed = line.trim();
-      currentParagraph += trimmed + '\n';
-      // If the current paragraph is not empty and ends with a colon, add it to the paragraphs array
-      if (currentParagraph.trim().endsWith(':') && currentParagraph.trim() !== ':') {
-        paragraphs.push({
-          type: 'heading',
-          text: currentParagraph.trim().replace(':', ''),
-        });
-        currentParagraph = '';
-      }
-      else if (currentParagraph.trim().match(/^[\w\s]+$/) && currentParagraph.trim().length < 80) {
-        paragraphs.push({
-          type: 'subheading',
-          text: currentParagraph.trim(),
-        });
-        currentParagraph = '';
-      }
+  const formatLine = (line, key) => {
+    if (line.startsWith('### ')) {
+      return <h3 key={key} className="policy-subheading">{line.replace(/^###\s\*\*(.*?)\*\*/, '$1')}</h3>;
     }
-  });
+    if (line.startsWith('#### ')) {
+      return <h4 key={key} className="policy-subsubheading">{line.replace(/^####\s\*\*(.*?)\*\*/, '$1')}</h4>;
+    }
+    if (line.startsWith('- ')) {
+      return <li key={key}>{line.replace('- ', '')}</li>;
+    }
+    if (line.startsWith('**') && line.endsWith('**')) {
+      return <strong key={key}>{line.replace(/\*\*/g, '')}</strong>;
+    }
+    if (line.includes(':') && !line.includes('- ')) {
+      const [label, ...rest] = line.split(':');
+      return (
+        <p key={key}><strong>{label}:</strong>{rest.join(':')}</p>
+      );
+    }
+    return <p key={key}>{line}</p>;
+  };
 
-  if (currentParagraph.trim()) {
-    paragraphs.push({
-      type: 'paragraph',
-      text: currentParagraph.trim(),
+  const formatPolicyText = (text) => {
+    if (!text) return null;
+
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    const output = [];
+
+    let listBuffer = [];
+
+    lines.forEach((line, index) => {
+      if (line.startsWith('- ')) {
+        listBuffer.push(line);
+      } else {
+        if (listBuffer.length) {
+          output.push(
+            <ul key={`ul-${index}`} className="policy-list">
+              {listBuffer.map((li, liIndex) => formatLine(li, `li-${liIndex}`))}
+            </ul>
+          );
+          listBuffer = [];
+        }
+        output.push(formatLine(line, index));
+      }
     });
-  }
 
-  return paragraphs.map((paragraph, index) => {
-    const className = paragraph.type === 'heading' ? 'policy-heading' : paragraph.type === 'subheading' ? 'policy-subheading' : 'policy-paragraph';
+    // Handle trailing list
+    if (listBuffer.length) {
+      output.push(
+        <ul key={`ul-final`} className="policy-list">
+          {listBuffer.map((li, liIndex) => formatLine(li, `li-final-${liIndex}`))}
+        </ul>
+      );
+    }
 
-    return (
-      <div key={index} className={className}>
-        {paragraph.text}
-      </div>
-    );
-  });
-};
-
+    return output;
+  };
 
   return (
     <>
@@ -94,10 +97,7 @@ const formatPolicyText = (text) => {
 
           <div className="policy-content">
             {loading ? (
-              <div className="policy-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading privacy policy...</p>
-            </div>
+              <p>Loading privacy policy...</p>
             ) : (
               formatPolicyText(policyText)
             )}
