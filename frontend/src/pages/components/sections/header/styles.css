@@ -150,6 +150,7 @@ header h1:hover {
     right: -100%;
     width: 30%;
     height: 100vh;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 4rem;
@@ -162,6 +163,7 @@ header h1:hover {
 
   .leftTop.open {
     right: 0;
+    display: flex;
   }
 
   .leftTop > button {
