@@ -1,13 +1,9 @@
-/* Privacy Policy Container */
 .privacy-policy-container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  animation: fadeIn 0.5s ease-out forwards;
+  padding: 2rem;
 }
 
-/* Policy Card */
 .privacy-policy-card {
   background-color: var(--bg-secondary);
   border-radius: 10px;
@@ -16,15 +12,20 @@
   border: 1px solid var(--border-primary);
 }
 
-/* Title */
 .policy-title {
   color: var(--accent-secondary);
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   font-size: 2.25rem;
 }
 
-/* Last Updated */
+.policy-subtitle {
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
 .policy-last-updated {
   text-align: center;
   color: var(--text-secondary);
@@ -35,67 +36,47 @@
   border-radius: 6px;
 }
 
-/* Headings */
-.policy-heading {
-  color: var(--accent-secondary);
-  margin: 2rem 0 1rem 0;
-  font-size: 1.75rem;
+.policy-content {
+  line-height: 1.7;
 }
 
-.policy-subheading {
+.policy-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-heading {
+  color: var(--accent-secondary);
+  margin: 2rem 0 1rem 0;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--gold-light);
+  padding-bottom: 0.5rem;
+}
+
+.section-subheading {
   color: var(--accent-tertiary);
   margin: 1.5rem 0 0.75rem 0;
   font-size: 1.25rem;
 }
 
-/* Paragraphs */
-.policy-paragraph {
-  color: var(--text-secondary);
-  margin-bottom: 1.25rem;
-  line-height: 1.7;
+ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
 }
 
-/* Contact Section */
-.policy-contact {
-  background-color: var(--gold-light);
-  border-left: 4px solid var(--accent-secondary);
-  padding: 1.5rem;
-  margin-top: 3rem;
-  border-radius: 0 6px 6px 0;
+li {
+  margin-bottom: 0.5rem;
 }
 
-.policy-contact-heading {
-  color: var(--accent-secondary);
-  margin-top: 0;
-  margin-bottom: 1rem;
+strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
-/* Loading Spinner */
-.policy-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  gap: 1rem;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid var(--gold-light);
-  border-top: 5px solid var(--accent-secondary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
+  .privacy-policy-container {
+    padding: 1rem;
+  }
+  
   .privacy-policy-card {
     padding: 1.5rem;
   }
@@ -104,14 +85,14 @@
     font-size: 1.75rem;
   }
   
-  .policy-heading {
-    font-size: 1.5rem;
+  .section-heading {
+    font-size: 1.3rem;
   }
 }
 
 @media (max-width: 480px) {
   .privacy-policy-container {
-    padding: 1rem 0.75rem;
+    padding: 0.75rem;
   }
   
   .privacy-policy-card {
