@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PhoneCard from '../../../cards/phoneCard/PhoneCard';
+import './DeviceGallery.css'; 
 
 export default function DeviceGallery() {
   const [devices, setDevices] = useState([]);
@@ -8,28 +9,40 @@ export default function DeviceGallery() {
   const [slideIndex, setSlideIndex] = useState(0);
   const containerRef = useRef(null);
   const sliderRef = useRef(null);
-  const [cardWidth, setCardWidth] = useState(getCardWidth());
-
-  function getCardWidth() {
-    const width = window.innerWidth;
-    if (width <= 800) return 300;
-    return 350;
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setCardWidth(getCardWidth());
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const [cardWidth, setCardWidth] = useState(300); 
+  const [cardsPerView, setCardsPerView] = useState(1); 
 
   const gap = 20;
   const autoScrollInterval = useRef(null);
 
-  const [cardsPerView, setCardsPerView] = useState(1);
+  
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = window.innerWidth;
+      
+      
+      if (width <= 500) {
+        setCardWidth(width * 0.9); 
+        setCardsPerView(1);
+      } 
+      
+      else if (width <= 800) {
+        setCardWidth(300);
+        setCardsPerView(Math.min(2, Math.floor(width / (300 + gap))));
+      } 
+      
+      else {
+        setCardWidth(350);
+        setCardsPerView(Math.min(4, Math.floor(width / (350 + gap))));
+      }
+    };
 
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  
   useEffect(() => {
     const fetchDevices = async () => {
       try {
@@ -53,20 +66,6 @@ export default function DeviceGallery() {
     fetchDevices();
   }, []);
 
-  useEffect(() => {
-    const updateCardsPerView = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const totalCardWidth = cardWidth + gap;
-        setCardsPerView(Math.floor(containerWidth / totalCardWidth));
-      }
-    };
-
-    updateCardsPerView();
-    window.addEventListener('resize', updateCardsPerView);
-    return () => window.removeEventListener('resize', updateCardsPerView);
-  }, []);
-
   const maxIndex = Math.max(0, devices.length - cardsPerView);
 
   const movetoNext = () => {
@@ -77,7 +76,7 @@ export default function DeviceGallery() {
     setSlideIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
-  // Auto-scroll
+  
   useEffect(() => {
     autoScrollInterval.current = setInterval(() => {
       movetoNext();
@@ -85,7 +84,7 @@ export default function DeviceGallery() {
     return () => clearInterval(autoScrollInterval.current);
   }, [cardsPerView, devices]);
 
-  // Touch / Drag Handling
+  
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -104,8 +103,6 @@ export default function DeviceGallery() {
       if (!isDragging) return;
       const currentX = e.touches[0].clientX;
       const diff = currentX - startX;
-
-      // You could shift preview here if needed
       currentTranslate = diff;
     };
 
@@ -142,25 +139,34 @@ export default function DeviceGallery() {
   };
 
   return (
-    <div className="phoneCardsContainer" style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
-      <div className="phonesContainer" ref={containerRef} style={{ width: '94%', margin: 'auto', overflow: 'hidden' }}>
-        <button onClick={movetoPrev} className="prev-button">‹</button>
+    <div className="device-gallery-container">
+      <div className="gallery-wrapper" ref={containerRef}>
+        <button onClick={movetoPrev} className="nav-button prev-button">‹</button>
+        
         {loading ? (
-          <p>Loading devices...</p>
+          <div className="loading-message">Loading devices...</div>
         ) : error ? (
-          <p>Unable to load information on available phones</p>
+          <div className="error-message">Unable to load information on available phones</div>
         ) : devices.length === 0 ? (
-          <p>No devices available.</p>
+          <div className="empty-message">No devices available.</div>
         ) : (
           <div ref={sliderRef} className="slider" style={sliderStyle}>
             {devices.map((device) => (
-              <div key={device._id} style={{ minWidth: `${cardWidth}px`, flex: '0 0 auto' }}>
+              <div 
+                key={device._id} 
+                className="card-wrapper"
+                style={{ 
+                  minWidth: `${cardWidth}px`,
+                  width: window.innerWidth <= 500 ? '90vw' : `${cardWidth}px`
+                }}
+              >
                 <PhoneCard device={device} />
               </div>
             ))}
           </div>
         )}
-        <button onClick={movetoNext} className="next-button">›</button>
+        
+        <button onClick={movetoNext} className="nav-button next-button">›</button>
       </div>
     </div>
   );
