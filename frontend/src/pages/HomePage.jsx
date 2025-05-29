@@ -9,6 +9,7 @@ import RhombusLoader from "./components/loading/RhombusLoading";
 import messageicon from '../assets/icons/message.png';
 import herobackground from '../assets/photos/herobackground.png';
 import DeviceGallery from "./components/sections/body/DevicesGallery/DevicesGallery";
+import MoveToTop from "./components/buttons/movetotop/MoveToTop";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -84,7 +85,7 @@ export default function HomePage() {
       </section>
 
       {/*<div className="supportChatLink"><img src={messageicon} alt="..." /><span>Chat with us for support or feedback</span></div>*/}
-
+    <MoveToTop />
       <footer>
         <div>
           <div>

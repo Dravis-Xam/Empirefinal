@@ -1,0 +1,75 @@
+.move-to-top-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.move-to-top-container.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.progress-circle {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: var(--gold-light);
+  stroke-width: 2;
+}
+
+.circle-fill {
+  fill: none;
+  stroke: var(--accent-secondary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.1s linear;
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  color: var(--accent-secondary);
+}
+
+.move-to-top-container:hover {
+  transform: scale(1.1) translateY(0);
+}
+
+.move-to-top-container:hover .circle-fill {
+  stroke: var(--accent-primary);
+}
+
+.move-to-top-container:hover .arrow-icon {
+  color: var(--accent-primary);
+}
+
+@media (max-width: 768px) {
+  .move-to-top-container {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

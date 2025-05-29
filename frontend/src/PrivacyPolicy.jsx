@@ -1,3 +1,4 @@
+import MoveToTop from './pages/components/buttons/movetotop/MoveToTop';
 import Header from './pages/components/sections/header/Header'
 import DirectoryNavigation from './pages/components/sections/nav/directoryNav/DirectoryNavigation'
 import './PrivacyPolicy.css';
@@ -169,7 +170,7 @@ const PrivacyPolicy = () => {
               <li><strong>Address:</strong> Moi Avenue, Bazaar Plaza, Floor M1, Unit 3, Shop A2, KE</li>
             </ul>
           </section>
-
+          <MoveToTop />
         </div>
       </div>
     </div>

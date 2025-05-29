@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import TopSearchCard from "./components/cards/topSearchCard/TSCard";
 import Header from './components/sections/header/Header';
 import DirectoryNavigation from './components/sections/nav/directoryNav/DirectoryNavigation';
+import MoveToTop from "./components/buttons/movetotop/MoveToTop";
 
 export default function SearchPage() {
     const {state} = useLocation();
@@ -218,6 +219,7 @@ export default function SearchPage() {
                             ))}
                         </div>
                     </div>
+                    <MoveToTop />
                 </>
             )}
         </div>

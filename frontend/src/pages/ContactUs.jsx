@@ -3,6 +3,7 @@ import Header from './components/sections/header/Header';
 import DirectoryNavigation from './components/sections/nav/directoryNav/DirectoryNavigation';
 import './ContactUs.css';
 import { toast } from '../modules/Store/ToastStore';
+import MoveToTop from './components/buttons/movetotop/MoveToTop';
 
 export default function ContactUs() {
   const [username, setUsername] = useState('');
@@ -99,6 +100,7 @@ export default function ContactUs() {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </section>
+      <MoveToTop />
     </div>
   );
 }
