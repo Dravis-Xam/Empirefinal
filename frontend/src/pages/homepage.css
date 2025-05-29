@@ -127,7 +127,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 2rem;
-  background: #eee;
+  color: var(--text-secondary);
   border: none;
   cursor: pointer;
   z-index: 2;
