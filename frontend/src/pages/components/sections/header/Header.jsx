@@ -101,12 +101,6 @@ export default function Header() {
                     </>
                 ) : (
                     <>
-                        <span
-                            className={activeTab === 'settings' ? 'active' : ''}
-                            onClick={() => navigate('/profile', {state: {activeTab: 'settings'}})}
-                        >
-                            Settings
-                        </span>
                         <button
                             className={`loginBtn ${activeTab === 'login' ? 'active' : ''}`}
                             onClick={() => handleNavigate('/login')}
