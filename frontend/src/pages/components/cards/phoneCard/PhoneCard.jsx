@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './PhoneCard.css';
 import { useNavigate } from "react-router-dom";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'; 
 
 export default function PhoneCard({ device }) {
   const {
