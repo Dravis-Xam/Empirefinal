@@ -14,7 +14,7 @@ export default function PhoneCard({ device }) {
         featured = false
       } = device || {};
 
-    const fallbackImage = '/phones/samsungA56.jpg'; 
+    const fallbackImage = 'phones/samsungA56.jpg'; 
     const hasImages = details?.images && details.images.length > 0 || fallbackImage;
     const [mainImage, setMainImage] = useState(hasImages ? details.images[0] : "");
 
@@ -46,7 +46,7 @@ export default function PhoneCard({ device }) {
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
             <div className="imageSection">
             <img
-                src={`${BASE_URL}uploads/devices/${mainImg}`}
+                src={`${BASE_URL}/uploads/devices/${mainImg}`}
                 alt={`${brand} ${model}`}
                 className="mainImage"
             />
