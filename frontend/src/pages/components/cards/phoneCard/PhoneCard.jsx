@@ -40,11 +40,13 @@ export default function PhoneCard({ device }) {
         navigate('/details', { state: { device } });
     };
 
+    const mainImg = mainImage || fallbackImage;
+
     return (
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
             <div className="imageSection">
             <img
-                src={`${BASE_URL}/uploads/devices/${mainImage || fallbackImage}`}
+                src={`${BASE_URL}/uploads/devices/${mainImg}`}
                 alt={`${brand} ${model}`}
                 className="mainImage"
             />
