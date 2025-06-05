@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../../modules/Store/AuthContext"; 
 import './styles.css'
+import { FaTruck } from 'react-icons/fa';
+import { AiOutlineHome, AiOutlineShoppingCart, AiOutlineUser, AiOutlineSetting } from 'react-icons/ai';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 
 export default function Header() {
     const navigate = useNavigate();
@@ -10,6 +13,15 @@ export default function Header() {
     const { user, logout } = useAuth();
     
     const location = useLocation();
+
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const paths = {
         "/": "home",
@@ -63,13 +75,13 @@ export default function Header() {
                     className={activeTab === 'home' ? 'active' : ''}
                     onClick={() => handleNavigate('/')}
                 >
-                    Home
+                    { width >= 770 ? <AiOutlineHome /> : 'Home'}
                 </span>
                 <span
                     className={activeTab === 'cart' ? 'active' : ''}
                     onClick={() => handleNavigate('/cart')}
                 >
-                    Cart
+                    { width >= 770 ?  <AiOutlineShoppingCart /> : 'Cart'}
                 </span>
 
                 {user ? (
@@ -78,25 +90,25 @@ export default function Header() {
                             className={activeTab === 'profile' ? 'active' : ''}
                             onClick={() => handleNavigate('/profile')}
                         >
-                            Profile
+                           { width >= 770 ? <AiOutlineUser /> : 'Profile'}
                         </span>
                         <span
                             className={activeTab === 'settings' ? 'active' : ''}
                             onClick={() => navigate('/profile', {state: {activeTab: 'settings'}})}
                         >
-                            Settings
+                            { width >= 770 ? <AiOutlineSetting /> : 'Settings'}
                         </span>
                         {deliveryS === 'ongoing' && <span
                             className={activeTab === 'delivery' ? 'active' : ''}
                             onClick={()=> handleNavigate('/track-delivery')}
                         >
-                            Delivery
+                            { width >= 770 ? <FaTruck /> : 'Delivery'}
                         </span>}
                         <button className="logoutBtn" onClick={() => {
                             logout();
                             setIsMobileMenuOpen(false);
                         }}>
-                            Logout
+                            <RiLogoutBoxLine />
                         </button>
                     </>
                 ) : (
