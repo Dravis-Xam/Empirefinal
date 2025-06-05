@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './PhoneCard.css';
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL
+const BASE_URL = 'https://empirehubphones.onrender.com'
 
 export default function PhoneCard({ device }) {
     const {
@@ -33,23 +33,23 @@ export default function PhoneCard({ device }) {
     }, [details.images, hasImages]);
 
     if (!hasImages) return null;
-        const battery = details.batteryLife || { hours: 'N/A', p: 'N/A' };
-        const navigate = useNavigate();
+    const battery = details.batteryLife || { hours: 'N/A', p: 'N/A' };
+    const navigate = useNavigate();
 
-        const handleViewMore = () => {
-            navigate('/details', { state: { device } });
-        };
+    const handleViewMore = () => {
+        navigate('/details', { state: { device } });
+    };
 
     return (
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
             <div className="imageSection">
             <img
-                src={`${BASE_URL}/uploads/devices/${mainImage}`}
+                src={`${BASE_URL}/uploads/devices/${mainImage && fallbackImage}`}
                 alt={`${brand} ${model}`}
                 className="mainImage"
             />
             <div className="thumbnailRow">
-                {details.images.map((img, i) => (
+                {device.details.images.map((img, i) => (
                     <img
                         key={i}
                         src={`${BASE_URL}/uploads/devices/${img}`}
