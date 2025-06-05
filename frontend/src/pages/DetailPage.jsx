@@ -184,23 +184,28 @@ export default function DetailPage() {
         ) : (
           fallbackLottie
         )}
-
-        {images.length > 1 && (
-          <div className="thumbnailRow">
-            {images.map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                alt={`Thumbnail ${i + 1} of ${deviceData.brand} ${deviceData.model}`}
-                className={`thumbnail ${img === mainImage ? 'active' : ''}`}
-                onClick={() => setMainImage(img)}
-                onKeyDown={(e) => e.key === 'Enter' && setMainImage(img)}
-                tabIndex={0}
-                loading="lazy"
-              />
-            ))}
-          </div>
-        )}
+        {!images && images.length === 0 
+        ? <DotLottieReact
+            src="https://lottie.host/d907efa7-5bff-49e8-8879-72d8c97a44d7/BJJL5Xq85T.lottie"
+            loop
+            autoplay
+          />
+        : images.length > 1 && (
+            <div className="thumbnailRow">
+              {images.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`Thumbnail ${i + 1} of ${deviceData.brand} ${deviceData.model}`}
+                  className={`thumbnail ${img === mainImage ? 'active' : ''}`}
+                  onClick={() => setMainImage(img)}
+                  onKeyDown={(e) => e.key === 'Enter' && setMainImage(img)}
+                  tabIndex={0}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="productPriceBlock">
