@@ -35,9 +35,8 @@ export default function PhoneCard({ device }) {
         const navigate = useNavigate();
 
         const handleViewMore = () => {
-        navigate('/details', { state: { device } });
-    };
-
+            navigate('/details', { state: { device } });
+        };
 
     return (
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
