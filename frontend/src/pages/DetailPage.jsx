@@ -175,18 +175,18 @@ export default function DetailPage() {
 
         <div className="imageSection">
           {mainImage ? (
-            <img 
-              src={mainImage} 
-              alt={`${deviceData.brand} ${deviceData.model}`} 
-              className="mainImage"
-              loading="lazy"
-            />
-          ) : (
             <DotLottieReact
               src="https://lottie.host/d907efa7-5bff-49e8-8879-72d8c97a44d7/BJJL5Xq85T.lottie"
               loop
               autoplay
               style={{ width: '100%', maxHeight: '320px', objectFit: 'contain' }}
+            />
+          ) : (
+            <img 
+              src={mainImage} 
+              alt={`${deviceData.brand} ${deviceData.model}`} 
+              className="mainImage"
+              loading="lazy"
             />
           )}
 
