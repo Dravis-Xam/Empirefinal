@@ -18,6 +18,7 @@ export default function PhoneCard({ device }) {
     const hasImages = details?.images && details.images.length > 0 || fallbackImage;
     const [mainImage, setMainImage] = useState(hasImages ? details.images[0] : "");
 
+    const mainImg = mainImage || fallbackImage;
     useEffect(() => {
         if (!hasImages) return;
 
@@ -37,10 +38,9 @@ export default function PhoneCard({ device }) {
     const navigate = useNavigate();
 
     const handleViewMore = () => {
-        navigate('/details', { state: { device } });
+        navigate('/details', { state: { device } });console.log(mainImg);
     };
 
-    const mainImg = mainImage || fallbackImage;
 
     return (
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>

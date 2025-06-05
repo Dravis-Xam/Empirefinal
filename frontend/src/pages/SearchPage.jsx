@@ -98,7 +98,7 @@ export default function SearchPage() {
             <Header />
             <DirectoryNavigation />
 
-            <h1>Find what you are looking for here</h1>
+            <h1>Find the device which suits your best interest here</h1>
 
             <div className="ct000">
                 <div className="inputContainer">
