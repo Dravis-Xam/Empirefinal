@@ -56,7 +56,7 @@ header h1:hover {
 }
 
 .search-link {
-  border: .1px solid var(--border-primary);
+  border: .1px solid var(--border-secondary);
 }
 
 .leftTop span:hover {
