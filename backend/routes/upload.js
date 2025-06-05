@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { upload } from '../middleware/imgStorage';
+import { upload } from '../middleware/imgStorage.js';
 
 const router = express.Router();
 
