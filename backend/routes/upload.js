@@ -15,7 +15,7 @@ const ImageSchema = new mongoose.Schema({
 const ImageModel = mongoose.model('Image', ImageSchema);
 
 
-router.post('/', upload('image'), async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   try {
     const newImage = new ImageModel({
       name: req.body.name || 'Untitled',
