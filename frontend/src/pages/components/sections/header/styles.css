@@ -49,8 +49,9 @@ header h1:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 15px;
   text-align: center;
+  cursor: pointer;
 }
 
 .leftTop span:hover {
