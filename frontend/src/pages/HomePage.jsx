@@ -53,15 +53,11 @@ export default function HomePage() {
           <span onClick={() => handleTagClick("samsung")}>Samsung</span><small className="separator">|</small>
           <span onClick={() =>handleTagClick("iphone")}>Iphone</span><small className="separator">|</small>
           <span onClick={() =>handleTagClick('infinix')}>Infinix</span><small className="separator">|</small>
-          <span onClick={() =>handleTagClick('huawei')}>Huawei</span><small className="separator">|</small>
+          <span onClick={() =>handleTagClick('huawei')}>Oraimo</span><small className="separator">|</small>
           <span onClick={() =>handleTagClick('redmi')}>Redmi</span><small className="separator">|</small>
-          <span onClick={() =>handleTagClick('realme')}>Realme</span><small className="separator">|</small>
-          <span onClick={() =>handleTagClick('oppo')}>OPPO</span><small className="separator">|</small>
-          <span onClick={navigateSearch}>....</span>
+          <span onClick={() =>handleTagClick('realme')}>UBL</span><small className="separator">|</small>
+          <span onClick={() =>handleTagClick('oppo')}>OPPO</span>
         </div>
-        <button className="seeMoreBrands" onClick={navigateSearch}>
-            Search
-        </button>
       </section>
 
       <section className="phonesContainer">
