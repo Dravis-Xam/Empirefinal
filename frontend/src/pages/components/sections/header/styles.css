@@ -52,6 +52,11 @@ header h1:hover {
   gap: 15px;
   text-align: center;
   cursor: pointer;
+  padding: 0 10px;
+}
+
+.search-link {
+  border: .1px solid var(--border-primary);
 }
 
 .leftTop span:hover {

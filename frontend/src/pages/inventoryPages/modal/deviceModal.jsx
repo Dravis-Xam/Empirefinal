@@ -66,66 +66,74 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     : `${BASE_URL}/inventory/devices/add`;
   const method = isEditing ? "PUT" : "POST";
 
+  const [l, setL] = useState(false);
+
   const handleSubmit = async () => {
-    try {
-      let uploadedImageUrls = [];
+  try {
+    let uploadedImageUrls = [];
+    setL(true)
+    if (imageFiles.length > 0) {
+      const form = new FormData();
+      imageFiles.forEach(file => form.append('images', file));
 
-      if (imageFiles.length > 0) {
-        const form = new FormData();
-        imageFiles.forEach(file => form.append('images', file));
-
-        const uploadRes = await fetch(`${BASE_URL}/upload`, {
-          method: 'POST',
-          body: form,
-          credentials: 'include',
-        });
-
-        if (!uploadRes.ok) {
-          const errorData = await uploadRes.json().catch(() => ({}));
-          throw new Error(errorData?.error || 'Cloudinary image upload failed.');
-        }
-
-        const result = await uploadRes.json();
-        uploadedImageUrls = result.images || [];
-      }
-
-      const finalData = {
-        ...updatedDevice,
-        details: {
-          ...updatedDevice.details,
-          images: [
-            ...(updatedDevice.details?.images || []),
-            ...uploadedImageUrls,
-          ],
-        },
-      };
-
-      const formData = new FormData();
-      for (const [key, value] of Object.entries(finalData)) {
-        formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
-      }
-
-      const res = await fetch(endpoint, {
-        method,
+      const uploadRes = await fetch(`${BASE_URL}/upload`, {
+        method: 'POST',
+        body: form,
         credentials: 'include',
-        body: formData,
       });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || `Error: ${res.status}`);
+      if (!uploadRes.ok) {
+        const errorData = await uploadRes.json().catch(() => ({}));
+        throw new Error(errorData?.error || 'Cloudinary image upload failed.');
       }
 
-      const data = await res.json();
-      toast.success("Device saved successfully!");
-      onSave(data.device);
-      onClose();
+      const result = await uploadRes.json();
 
-    } catch (err) {
-      console.error("Save error:", err);
-      toast.error(`Save failed: ${err.message}`);
+      if (!Array.isArray(result.images) || result.images.length === 0) {
+        toast.error("Upload succeeded but returned no image URLs.");
+        return;
+      }
+
+      uploadedImageUrls = result.images;
     }
-  };
+
+    const finalData = {
+      ...updatedDevice,
+      details: {
+        ...updatedDevice.details,
+        images: [
+          ...(updatedDevice.details?.images || []),
+          ...uploadedImageUrls,
+        ],
+      },
+    };
+
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(finalData)) {
+      formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const res = await fetch(endpoint, {
+      method,
+      credentials: 'include',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    toast.success("Device saved successfully!");
+    onSave(data.device);
+    onClose();
+
+  } catch (err) {
+    console.error("Save error:", err);
+    toast.error(`Save failed: ${err.message}`);
+  }
+};
 
   return (
     <div className="modal-backdrop">
@@ -232,7 +240,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
         </div>
 
         <div className="modal-actions light">
-          <button onClick={handleSubmit}>Save</button>
+          <button onClick={handleSubmit} disabled={l}>{l ? "Saving..." : 'Save'}</button>
           <button onClick={onClose}>Cancel</button>
         </div>
       </div>
