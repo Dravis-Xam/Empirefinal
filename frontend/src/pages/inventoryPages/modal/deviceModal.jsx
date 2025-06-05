@@ -74,7 +74,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
         const form = new FormData();
         imageFiles.forEach(file => form.append('images', file));
 
-        const uploadRes = await fetch(`${BASE_URL}/api/upload`, {
+        const uploadRes = await fetch(`${BASE_URL}/upload`, {
           method: 'POST',
           body: form,
           credentials: 'include',
