@@ -71,13 +71,14 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
   const handleSubmit = async () => {
     try {
-      let uploadedImageNames = [];
+      let uploadedImageUrls = [];
+
       if (imageFiles.length > 0) {
         try {
           const uploadFormData = new FormData();
           imageFiles.forEach(file => uploadFormData.append('images', file));
           
-          const uploadResponse = await fetch(`${BASE_URL}/images/upload`, {
+          const uploadResponse = await fetch(`${BASE_URL}/uploads`, {
             method: 'POST',
             credentials: 'include',
             body: uploadFormData,
@@ -87,11 +88,13 @@ const DeviceModal = ({ device, onClose, onSave }) => {
             const errorData = await uploadResponse.json().catch(() => ({}));
             throw new Error(errorData.error || 'Image upload failed (server error)');
           }
-          
+
           const uploadResult = await uploadResponse.json();
-          uploadedImageNames = uploadResult.images || [];
+
+          // Expecting returned format: { images: ['https://...img1', 'https://...img2'] }
+          uploadedImageUrls = uploadResult.images || [];
         } catch (uploadError) {
-          console.error("Image upload failed:", uploadError);
+          toast.error("Image upload failed:", uploadError);
           throw new Error(`Image upload failed: ${uploadError.message}`);
         }
       }
@@ -102,18 +105,17 @@ const DeviceModal = ({ device, onClose, onSave }) => {
           ...updatedDevice.details,
           images: [
             ...(updatedDevice.details?.images?.filter(img => typeof img === 'string') || []),
-            ...uploadedImageNames.filter(name => typeof name === 'string')
+            ...uploadedImageUrls.filter(url => typeof url === 'string')
           ].filter(Boolean),
         },
       };
 
       const formData = new FormData();
-      
       Object.entries(finalDeviceData).forEach(([key, value]) => {
         if (value === undefined || value === null) return;
-        
+
         formData.append(
-          key, 
+          key,
           typeof value === 'object' ? JSON.stringify(value) : value
         );
       });
@@ -138,64 +140,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       toast.error(`Operation failed: ${err.message}`);
     }
   };
-/*
-  const handleSubmit = async () => {
-    try {
 
-      let uploadedImageNames = [];
-      if (imageFiles.length > 0) {
-        const uploadFormData = new FormData();
-        imageFiles.forEach(file => uploadFormData.append('images', file));
-        
-        const uploadResponse = await fetch(`${BASE_URL}/images/upload`, {
-          method: 'POST',
-          credentials: 'include',
-          body: uploadFormData
-        });
-        
-        if (!uploadResponse.ok) throw new Error('Image upload failed');
-        const uploadResult = await uploadResponse.json();
-        uploadedImageNames = uploadResult.images;
-      }
-
-      const formData = new FormData();
-
-      formData.append("deviceId", updatedDevice.deviceId);
-      formData.append("brand", updatedDevice.brand);
-      formData.append("model", updatedDevice.model);
-      formData.append("build", updatedDevice.build);
-      formData.append("price", updatedDevice.price);
-      formData.append("amountInStock", updatedDevice.amountInStock);
-      formData.append("featured", updatedDevice.featured);
-      formData.append("details", JSON.stringify(updatedDevice.details));
-      imageFiles.forEach((file) => {
-        formData.append("images", file);
-      });
-
-      const allImages = [
-        ...(updatedDevice.details?.images || []).filter(img => !img.startsWith('http')),
-        ...uploadedImageNames
-      ];
-      formData.append("images", JSON.stringify(allImages));
-
-      const response = await fetch(endpoint, {
-        method,
-        credentials: "include",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload device");
-      }
-
-      const savedDevice = await response.json();
-      onSave(savedDevice.device);
-      onClose();
-    } catch (err) {
-      console.error("Error saving device:", err);
-      alert("Device upload failed.");
-    }
-  }; */
 
   return (
     <div className="modal-backdrop">

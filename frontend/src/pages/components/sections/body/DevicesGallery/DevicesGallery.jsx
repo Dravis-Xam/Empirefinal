@@ -145,14 +145,15 @@ export default function DeviceGallery() {
   return (
     <div className="phoneCardsContainer" style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
       <div className="phonesContainer" ref={containerRef} style={{ width: '94%', margin: 'auto', overflow: 'hidden' }}>
-        <button onClick={movetoPrev} className="prev-button">‹</button>
+        
         {loading ? (
           <p>Loading devices...</p>
         ) : error ? (
           <p>Unable to load information on available phones</p>
         ) : devices.length === 0 ? (
           <p>No devices available.</p>
-        ) : (
+        ) : (<>
+          <button onClick={movetoPrev} className="prev-button">‹</button>
           <div ref={sliderRef} className="slider" style={sliderStyle}>
             {devices.map((device) => (
               <div key={device._id} style={{ minWidth: `${cardWidth}px`, flex: '0 0 auto' }}>
@@ -160,8 +161,9 @@ export default function DeviceGallery() {
               </div>
             ))}
           </div>
+          <button onClick={movetoNext} className="next-button">›</button>
+          </>
         )}
-        <button onClick={movetoNext} className="next-button">›</button>
       </div>
     </div>
   );
