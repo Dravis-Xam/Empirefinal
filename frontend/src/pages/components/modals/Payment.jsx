@@ -10,6 +10,8 @@ import { useAuth } from "../../../modules/Store/AuthContext";
 import { runSTK } from "../../../modules/STK/stkpush.js";
 import { v4 as uuidv4 } from 'uuid';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export default function Payment() {
   const navigate = useNavigate();
   const { cart, setPaymentInfo, setDeliveryInfo, clearCart } = useCart();
@@ -131,7 +133,7 @@ export default function Payment() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/buy/', {
+      const response = await fetch(`${BASE_URL}/api/buy/`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

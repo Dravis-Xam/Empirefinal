@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import './PhoneCard.css';
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export default function PhoneCard({ device }) {
     const {
         brand = 'Unknown',
@@ -42,7 +44,7 @@ export default function PhoneCard({ device }) {
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
             <div className="imageSection">
             <img
-                src={`http://localhost:5000/${mainImage}`}
+                src={`${BASE_URL}/uploads/${mainImage}`}
                 alt={`${brand} ${model}`}
                 className="mainImage"
             />
@@ -50,7 +52,7 @@ export default function PhoneCard({ device }) {
                 {details.images.map((img, i) => (
                     <img
                         key={i}
-                        src={`http://localhost:5000/${img}`}
+                        src={`${BASE_URL}/uploads/${img}`}
                         alt={`thumb-${i}`}
                         className={`thumbnail ${img === mainImage ? "active" : ""}`}
                         onClick={() => setMainImage(img)}
