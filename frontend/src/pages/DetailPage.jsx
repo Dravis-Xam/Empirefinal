@@ -8,8 +8,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "../modules/Store/ToastStore";
 import ToastContainer from "./components/toasts/ToastContainer";
 
-// Uncomment if using PropTypes
 // import PropTypes from 'prop-types';
+
+const BASE_URL = `https://empirehubphones.onrender.com`
 
 export default function DetailPage() {
   const { state } = useLocation();
@@ -17,7 +18,7 @@ export default function DetailPage() {
   const device = state?.device;
 
   const { cart, addToCart, removeFromCart } = useCart();
-  const fallbackImage = '/public/phones/samsungA56.jpg'; // Changed to absolute path
+  const fallbackImage = '/public/phones/samsungA56.jpg'; 
 
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState(fallbackImage);
@@ -56,19 +57,19 @@ export default function DetailPage() {
     if (!deviceData) return;
 
     const deviceImages = deviceData.details.images || [];
-    const formattedImages = deviceImages.length > 0
-      ? deviceImages.map(img => 
-          img.startsWith('http') ? img : `${BASE_URL}/uploads/devices/${img}`
-        )
-      : [fallbackImage];
-
+    const formattedImages = (deviceImages || []).map(img => {
+      if (!img) return null;
+      if (img.startsWith('http')) return img;
+      if (img.startsWith('/')) return `${BASE_URL}${img}`;
+      return `${BASE_URL}/uploads/devices/${img.replace(/^\/?uploads\/devices\//, '')}`;
+    }).filter(Boolean); 
+    const finalImages = formattedImages.length > 0 ? formattedImages : [fallbackImage];
     setMainImage(formattedImages[0]);
     setImages(formattedImages);
   }, [deviceData]);
 
   const handleColorSelect = (color) => {
     toast.info(`Selected color: ${color}`);
-    // Add your color selection logic here
   };
 
   const cartItem = useMemo(() => ({
