@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
   destination: function (req, file, cb) {
     const uploadDir = path.join("uploads", "devices");
     if (!fs.existsSync(uploadDir)) {

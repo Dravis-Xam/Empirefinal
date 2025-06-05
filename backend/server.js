@@ -47,6 +47,7 @@ import contact from './routes/contact.js';
 import customercare from './routes/customercare.js';
 import maintenance from './routes/maintenance.js';
 import inventory from './routes/inventory.js';
+import upload from './routes/upload.js'
 
 app.use('/api/auth', auth);
 app.use('/api/buy', purchase);
@@ -56,6 +57,7 @@ app.use('/api/contact', contact);
 app.use('/api/customercare', customercare);
 app.use('/api/maintenance', maintenance);
 app.use('/api/inventory', inventory);
+app.use('/api/upload', upload);
 
 app.get('/test', (req,res)=> res.send("test"));
 

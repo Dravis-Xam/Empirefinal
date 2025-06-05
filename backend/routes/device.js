@@ -1,10 +1,12 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import Device from '../models/device.js';
+import { authenticateToken } from '../middleware/auth.js';
+import { authorizeRole } from '../middleware/authorise.js';
 
 const router = express.Router();
 
-router.post('/add', async (req, res) => {
+router.post('/add', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const data  = req.body;
     if (!data || !data.build) {
@@ -59,7 +61,7 @@ router.get('/get/:id', async (req, res) => {
   }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const  data  = req.body;
     const { id } = req.params;
@@ -74,7 +76,7 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
-router.delete('/remove/:id', async (req, res) => {
+router.delete('/remove/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Device.deleteOne({ id });
