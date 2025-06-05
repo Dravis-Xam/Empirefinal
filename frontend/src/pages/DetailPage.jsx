@@ -7,6 +7,7 @@ import DirectoryNavigation from "./components/sections/nav/directoryNav/Director
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "../modules/Store/ToastStore";
 import ToastContainer from "./components/toasts/ToastContainer";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 // import PropTypes from 'prop-types';
 
