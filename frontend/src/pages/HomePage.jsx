@@ -48,7 +48,7 @@ export default function HomePage() {
     <div className="homePage">
       <section className="hero" style={style}>
         <span className="headerContainer"><Header /></span>
-        <h1>Find the phone of your choice</h1>
+        <h1>Explore our wide variety of phones and accessories</h1>
         <div className="brands categorySection">
           <span onClick={() => handleTagClick("samsung")}>Samsung</span><small className="separator">|</small>
           <span onClick={() =>handleTagClick("iphone")}>Iphone</span><small className="separator">|</small>

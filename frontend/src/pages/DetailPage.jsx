@@ -94,10 +94,22 @@ export default function DetailPage() {
       <div className="productLayout">
         <div className="productDetails">
           <ul>
-            {colors.length === 0 && <li><strong>Color:</strong> {colors.slice(0, 2).join(", ")}</li>}
-            { processorType && <li><strong>Processor:</strong> {processorType}</li>}
-            {os && <li><strong>OS:</strong> {os}</li>}
-            <li><strong>Battery:</strong> {battery.p} mAh – {battery.hours} hrs</li>
+            {colors.length > 0 && (
+              <li>
+                <strong>Colors:</strong>
+                <div className="color-options">
+                  {colors.slice(0, 2).map((color, index) => (
+                    <button 
+                      key={index}
+                      className="color-button"
+                      style={{ backgroundColor: color }}
+                      aria-label={color}
+                      onClick={() => handleColorSelect(color)}
+                    />
+                  ))}
+                </div>
+              </li>
+            )}
             <li>
               <strong>Camera resolutions:</strong>
               <div className="cameraResolutions">
@@ -110,6 +122,9 @@ export default function DetailPage() {
                 )}
               </div>
             </li>
+            { processorType && <li><strong>Processor:</strong> {processorType}</li>}
+            {os && <li><strong>OS:</strong> {os}</li>}
+            <li><strong>Battery:</strong> {battery.p} mAh – {battery.hours} hrs</li>
           </ul>
         </div>
 

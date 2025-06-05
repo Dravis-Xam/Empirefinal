@@ -5,6 +5,7 @@ import './styles.css'
 import { FaTruck } from 'react-icons/fa';
 import { AiOutlineHome, AiOutlineShoppingCart, AiOutlineUser, AiOutlineSetting } from 'react-icons/ai';
 import { RiLogoutBoxLine } from 'react-icons/ri';
+import { FaSearch } from 'react-icons/fa'
 
 export default function Header() {
     const navigate = useNavigate();
@@ -68,16 +69,22 @@ export default function Header() {
                 <span></span>
                 <span></span>
             </button>
+
+            {currentPath === paths['/'] &&<span onClick={()=>navigate('/search')}>
+                <FaSearch />{ width >= 770 ? 'Find the phone of your choice' : 'Search'}
+            </span>}
             
             {/* Navigation Links */}
             <div className={`leftTop ${isMobileMenuOpen ? 'open' : ''}`}>
                 <span
+                    title="home"
                     className={activeTab === 'home' ? 'active' : ''}
                     onClick={() => handleNavigate('/')}
                 >
                     { width >= 770 ? <AiOutlineHome /> : 'Home'}
                 </span>
                 <span
+                    title="cart"
                     className={activeTab === 'cart' ? 'active' : ''}
                     onClick={() => handleNavigate('/cart')}
                 >
@@ -87,39 +94,44 @@ export default function Header() {
                 {user ? (
                     <>
                         <span
+                            title="profile"
                             className={activeTab === 'profile' ? 'active' : ''}
                             onClick={() => handleNavigate('/profile')}
                         >
                            { width >= 770 ? <AiOutlineUser /> : 'Profile'}
                         </span>
                         <span
+                            title="settings"
                             className={activeTab === 'settings' ? 'active' : ''}
                             onClick={() => navigate('/profile', {state: {activeTab: 'settings'}})}
                         >
                             { width >= 770 ? <AiOutlineSetting /> : 'Settings'}
                         </span>
                         {deliveryS === 'ongoing' && <span
+                            title="delivery"
                             className={activeTab === 'delivery' ? 'active' : ''}
                             onClick={()=> handleNavigate('/track-delivery')}
                         >
                             { width >= 770 ? <FaTruck /> : 'Delivery'}
                         </span>}
-                        <button className="logoutBtn" onClick={() => {
+                        <button title='logout' className="logoutBtn" onClick={() => {
                             logout();
                             setIsMobileMenuOpen(false);
                         }}>
-                            <RiLogoutBoxLine />
+                            <RiLogoutBoxLine /> Logout
                         </button>
                     </>
                 ) : (
                     <>
                         <button
+                            title="login"
                             className={`loginBtn ${activeTab === 'login' ? 'active' : ''}`}
                             onClick={() => handleNavigate('/login')}
                         >
                             Login
                         </button>
                         <button
+                            title="sign up"
                             className={`signupBtn ${activeTab === 'signup' ? 'active' : ''}`}
                             onClick={() => handleNavigate('/signup')}
                         >
