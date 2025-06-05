@@ -57,7 +57,7 @@ export default function Header() {
 
     return (
         <header>
-            <h1 id="site-title">Empire Hub Phones</h1>
+            <h1 id="site-title" onClick={() => handleNavigate('/')}>Empire Hub Phones</h1>
             
             {/* Hamburger Menu Button */}
             <button 
@@ -76,13 +76,6 @@ export default function Header() {
             
             {/* Navigation Links */}
             <div className={`leftTop ${isMobileMenuOpen ? 'open' : ''}`}>
-                <span
-                    title="home"
-                    className={activeTab === 'home' ? 'active' : ''}
-                    onClick={() => handleNavigate('/')}
-                >
-                    { width >= 770 ? <AiOutlineHome /> : 'Home'}
-                </span>
                 <span
                     title="cart"
                     className={activeTab === 'cart' ? 'active' : ''}
