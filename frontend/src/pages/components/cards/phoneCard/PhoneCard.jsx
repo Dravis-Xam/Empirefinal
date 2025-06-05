@@ -44,7 +44,7 @@ export default function PhoneCard({ device }) {
         <div className={`phoneCard ${featured ? 'featured' : ''}`}>
             <div className="imageSection">
             <img
-                src={`${BASE_URL}/uploads/${mainImage}`}
+                src={`${BASE_URL}/uploads/devices/${mainImage}`}
                 alt={`${brand} ${model}`}
                 className="mainImage"
             />
@@ -52,7 +52,7 @@ export default function PhoneCard({ device }) {
                 {details.images.map((img, i) => (
                     <img
                         key={i}
-                        src={`${BASE_URL}/uploads/${img}`}
+                        src={`${BASE_URL}/uploads/devices/${img}`}
                         alt={`thumb-${i}`}
                         className={`thumbnail ${img === mainImage ? "active" : ""}`}
                         onClick={() => setMainImage(img)}

@@ -125,7 +125,7 @@ router.post("/devices/add", upload.array("images", 10), async (req, res) => {
 router.put("/devices/update/:id", upload.array("images", 5), async (req, res) => {
   try {
     const details = JSON.parse(req.body.details);
-    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
+    const imagePaths = req.files.map((file) => `/uploads/devices/${file.filename}`);
 
     const updateData = {
       ...req.body,
