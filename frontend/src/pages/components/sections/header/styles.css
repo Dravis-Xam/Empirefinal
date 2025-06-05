@@ -65,9 +65,20 @@ header h1:hover {
 }
 
 .search-link:hover {
-  border: .4px solid var(--border-secondary);
-  padding: 6px 20px;
-  border-radius: 20px;
+  animation: focus .5s linear infinite;
+}
+
+
+@keyframes focus {
+  from {
+    padding: 0 10px;
+    border: none;
+    border-radius: 5px;
+  } to {
+    border: .4px solid var(--border-secondary);
+    padding: 6px 20px;
+    border-radius: 20px;
+  }
 }
 
 .leftTop span:hover {
