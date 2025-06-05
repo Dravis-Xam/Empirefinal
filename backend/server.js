@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-app.use(helmet)
+app.use(helmet())
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODBCONN;
