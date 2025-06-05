@@ -57,7 +57,7 @@ export default function Header() {
 
     return (
         <header>
-            <h1>Empire Hub Phones</h1>
+            <h1 id="site-title">Empire Hub Phones</h1>
             
             {/* Hamburger Menu Button */}
             <button 

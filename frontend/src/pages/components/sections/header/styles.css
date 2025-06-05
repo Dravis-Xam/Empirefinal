@@ -15,7 +15,7 @@ header {
 }
 
 /* Header content styling */
-header h1 {
+header h1.site-title {
   color: var(--text-primary); /* Gold text */
   font-size: 1.5rem;
   margin: 0;
