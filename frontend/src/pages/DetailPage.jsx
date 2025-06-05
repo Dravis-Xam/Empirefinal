@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import './DetailPage.css';
 import Header from "./components/sections/header/Header";
 import RhombusLoader from './components/loading/RhombusLoading';
@@ -8,16 +8,44 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "../modules/Store/ToastStore";
 import ToastContainer from "./components/toasts/ToastContainer";
 
+// Uncomment if using PropTypes
+// import PropTypes from 'prop-types';
+
 export default function DetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const device = state?.device;
 
   const { cart, addToCart, removeFromCart } = useCart();
-  const fallbackImage = '/phones/samsungA56.jpg';
+  const fallbackImage = '/public/phones/samsungA56.jpg'; // Changed to absolute path
 
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState(fallbackImage);
+  const [images, setImages] = useState([]);
+
+  // Memoized device data with fallbacks
+  const deviceData = useMemo(() => {
+    if (!device) return null;
+    
+    return {
+      brand: device.brand || 'Unknown',
+      build: device.build || 'N/A',
+      model: device.model || 'N/A',
+      price: device.price || 0,
+      details: {
+        ...device.details,
+        colors: device.details?.colors || [],
+        storage: device.details?.storage || 0,
+        RAM: device.details?.RAM || 0,
+        processorType: device.details?.processorType || 'Not specified',
+        CAMResolution: device.details?.CAMResolution || [],
+        os: device.details?.os || 'Not specified',
+        batteryLife: Array.isArray(device.details?.batteryLife) 
+          ? device.details.batteryLife[0] || { hours: 'N/A', p: 'N/A' }
+          : device.details?.batteryLife || { hours: 'N/A', p: 'N/A' }
+      }
+    };
+  }, [device]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 300);
@@ -25,122 +53,147 @@ export default function DetailPage() {
   }, []);
 
   useEffect(() => {
-    const deviceImages = device?.details?.images || [];
-    if (deviceImages.length > 0) {
-      setMainImage(deviceImages[0]);
-    } else {
-      setMainImage(fallbackImage);
-    }
-  }, [device]);
+    if (!deviceData) return;
+
+    const deviceImages = deviceData.details.images || [];
+    const formattedImages = deviceImages.length > 0
+      ? deviceImages.map(img => 
+          img.startsWith('http') ? img : `${BASE_URL}/uploads/devices/${img}`
+        )
+      : [fallbackImage];
+
+    setMainImage(formattedImages[0]);
+    setImages(formattedImages);
+  }, [deviceData]);
+
+  const handleColorSelect = (color) => {
+    toast.info(`Selected color: ${color}`);
+    // Add your color selection logic here
+  };
+
+  const cartItem = useMemo(() => ({
+    brand: deviceData?.brand,
+    build: deviceData?.build,
+    model: deviceData?.model,
+    price: deviceData?.price,
+    details: deviceData?.details
+  }), [deviceData]);
+
+  const quantity = useMemo(() => (
+    cart.filter(p => 
+      p.build === deviceData?.build && 
+      p.model === deviceData?.model
+    ).length
+  ), [cart, deviceData]);
+
+  const handleAddToCart = () => {
+    if (!deviceData) return;
+    addToCart(cartItem);
+    toast.success(`${deviceData.brand} ${deviceData.model} added to cart`);
+  };
+  
+  const handleRemoveFromCart = () => {
+    if (quantity === 0) return;
+    removeFromCart(cartItem);
+    toast.success(`${deviceData?.brand} ${deviceData?.model} removed from cart`);
+  };
 
   if (loading) return <RhombusLoader />;
 
-  if (!device) {
+  if (!deviceData) {
     return (
       <div className="detailPage">
         <Header />
         <DirectoryNavigation />
-        <p>No device data found.</p>
-        <button onClick={() => navigate('/')} style={{maxWidth: "150px"}}>Go Home</button>
+        <div className="error-state">
+          <p>No device data found.</p>
+          <button 
+            onClick={() => navigate('/')} 
+            className="home-button"
+            aria-label="Return to home page"
+          >
+            Go Home
+          </button>
+        </div>
       </div>
     );
   }
-
-  const {
-    brand = 'Unknown',
-    build = 'N/A',
-    model = 'N/A',
-    price = 0,
-    details = {},
-  } = device;
-
-  const {
-    images = [],
-    colors = [],
-    storage = 0,
-    RAM = 0,
-    processorType = null,
-    CAMResolution = [],
-    os = null,
-    batteryLife = { hours: 'N/A', p: 'N/A' }
-  } = details;
-
-  const battery = Array.isArray(batteryLife) && batteryLife.length > 0
-    ? batteryLife[0]
-    : batteryLife || { hours: 'N/A', p: 'N/A' };
-
-  const item = { brand, build, model, price, details };
-  const quantity = cart.filter(p => p.build === build && p.model === model).length;
-
-  const handleAddToCart = () => {
-    toast.success("Item added")
-    addToCart(item)};
-  
-  const handleRemoveFromCart = () => {
-    if (quantity > 0) removeFromCart(item);
-    toast.success("Item removed")
-  };
-
-  //device.details.colors.map((item) => console.log(item));
 
   return (
     <div className="detailPage">
       <Header />
       <DirectoryNavigation />
 
-      <span>
-        <h1>{brand} {model}</h1>
-        <small>({build})</small>
-      </span>
+      <section aria-labelledby="product-title">
+        <h1 id="product-title">{deviceData.brand} {deviceData.model}</h1>
+        <small>({deviceData.build})</small>
+      </section>
 
       <div className="productLayout">
         <div className="productDetails">
           <ul>
-            {colors.length > 0 && (
+            {deviceData.details.colors.length > 0 && (
               <li>
                 <strong>Colors:</strong>
-                <div className="color-options">
-                  {colors.slice(0, 2).map((color, index) => (
+                <div className="color-options" role="group" aria-label="Available colors">
+                  {deviceData.details.colors.slice(0, 2).map((color, index) => (
                     <button 
                       key={index}
                       className="color-button"
-                      style={{ backgroundColor: color }}
-                      aria-label={color}
+                      style={{ 
+                        backgroundColor: color,
+                        border: color === '#FFFFFF' ? '1px solid #ddd' : 'none'
+                      }}
+                      aria-label={`Select ${color} color`}
                       onClick={() => handleColorSelect(color)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleColorSelect(color)}
+                      tabIndex={0}
                     />
                   ))}
                 </div>
               </li>
             )}
+            
             <li>
               <strong>Camera resolutions:</strong>
               <div className="cameraResolutions">
-                {CAMResolution.length > 0 ? (
-                  CAMResolution.map((res, i) => (
-                    <span className="camBadge" key={i}>{res}</span>
+                {deviceData.details.CAMResolution.length > 0 ? (
+                  deviceData.details.CAMResolution.map((res, i) => (
+                    <span className="camBadge" key={i}>{res}MP</span>
                   ))
                 ) : (
                   <span className="camBadge noData">No camera data</span>
                 )}
               </div>
             </li>
-            { processorType && <li><strong>Processor:</strong> {processorType}</li>}
-            {os && <li><strong>OS:</strong> {os}</li>}
-            <li><strong>Battery:</strong> {battery.p} mAh – {battery.hours} hrs</li>
+
+            <li><strong>Processor:</strong> {deviceData.details.processorType}</li>
+            <li><strong>OS:</strong> {deviceData.details.os}</li>
+            <li>
+              <strong>Battery:</strong> {deviceData.details.batteryLife.p} mAh – {deviceData.details.batteryLife.hours} hrs
+            </li>
           </ul>
         </div>
 
         <div className="imageSection">
-          <img src={mainImage} alt={`${brand} ${model}`} className="mainImage" />
-          {images.length > 0 && (
+          <img 
+            src={mainImage} 
+            alt={`${deviceData.brand} ${deviceData.model}`} 
+            className="mainImage"
+            loading="lazy"
+          />
+          {images.length > 1 && (
             <div className="thumbnailRow">
               {images.map((img, i) => (
                 <img
                   key={i}
                   src={img}
-                  alt={`thumb-${i}`}
+                  alt={`Thumbnail ${i + 1} of ${deviceData.brand} ${deviceData.model}`}
                   className={`thumbnail ${img === mainImage ? 'active' : ''}`}
                   onClick={() => setMainImage(img)}
+                  onKeyDown={(e) => e.key === 'Enter' && setMainImage(img)}
+                  tabIndex={0}
+                  loading="lazy"
                 />
               ))}
             </div>
@@ -149,23 +202,36 @@ export default function DetailPage() {
 
         <div className="productPriceBlock">
           <h3>Specs</h3>
-          <p><strong>RAM:</strong> {RAM} GB</p>
-          <p><strong>Storage:</strong> {storage} GB</p>
-          <p><strong>Price:</strong> Ksh. {price.toLocaleString()}</p>
+          <p><strong>RAM:</strong> {deviceData.details.RAM} GB</p>
+          <p><strong>Storage:</strong> {deviceData.details.storage} GB</p>
+          <p><strong>Price:</strong> Ksh. {deviceData.price.toLocaleString()}</p>
+          
           <div className="addToCartBtnsContainer">
-            <button className="addItemBtn" onClick={handleAddToCart}>+</button>
-            <span>{quantity} in cart</span>
+            <button 
+              className="addItemBtn" 
+              onClick={handleAddToCart}
+              aria-label="Add to cart"
+            >
+              +
+            </button>
+            <span aria-live="polite">{quantity} in cart</span>
             <button
               className="removeItemBtn"
               onClick={handleRemoveFromCart}
               disabled={quantity === 0}
+              aria-label="Remove from cart"
             >
               -
             </button>
-            <ToastContainer />
           </div>
+          <ToastContainer />
         </div>
       </div>
     </div>
   );
 }
+
+// Uncomment if using PropTypes
+// DetailPage.propTypes = {
+//   // Add your prop types here
+// };

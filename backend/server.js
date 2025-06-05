@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import path from  'path';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -16,7 +17,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+app.use(helmet)
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODBCONN;
@@ -60,8 +62,14 @@ app.use('/api/inventory', inventory);
 app.use('/api/upload', upload);
 
 app.get('/test', (req,res)=> res.send("test"));
+import fs from 'fs';
 
-// Start HTTP server
+const deviceUploadDir = path.join(process.cwd(), 'uploads', 'devices');
+if (!fs.existsSync(deviceUploadDir)) {
+  fs.mkdirSync(deviceUploadDir, { recursive: true });
+  console.log('📁 Created uploads/devices directory');
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 HTTP server running on port ${PORT}`);

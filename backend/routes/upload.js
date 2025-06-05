@@ -1,35 +1,33 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { upload } from '../middleware/imgStorage.js';
+import { multiUpload } from '../middleware/imgStorage.js';
+import path from 'path';
 
 const router = express.Router();
 
-const ImageSchema = new mongoose.Schema({
-  name: String,
-  img: {
-    data: Buffer,
-    contentType: String,
-  },
+const DeviceImageSchema = new mongoose.Schema({
+  deviceId: String,
+  images: [String],
+  createdAt: { type: Date, default: Date.now }
 });
 
-const ImageModel = mongoose.model('Image', ImageSchema);
+const DeviceImageModel = mongoose.model('DeviceImage', DeviceImageSchema);
 
-
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/upload', multiUpload, async (req, res) => {
   try {
-    const newImage = new ImageModel({
-      name: req.body.name || 'Untitled',
-      img: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-      },
-    });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: 'No files uploaded' });
+    }
 
-    await newImage.save();
-    res.status(200).json({ message: 'Image uploaded successfully.' });
+    const filenames = req.files.map(file => file.filename); 
+
+    res.status(200).json({
+      message: 'Images uploaded successfully',
+      images: filenames
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to upload image' });
+    res.status(500).json({ error: 'Failed to upload images' });
   }
 });
 
