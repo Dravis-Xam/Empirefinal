@@ -70,7 +70,7 @@ export default function Header() {
                 <span></span>
             </button>
 
-            {currentPath === paths['/'] &&<span onClick={()=>navigate('/search')}>
+            {currentPath === paths['/'] &&<span className="search-link" onClick={()=>navigate('/search')}>
                 <FaSearch />{ width >= 770 ? 'Find the phone of your choice' : 'Search'}
             </span>}
             

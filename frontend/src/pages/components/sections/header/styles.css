@@ -45,6 +45,14 @@ header h1:hover {
   transition: all 0.3s ease;
 }
 
+.search-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-align: center;
+}
+
 .leftTop span:hover {
   color: var(--accent-secondary);
   background-color: var(--blue-light); /* Blue tint on hover */
