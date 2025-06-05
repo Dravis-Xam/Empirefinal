@@ -55,8 +55,10 @@ header h1:hover {
   padding: 0 10px;
 }
 
-.search-link {
-  border: .1px solid var(--border-secondary);
+.search-link:hover {
+  border: .4px solid var(--border-secondary);
+  padding: 0 20px;
+  border-radius: 20px;
 }
 
 .leftTop span:hover {
