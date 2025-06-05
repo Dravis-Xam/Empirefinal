@@ -38,7 +38,7 @@ export default function DeviceGallery() {
 
         const data = await res.json();
         if (Array.isArray(data)) {
-          data.forEach(item => console.log(item))//log device
+          data.map((item) => console.log(item))//log device
           setDevices(data);
         } else {
           setError('Invalid data format: expected an array of devices');

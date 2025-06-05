@@ -81,7 +81,7 @@ export default function DetailPage() {
     toast.success("Item removed")
   };
 
-  device.details.colors.forEach(item => console.log(item));
+  device.details.colors.map((item) => console.log(item));
 
   return (
     <div className="detailPage">
