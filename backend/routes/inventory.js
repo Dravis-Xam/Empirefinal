@@ -81,7 +81,7 @@ router.patch('/devices/update/:id', authenticateToken, authorizeRole('inventory 
   }
 });
 */
-router.post("/devices/add", upload.array("images", 10), async (req, res) => {
+router.post("/devices/add", upload.array("images", 10), authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const {
       deviceId,
@@ -95,9 +95,7 @@ router.post("/devices/add", upload.array("images", 10), async (req, res) => {
 
     const details = JSON.parse(req.body.details);
 
-    const imagePaths = req.files.map((file) =>
-      path.join("uploads", "devices", file.filename)
-    );
+    const cloudinaryUrls = req.files.map(file => file.path); // full Cloudinary URLs
 
     const device = new Device({
       deviceId,
@@ -109,7 +107,7 @@ router.post("/devices/add", upload.array("images", 10), async (req, res) => {
       featured: featured === "true" || featured === true,
       details: {
         ...details,
-        images: imagePaths, 
+        images: cloudinaryUrls, // store full Cloudinary URLs
       },
     });
 
@@ -122,18 +120,18 @@ router.post("/devices/add", upload.array("images", 10), async (req, res) => {
 });
 
 
-router.put("/devices/update/:id", upload.array("images", 5), async (req, res) => {
+router.put("/devices/update/:id", upload.array("images", 5), authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const details = JSON.parse(req.body.details);
-    const imagePaths = req.files.map((file) => `/uploads/devices/${file.filename}`);
+    const cloudinaryUrls = req.files.map(file => file.path); // Cloudinary URLs
 
     const updateData = {
       ...req.body,
       details,
     };
 
-    if (imagePaths.length > 0) {
-      updateData.images = imagePaths;
+    if (cloudinaryUrls.length > 0) {
+      updateData.details.images = cloudinaryUrls;
     }
 
     const updated = await Device.findOneAndUpdate(

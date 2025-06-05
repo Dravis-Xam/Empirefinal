@@ -53,20 +53,17 @@ export default function DetailPage() {
     return () => clearTimeout(timeout);
   }, []);
 
-  useEffect(() => {
-    if (!deviceData) return;
+ useEffect(() => {
+  if (!deviceData) return;
 
-    const deviceImages = deviceData.details.images || [];
-    const formattedImages = (deviceImages || []).map(img => {
-      if (!img) return null;
-      if (img.startsWith('http')) return img;
-      if (img.startsWith('/')) return `${BASE_URL}${img}`;
-      return `${BASE_URL}/uploads/devices/${img.replace(/^\/?uploads\/devices\//, '')}`;
-    }).filter(Boolean); 
-    const finalImages = formattedImages.length > 0 ? formattedImages : [fallbackImage];
-    setMainImage(formattedImages[0]);
-    setImages(formattedImages);
-  }, [deviceData]);
+  const deviceImages = deviceData.details?.images || [];
+  const validImages = deviceImages.filter(img => typeof img === 'string' && img.startsWith('http'));
+  const finalImages = validImages.length > 0 ? validImages : [fallbackImage];
+
+  setMainImage(finalImages[0]);
+  setImages(finalImages);
+}, [deviceData]);
+
 
   const handleColorSelect = (color) => {
     toast.info(`Selected color: ${color}`);

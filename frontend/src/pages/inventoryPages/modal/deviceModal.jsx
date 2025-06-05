@@ -3,7 +3,6 @@ import './modal.css';
 import { toast } from "../../../modules/Store/ToastStore";
 
 const generateUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
-
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const DeviceModal = ({ device, onClose, onSave }) => {
@@ -16,6 +15,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     amountInStock: device?.amountInStock || 0,
     featured: device?.featured || false,
     details: {
+      imageFiles: device?.details?.images || [],
       RAM: device?.details?.RAM || 0,
       storage: device?.details?.storage || 0,
       os: device?.details?.os || "",
@@ -39,15 +39,15 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       const key = name.split(".")[1];
       const parsedValue = type === "number" ? Number(value) : value;
 
-      setUpdatedDevice((prev) => ({
+      setUpdatedDevice(prev => ({
         ...prev,
         details: {
-          ...(prev.details || {}),
+          ...prev.details,
           [key]: parsedValue,
         },
       }));
     } else {
-      setUpdatedDevice((prev) => ({
+      setUpdatedDevice(prev => ({
         ...prev,
         [name]: type === "checkbox" ? checked : (type === "number" ? Number(value) : value),
       }));
@@ -57,16 +57,13 @@ const DeviceModal = ({ device, onClose, onSave }) => {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setImageFiles(files);
-
-    const urls = files.map((file) => URL.createObjectURL(file));
-    setPreviewURLs(urls);
+    setPreviewURLs(files.map(file => URL.createObjectURL(file)));
   };
 
   const isEditing = !!device;
   const endpoint = isEditing
-    ? `${BASE_URL}/inventory/devices/update/${updatedDevice._id || updatedDevice.deviceId}`
+    ? `${BASE_URL}/inventory/devices/update/${device._id || device.deviceId}`
     : `${BASE_URL}/inventory/devices/add`;
-
   const method = isEditing ? "PUT" : "POST";
 
   const handleSubmit = async () => {
@@ -74,78 +71,67 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       let uploadedImageUrls = [];
 
       if (imageFiles.length > 0) {
-        try {
-          const uploadFormData = new FormData();
-          imageFiles.forEach(file => uploadFormData.append('images', file));
-          
-          const uploadResponse = await fetch(`${BASE_URL}/uploads`, {
-            method: 'POST',
-            credentials: 'include',
-            body: uploadFormData,
-          });
+        const form = new FormData();
+        imageFiles.forEach(file => form.append('images', file));
 
-          if (!uploadResponse.ok) {
-            const errorData = await uploadResponse.json().catch(() => ({}));
-            throw new Error(errorData.error || 'Image upload failed (server error)');
-          }
+        const uploadRes = await fetch(`${BASE_URL}/api/upload`, {
+          method: 'POST',
+          body: form,
+          credentials: 'include',
+        });
 
-          const uploadResult = await uploadResponse.json();
-
-          // Expecting returned format: { images: ['https://...img1', 'https://...img2'] }
-          uploadedImageUrls = uploadResult.images || [];
-        } catch (uploadError) {
-          toast.error("Image upload failed:", uploadError);
-          throw new Error(`Image upload failed: ${uploadError.message}`);
+        if (!uploadRes.ok) {
+          const errorData = await uploadRes.json().catch(() => ({}));
+          throw new Error(errorData?.error || 'Cloudinary image upload failed.');
         }
+
+        const result = await uploadRes.json();
+        uploadedImageUrls = result.images || [];
       }
 
-      const finalDeviceData = {
+      const finalData = {
         ...updatedDevice,
         details: {
           ...updatedDevice.details,
           images: [
-            ...(updatedDevice.details?.images?.filter(img => typeof img === 'string') || []),
-            ...uploadedImageUrls.filter(url => typeof url === 'string')
-          ].filter(Boolean),
+            ...(updatedDevice.details?.images || []),
+            ...uploadedImageUrls,
+          ],
         },
       };
 
       const formData = new FormData();
-      Object.entries(finalDeviceData).forEach(([key, value]) => {
-        if (value === undefined || value === null) return;
+      for (const [key, value] of Object.entries(finalData)) {
+        formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
+      }
 
-        formData.append(
-          key,
-          typeof value === 'object' ? JSON.stringify(value) : value
-        );
-      });
-
-      const response = await fetch(endpoint, {
+      const res = await fetch(endpoint, {
         method,
-        credentials: "include",
+        credentials: 'include',
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Error: ${res.status}`);
       }
 
-      const savedDevice = await response.json();
-      onSave(savedDevice.device);
+      const data = await res.json();
+      toast.success("Device saved successfully!");
+      onSave(data.device);
       onClose();
 
     } catch (err) {
-      console.error("Submission error:", err);
-      toast.error(`Operation failed: ${err.message}`);
+      console.error("Save error:", err);
+      toast.error(`Save failed: ${err.message}`);
     }
   };
-
 
   return (
     <div className="modal-backdrop">
       <div className="modal">
-        <h2>Update Device</h2>
+        <h2>{isEditing ? "Edit Device" : "Add Device"}</h2>
+
         <div className="grid">
           <label>Brand:</label>
           <input className="modal-input-text" name="brand" value={updatedDevice.brand} onChange={handleChange} />
@@ -179,81 +165,67 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
           <label>Camera (comma separated):</label>
           <input className="modal-input-text"
-            name="details.CAMResolution"
-            value={updatedDevice.details.CAMResolution.join(", ")}
-            onChange={(e) => {
-              const CAMResolution = e.target.value.split(",").map((s) => s.trim());
-              setUpdatedDevice((prev) => ({
-                ...prev,
-                details: {
-                  ...prev.details,
-                  CAMResolution,
-                },
-              }));
-            }}
+            value={updatedDevice.details.CAMResolution.join(', ')}
+            onChange={e => setUpdatedDevice(prev => ({
+              ...prev,
+              details: {
+                ...prev.details,
+                CAMResolution: e.target.value.split(',').map(s => s.trim()),
+              }
+            }))}
           />
-          
+
           <label>Colors (comma separated):</label>
           <input className="modal-input-text"
-            name="details.colors"
-            value={updatedDevice.details.colors.join(", ")}
-            onChange={(e) => {
-              const colors = e.target.value.split(",").map((s) => s.trim());
-              setUpdatedDevice((prev) => ({
-                ...prev,
-                details: {
-                  ...prev.details,
-                  colors,
-                },
-              }));
-            }}
+            value={updatedDevice.details.colors.join(', ')}
+            onChange={e => setUpdatedDevice(prev => ({
+              ...prev,
+              details: {
+                ...prev.details,
+                colors: e.target.value.split(',').map(s => s.trim()),
+              }
+            }))}
           />
 
           <label>Battery Life (Hours):</label>
           <input className="modal-input-number"
             type="number"
             value={updatedDevice.details.batteryLife.hours}
-            onChange={(e) => {
-              const hours = Number(e.target.value);
-              setUpdatedDevice((prev) => ({
-                ...prev,
-                details: {
-                  ...prev.details,
-                  batteryLife: {
-                    ...prev.details.batteryLife,
-                    hours,
-                  },
+            onChange={e => setUpdatedDevice(prev => ({
+              ...prev,
+              details: {
+                ...prev.details,
+                batteryLife: {
+                  ...prev.details.batteryLife,
+                  hours: Number(e.target.value),
                 },
-              }));
-            }}
+              },
+            }))}
           />
 
           <label>Battery Life (%):</label>
           <input className="modal-input-number"
             type="number"
             value={updatedDevice.details.batteryLife.percentage}
-            onChange={(e) => {
-              const percentage = Number(e.target.value);
-              setUpdatedDevice((prev) => ({
-                ...prev,
-                details: {
-                  ...prev.details,
-                  batteryLife: {
-                    ...prev.details.batteryLife,
-                    percentage,
-                  },
+            onChange={e => setUpdatedDevice(prev => ({
+              ...prev,
+              details: {
+                ...prev.details,
+                batteryLife: {
+                  ...prev.details.batteryLife,
+                  percentage: Number(e.target.value),
                 },
-              }));
-            }}
+              },
+            }))}
           />
 
           <label>Upload Images:</label>
-          <input className="modal-input-file" type="file" multiple accept="image/*" onChange={handleImageChange} />
+          <input className="modal-input-file" type="file" accept="image/*" multiple onChange={handleImageChange} />
 
           {previewURLs.length > 0 && (
             <div className="image-preview">
-              {previewURLs.map((url, idx) => (
-                <img key={idx} src={url} alt={`Preview ${idx + 1}`} className="preview-thumb" />
+              {previewURLs.map((src, i) => (
+                <img key={i} src={src} alt={`Preview ${i + 1}`} className="preview-thumb" />
               ))}
             </div>
           )}
