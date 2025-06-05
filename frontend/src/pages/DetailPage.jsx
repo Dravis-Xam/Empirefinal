@@ -21,7 +21,7 @@ export default function DetailPage() {
   const fallbackImage = '/public/phones/samsungA56.jpg'; 
 
   const [loading, setLoading] = useState(true);
-  const [mainImage, setMainImage] = useState(fallbackImage);
+  const [mainImage, setMainImage] = useState(null);
   const [images, setImages] = useState([]);
 
   // Memoized device data with fallbacks
@@ -174,28 +174,33 @@ export default function DetailPage() {
         </div>
 
         <div className="imageSection">
+          {mainImage ? (
           <img 
             src={mainImage} 
             alt={`${deviceData.brand} ${deviceData.model}`} 
             className="mainImage"
             loading="lazy"
           />
-          {images.length > 1 && (
-            <div className="thumbnailRow">
-              {images.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`Thumbnail ${i + 1} of ${deviceData.brand} ${deviceData.model}`}
-                  className={`thumbnail ${img === mainImage ? 'active' : ''}`}
-                  onClick={() => setMainImage(img)}
-                  onKeyDown={(e) => e.key === 'Enter' && setMainImage(img)}
-                  tabIndex={0}
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          )}
+        ) : (
+          fallbackLottie
+        )}
+
+        {images.length > 1 && (
+          <div className="thumbnailRow">
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`Thumbnail ${i + 1} of ${deviceData.brand} ${deviceData.model}`}
+                className={`thumbnail ${img === mainImage ? 'active' : ''}`}
+                onClick={() => setMainImage(img)}
+                onKeyDown={(e) => e.key === 'Enter' && setMainImage(img)}
+                tabIndex={0}
+                loading="lazy"
+              />
+            ))}
+          </div>
+        )}
         </div>
 
         <div className="productPriceBlock">

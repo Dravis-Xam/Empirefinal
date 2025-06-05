@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './PhoneCard.css';
 import { useNavigate } from "react-router-dom";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function PhoneCard({ device }) {
   const {
@@ -8,21 +9,32 @@ export default function PhoneCard({ device }) {
     build = 'N/A',
     model = 'N/A',
     price = 0,
-    details = {},
-    featured = false
+    featured = false,
+    details = {}
   } = device || {};
 
-  const fallbackImage = 'https://archive.org/download/placeholder-image/placeholder-image.jpg'; 
-  const images = Array.isArray(details.images) ? details.images.filter(url => typeof url === 'string') : [];
-  const hasImages = images.length > 0;
+  const navigate = useNavigate();
 
-  const [mainImage, setMainImage] = useState(hasImages ? images[0] : fallbackImage);
+  const images = Array.isArray(details.images)
+    ? details.images.filter(url => typeof url === 'string')
+    : [];
+
+  const hasImages = images.length > 0;
+  const fallbackImage = (
+    <DotLottieReact
+      src="https://lottie.host/d907efa7-5bff-49e8-8879-72d8c97a44d7/BJJL5Xq85T.lottie"
+      loop
+      autoplay
+    />
+  );
+
+  const [mainImage, setMainImage] = useState(hasImages ? images[0] : null);
 
   useEffect(() => {
     if (!hasImages) return;
 
     const intervalId = setInterval(() => {
-      setMainImage((current) => {
+      setMainImage(current => {
         const currentIndex = images.indexOf(current);
         const nextIndex = (currentIndex + 1) % images.length;
         return images[nextIndex];
@@ -30,34 +42,34 @@ export default function PhoneCard({ device }) {
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, [images, hasImages]);
-
-  const battery = details.batteryLife || { hours: 'N/A', p: 'N/A' };
-  const navigate = useNavigate();
+  }, [hasImages, images]);
 
   const handleViewMore = () => {
     navigate('/details', { state: { device } });
   };
 
+  const battery = details.batteryLife || { hours: 'N/A', percentage: 'N/A' };
+
   return (
     <div className={`phoneCard ${featured ? 'featured' : ''}`}>
       <div className="imageSection">
-        <img
-          src={mainImage}
-          alt={`${brand} ${model}`}
-          className="mainImage"
-        />
-        <div className="thumbnailRow">
-          {images.map((img, i) => (
-            <img
-              key={i}
-              src={img}
-              alt={`thumb-${i}`}
-              className={`thumbnail ${img === mainImage ? "active" : ""}`}
-              onClick={() => setMainImage(img)}
-            />
-          ))}
-        </div>
+        {mainImage
+          ? <img src={mainImage} alt={`${brand} ${model}`} className="mainImage" />
+          : fallbackImage}
+
+        {hasImages && (
+          <div className="thumbnailRow">
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`thumb-${i}`}
+                className={`thumbnail ${img === mainImage ? "active" : ""}`}
+                onClick={() => setMainImage(img)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="secondClassDetails">
