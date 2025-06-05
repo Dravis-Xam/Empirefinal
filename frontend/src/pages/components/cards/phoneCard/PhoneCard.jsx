@@ -12,7 +12,7 @@ export default function PhoneCard({ device }) {
     featured = false
   } = device || {};
 
-  const fallbackImage = 'https://via.placeholder.com/300x300?text=No+Image'; 
+  const fallbackImage = 'https://archive.org/download/placeholder-image/placeholder-image.jpg'; 
   const images = Array.isArray(details.images) ? details.images.filter(url => typeof url === 'string') : [];
   const hasImages = images.length > 0;
 
