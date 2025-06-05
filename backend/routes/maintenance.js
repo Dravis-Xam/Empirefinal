@@ -105,7 +105,7 @@ router.get('/get-daily-stats', authenticateToken, authorizeRole('developer'), as
 
 router.post('/errors', async (req, res) => {
   try {
-    const savedError = await ErrorStruct.create(req.body);
+    const savedError = await ErrorLog.create(req.body);
     res.status(201).json({ message: 'Error logged successfully.' });
   } catch (err) {
     console.error('Failed to log error:', err);
@@ -141,7 +141,7 @@ router.get('/errors/frequency', authenticateToken, authorizeRole('developer'), a
   try {
     const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
 
-    const frequencyData = await ErrorStruct.aggregate([
+    const frequencyData = await ErrorLog.aggregate([
       { $match: { timestamp: { $gte: fiveMinutesAgo } } },
       { $group: { _id: '$level', count: { $sum: 1 } } }
     ]);
