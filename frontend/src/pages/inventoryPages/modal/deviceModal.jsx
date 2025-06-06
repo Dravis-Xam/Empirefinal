@@ -68,18 +68,20 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
   const [l, setL] = useState(false);
 
-  const handleSubmit = async () => {
-  try {
+
+  const uploadImage = async () => {
     let uploadedImageUrls = [];
     setL(true)
     if (imageFiles.length > 0) {
-      const form = new FormData();
-      imageFiles.forEach(file => form.append('images', file));
+      const imageData = new FormData();
+      imageFiles.forEach(file => {
+        form.append('images', file);
+        form.append('upload_preset', "e_devices");
+      });
 
-      const uploadRes = await fetch(`${BASE_URL}/upload`, {
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/dxvnnhktw/upload`, {
         method: 'POST',
-        body: form,
-        credentials: 'include',
+        body: imageData,
       });
 
       if (!uploadRes.ok) {
@@ -96,6 +98,13 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
       uploadedImageUrls = result.images;
     }
+    return uploadedImageUrls
+  }
+
+  const handleSubmit = async () => {
+  try {
+
+    let uploadedImageUrls = await uploadImage();
 
     const finalData = {
       ...updatedDevice,
