@@ -121,7 +121,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
     const formData = new FormData();
-    for (const [key, value] of Object.entries(finalData)) {
+
+    for (const [key, value] of Object.entries(updatedDevice)) {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
     
