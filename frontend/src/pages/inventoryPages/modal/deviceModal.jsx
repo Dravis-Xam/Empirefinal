@@ -120,13 +120,21 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
+    const updatedPayload = {
+      ...updatedDevice,
+      details: {
+        ...updatedDevice.details,
+        images: uploadedImageUrls.length > 0 ? uploadedImageUrls : updatedDevice.details.images,
+      },
+    };
+
     const formData = new FormData();
 
-    for (const [key, value] of Object.entries(updatedDevice)) {
+    for (const [key, value] of Object.entries(updatedPayload)) {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
     
-    console.log(`updated device : ${updatedDevice.details.images}`);//test
+    console.log(updatedPayload);//test
 
     const res = await fetch(endpoint, {
       method,
@@ -149,6 +157,12 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     toast.error(`Save failed: ${err.message}`);
   }
 };
+
+useEffect(() => {
+  if (!imageFiles.length && device?.details?.images?.length) {
+    setPreviewURLs(device.details.images);
+  }
+}, [imageFiles, device]);
 
   return (
     <div className="modal-backdrop">
@@ -252,6 +266,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
               ))}
             </div>
           )}
+
         </div>
 
         <div className="modal-actions light">
