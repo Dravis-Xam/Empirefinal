@@ -15,7 +15,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     amountInStock: device?.amountInStock || 0,
     featured: device?.featured || false,
     details: {
-      imageFiles: device?.details?.images || [],
+      images: device?.details?.images || [],
       RAM: device?.details?.RAM || 0,
       storage: device?.details?.storage || 0,
       os: device?.details?.os || "",
@@ -30,7 +30,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
   });
 
   const [imageFiles, setImageFiles] = useState([]);
-  const [previewURLs, setPreviewURLs] = useState([]);
+  const [previewURLs, setPreviewURLs] = useState(device?.details?.images || []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -96,7 +96,6 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
       const urls = results.map((result) => result.url);
 
-      //console.log(urls);
 
       if (results.length === 0) {
         toast.error("Upload succeeded but no image URLs returned.");
@@ -119,27 +118,16 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     let uploadedImageUrls = await uploadImage();
 
-    //console.log(uploadedImageUrls);
-
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
-    const finalData = {
-      ...updatedDevice,
-      details: {
-        ...updatedDevice.details,
-        images: [
-          ...(updatedDevice.details?.images || []),
-          ...uploadedImageUrls,
-        ],
-      },
-    };
-
-    console.log(finalData);
+    console.log(finalData);//test
 
     const formData = new FormData();
     for (const [key, value] of Object.entries(finalData)) {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
+    
+    console.log(formData);//test
 
     const res = await fetch(endpoint, {
       method,
