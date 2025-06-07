@@ -19,7 +19,6 @@ export default function PhoneCard({ device }) {
     ? details.images.filter(url => typeof url === 'string')
     : [];
 
-  console.log(images); //test
 
   const hasImages = images.length > 0;
   const fallbackImage = (

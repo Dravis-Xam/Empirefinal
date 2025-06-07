@@ -60,11 +60,7 @@ export default function DetailPage() {
   
   const validImages = device.details?.images;
 
-  console.log(validImages);//test
-
   const finalImages = validImages.length > 0 ? validImages : [fallbackImage];
-
-  console.log(finalImages);//test
 
   setMainImage(finalImages[0]);
   setImages(finalImages);
