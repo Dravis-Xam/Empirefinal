@@ -126,7 +126,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
     
-    console.log(`form data : ${formData}`);//test
+    console.log(`updated device : ${updatedDevice}`);//test
 
     const res = await fetch(endpoint, {
       method,
