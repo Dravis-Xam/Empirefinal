@@ -70,41 +70,56 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
 
   const uploadImage = async () => {
-    let uploadedImageUrls = [];
-    setL(true)
-    if (imageFiles.length > 0) {
-      const imageData = new FormData();
-      imageFiles.forEach(file => {
-        form.append('images', file);
-        form.append('upload_preset', "e_devices");
+    setL(true);
+
+    if (imageFiles.length === 0) return [];
+
+    try {
+      const uploadPromises = imageFiles.map( async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "e_devices");
+
+        return fetch("https://api.cloudinary.com/v1_1/dxvnnhktw/image/upload", {
+          method: "POST",
+          body: formData,
+        }).then(async (res) => {
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData?.error?.message || "Upload failed");
+          }
+          return res.json();
+        });
       });
 
-      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/dxvnnhktw/upload`, {
-        method: 'POST',
-        body: imageData,
-      });
+      const results = await Promise.all(uploadPromises);
 
-      if (!uploadRes.ok) {
-        const errorData = await uploadRes.json().catch(() => ({}));
-        throw new Error(errorData?.error || 'Cloudinary image upload failed.');
+      const urls = results
+        .map((result) => result.secure_url)
+        .filter((url) => !!url);
+
+      if (urls.length === 0) {
+        toast.error("Upload succeeded but no image URLs returned.");
+        return [];
       }
 
-      const result = await uploadRes.json();
+      return urls;
 
-      if (!Array.isArray(result.images) || result.images.length === 0) {
-        toast.error("Upload succeeded but returned no image URLs.");
-        return;
-      }
-
-      uploadedImageUrls = result.images;
+    } catch (error) {
+      toast.error(`Upload error: ${error.message}`);
+      return [];
+    } finally {
+      setL(false);
     }
-    return uploadedImageUrls
-  }
+  };
+
 
   const handleSubmit = async () => {
   try {
 
     let uploadedImageUrls = await uploadImage();
+
+    if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
     const finalData = {
       ...updatedDevice,
