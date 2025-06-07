@@ -19,53 +19,62 @@ router.get('/all', authenticateToken, authorizeRole('inventory manager'), async 
   }
 });
 
-router.post("/devices/add", authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
-  try {
-    const data = req.body;
+router.post(
+  "/devices/add",
+  authenticateToken,
+  authorizeRole('inventory manager'),
+  async (req, res) => {
+    try {
+      const device = new Device({
+        ...req.body,
+        deviceId: uuidv4(),
+      });
 
-    const device = new Device({
-      ...data,
-      deviceId: uuidv4(),
-    });
-
-    await device.save();
-    res.status(201).json(device);
-  } catch (error) {
-    console.error("Error saving device:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-import multer from 'multer';
-const upload = multer(); 
-
-router.put("/devices/update/:id", authenticateToken, authorizeRole('inventory manager'), upload.none(), async (req, res) => {
-  try {
-    const d = {};
-
-    for (const [key, val] of Object.entries(req.body)) {
-      try {
-        d[key] = JSON.parse(val);
-      } catch {
-        d[key] = val;
-      }
+      await device.save();
+      res.status(201).json(device);
+    } catch (error) {
+      console.error("Error saving device:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-
-    const updated = await Device.findOneAndUpdate(
-      { deviceId: req.params.id },
-      d,
-      { new: true }
-    );
-
-    if (!updated) return res.status(404).json({ message: "Device not found" });
-
-    res.json(updated);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Internal server error" });
   }
-});
+);
 
+router.put(
+  "/devices/update/:id",
+  authenticateToken,
+  authorizeRole('inventory manager'),
+  upload.none(),
+  async (req, res) => {
+    try {
+      const updateData = req.body;
+      
+      for (const [key, val] of Object.entries(updateData)) {
+        if (typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
+          try {
+            updateData[key] = JSON.parse(val);
+          } catch {
+            continue;
+          }
+        }
+      }
+
+      const updated = await Device.findOneAndUpdate(
+        { deviceId: req.params.id },
+        updateData,
+        { new: true }
+      );
+
+      if (!updated) {
+        return res.status(404).json({ message: "Device not found" });
+      }
+
+      res.json(updated);
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
 
 router.delete('/remove/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
