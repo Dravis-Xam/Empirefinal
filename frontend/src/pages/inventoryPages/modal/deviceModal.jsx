@@ -212,7 +212,7 @@ useEffect(() => {
 
           <label>Colors (comma separated):</label>
           <input className="modal-input-text"
-            value={updatedDevice?.colors?.join(', ')}
+            value={updatedDevice?.colors?.join(', ') || ''}
             onChange={e => setUpdatedDevice(prev => ({
               ...prev,
               details: {
