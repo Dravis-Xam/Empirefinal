@@ -142,7 +142,7 @@ export default function DeviceGallery() {
     touchAction: 'pan-y',
   };
 
-  devices.map(device=>console.log(device.details.image)) //test
+  devices.map(device=>console.log(device))
 
   return (
     <div className="phoneCardsContainer" style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
