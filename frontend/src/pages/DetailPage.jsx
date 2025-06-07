@@ -136,7 +136,7 @@ export default function DetailPage() {
               <li>
                 <strong>Colors:</strong>
                 <div className="color-options" role="group" aria-label="Available colors">
-                  {deviceData.details.colors.slice(0, 2).map((color, index) => (
+                  {deviceData.colors.slice(0, 2).map((color, index) => (
                     <button 
                       key={index}
                       className="color-button"
