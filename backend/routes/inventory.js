@@ -43,7 +43,6 @@ router.put(
   "/devices/update/:id",
   authenticateToken,
   authorizeRole('inventory manager'),
-  upload.none(),
   async (req, res) => {
     try {
       const updateData = req.body;
