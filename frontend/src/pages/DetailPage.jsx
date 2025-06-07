@@ -65,7 +65,7 @@ export default function DetailPage() {
 
 
   const handleColorSelect = (color) => {
-    toast.success(`Selected color: ${color}`);
+    toast.info(`Selected color: ${color}`);
     sc(color); //select color
   };
 
