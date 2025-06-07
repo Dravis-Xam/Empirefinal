@@ -120,14 +120,12 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
-    console.log(finalData);//test
-
     const formData = new FormData();
     for (const [key, value] of Object.entries(finalData)) {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
     
-    console.log(formData);//test
+    console.log(`form data : ${formData}`);//test
 
     const res = await fetch(endpoint, {
       method,
