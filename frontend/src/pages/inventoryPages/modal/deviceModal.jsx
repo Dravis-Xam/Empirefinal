@@ -78,7 +78,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       const uploadPromises = imageFiles.map( async (file) => {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "e_devices");
+        formData.append("upload_preset", "e_devices_unsigned");
 
         return fetch("https://api.cloudinary.com/v1_1/dxvnnhktw/image/upload", {
           method: "POST",
