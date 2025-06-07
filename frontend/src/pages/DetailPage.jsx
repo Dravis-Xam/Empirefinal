@@ -132,7 +132,7 @@ export default function DetailPage() {
       <div className="productLayout">
         <div className="productDetails">
           <ul>
-            {deviceData.details.colors.length > 0 && (
+            {deviceData.colors.length > 0 && (
               <li>
                 <strong>Colors:</strong>
                 <div className="color-options" role="group" aria-label="Available colors">
