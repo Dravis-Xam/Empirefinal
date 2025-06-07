@@ -134,7 +134,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
       formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
     
-    console.log(updatedPayload);//test
+    console.log(updatedPayload);//test - correctly set - however backend database doesnot reflect em changes
 
     const res = await fetch(endpoint, {
       method,
@@ -144,6 +144,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
+      toast.error(err.message + `${res.status}`)
       throw new Error(err.message || `Error: ${res.status}`);
     }
 

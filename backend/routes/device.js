@@ -3,12 +3,21 @@ import { v4 as uuidv4 } from 'uuid';
 import Device from '../models/device.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
+import multer from 'multer';
 
+const upload = multer();
 const router = express.Router();
 
-router.post('/add', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
+router.post('/add', authenticateToken, authorizeRole('inventory manager'), upload.none(), async (req, res) => {
   try {
     const data  = req.body;
+
+     Object.keys(data).forEach(key => {
+      try {
+        data[key] = JSON.parse(data[key]);
+      } catch (e) {}
+    });
+
     if (!data || !data.build) {
       return res.status(400).json({ message: 'Missing device data or build property' });
     }
@@ -17,12 +26,9 @@ router.post('/add', authenticateToken, authorizeRole('inventory manager'), async
 
     if (existDevice) {
       return res.status(409).json({ message: 'Device already exists' });
-    }
-
+    }    
+   // console.log(data); //test
     
-    console.log(data); //test
-    
-
     const device = await Device.create({
       id: uuidv4(),
       brand: data.brand,
@@ -35,8 +41,7 @@ router.post('/add', authenticateToken, authorizeRole('inventory manager'), async
       rating: data.rating,
       amountInStock: data.amount,
     });
-
-    console.log(device) //test
+   // console.log(device) //test - good only adds id and nothings else
 
     res.status(200).json(device);
   } catch (error) {
@@ -67,11 +72,17 @@ router.get('/get/:id', async (req, res) => {
   }
 });
 
-router.put('/update/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
+router.put('/update/:id', authenticateToken, authorizeRole('inventory manager'), upload.none(), async (req, res) => {
   try {
     const  data  = req.body;
 
-    console.log(data); //test
+    //console.log(data); //test - good - does not alter data b4 submission
+
+    Object.keys(data).forEach(key => {
+      try {
+        data[key] = JSON.parse(data[key]);
+      } catch (e) {}
+    });
 
     const { id } = req.params;
     const device = await Device.findOneAndUpdate({ id }, data, { new: true });

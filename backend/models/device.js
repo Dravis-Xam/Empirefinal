@@ -27,7 +27,7 @@ const deviceSchema = new Schema({
     min: 0,
   },
   details: {
-    images: {
+    images: {//set to receive image url array of strings  - good
       type: [String],
       default: [],
     },
@@ -35,7 +35,7 @@ const deviceSchema = new Schema({
       type: String,
     },
     color: {
-      type: [String]
+      type: [String] //set to receive colors array of strings  - good
     },
     storage: {
       type: Number
