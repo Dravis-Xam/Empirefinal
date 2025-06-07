@@ -57,13 +57,9 @@ export default function DetailPage() {
 
  useEffect(() => {
   if (!deviceData) return;
-  
-  const validImages = device.images;
 
-  const finalImages = validImages.length > 0 ? validImages : [fallbackImage];
-
-  setMainImage(finalImages[0]);
-  setImages(finalImages);
+  setMainImage(deviceData.images[0]);
+  setImages(deviceData.images);
 }, [deviceData]);
 
 
@@ -176,7 +172,7 @@ export default function DetailPage() {
         </div>
 
         <div className="imageSection">
-          {mainImage ? (
+          { !mainImage ? (
             <DotLottieReact
               src="https://lottie.host/d907efa7-5bff-49e8-8879-72d8c97a44d7/BJJL5Xq85T.lottie"
               loop
