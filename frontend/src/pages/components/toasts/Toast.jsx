@@ -1,4 +1,4 @@
-
+/*
 export const toast = (() => {
   const container = document.getElementById('toast-container');
 
@@ -29,3 +29,4 @@ export const toast = (() => {
     info: (msg) => createToast(msg, 'info'),
   };
 })();
+*/
