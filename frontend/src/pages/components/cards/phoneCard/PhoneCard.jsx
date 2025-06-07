@@ -5,12 +5,12 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function PhoneCard({ device }) {
   const {
-    brand = 'Unknown',
-    build = 'N/A',
-    model = 'N/A',
-    price = 0,
-    featured = false,
-    details = {}
+    brand,
+    build,
+    model,
+    price ,
+    featured,
+    details
   } = device || {};
 
   const navigate = useNavigate();
@@ -18,6 +18,8 @@ export default function PhoneCard({ device }) {
   const images = Array.isArray(details.images)
     ? details.images.filter(url => typeof url === 'string')
     : [];
+
+console.log(images);
 
   const hasImages = images.length > 0;
   const fallbackImage = (
@@ -53,7 +55,7 @@ export default function PhoneCard({ device }) {
   return (
     <div className={`phoneCard ${featured ? 'featured' : ''}`}>
       <div className="imageSection">
-        {mainImage
+        {typeof mainImage === 'string'
           ? <img src={mainImage} alt={`${brand} ${model}`} className="mainImage" />
           : fallbackImage}
 
