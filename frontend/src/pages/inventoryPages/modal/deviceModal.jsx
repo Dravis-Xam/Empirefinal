@@ -62,8 +62,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
   const isEditing = !!device;
   const endpoint = isEditing
-    ? `${BASE_URL}/inventory/devices/update/${device._id || device.deviceId}`
-    : `${BASE_URL}/inventory/devices/add`;
+      ? `${BASE_URL}/inventory/devices/update/${device.deviceId}`
+      : `${BASE_URL}/inventory/devices/add`;
   const method = isEditing ? "PUT" : "POST";
 
   const [l, setL] = useState(false);
@@ -113,43 +113,44 @@ const DeviceModal = ({ device, onClose, onSave }) => {
   };
 
 
-  const handleSubmit = async () => {
+ const handleSubmit = async () => {
   try {
-
     let uploadedImageUrls = await uploadImage();
 
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
-    const updatedPayload = {
+    const payload = {
       ...updatedDevice,
       images: uploadedImageUrls.length > 0 ? uploadedImageUrls : updatedDevice.images,
     };
 
-    const formData = new FormData();
+    // Remove empty strings from arrays
+    payload.colors = payload.colors.filter(color => color.trim() !== '');
+    payload.details.CAMResolution = payload.details.CAMResolution.filter(res => res.trim() !== '');
 
-    for (const [key, value] of Object.entries(updatedPayload)) {
-      formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
-    }
-    
-    console.log(updatedPayload);//test - correctly set - however backend database doesnot reflect em changes
+    console.log("Submitting payload:", payload); // Debug log
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}` // Add if using token auth
+    };
 
     const res = await fetch(endpoint, {
       method,
       credentials: 'include',
-      body: formData,
+      headers,
+      body: JSON.stringify(payload)
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      toast.error(err.message + `${res.status}`)
-      throw new Error(err.message || `Error: ${res.status}`);
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
     }
 
     const data = await res.json();
     toast.success("Device saved successfully!");
     onSave(data);
     onClose();
-
   } catch (err) {
     console.error("Save error:", err);
     toast.error(`Save failed: ${err.message}`);

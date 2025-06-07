@@ -37,27 +37,34 @@ router.put(
         details
       } = req.body;
 
+      // Validate required fields
+      if (!brand || !model || price === undefined || amountInStock === undefined) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
       const updateData = {
-        ...(brand && { brand }),
-        ...(model && { model }),
+        brand,
+        model,
         ...(build && { build }),
-        ...(colors && { colors }),
-        ...(images && { images }),
-        ...(price && { price }),
-        ...(featured !== undefined && { featured }),
-        ...(amountInStock && { amountInStock }),
+        colors: colors || [],
+        images: images || [],
+        price,
+        featured: featured || false,
+        amountInStock,
         ...(details && {
           details: {
             ...(details.age && { age: details.age }),
             ...(details.storage && { storage: details.storage }),
             ...(details.RAM && { RAM: details.RAM }),
             ...(details.processorType && { processorType: details.processorType }),
-            ...(details.CAMResolution && { CAMResolution: details.CAMResolution }),
+            CAMResolution: details.CAMResolution || [],
             ...(details.os && { os: details.os }),
             ...(details.batteryLife && {
               batteryLife: {
                 ...(details.batteryLife.hours && { hours: details.batteryLife.hours }),
-                ...(details.batteryLife.percentage && { percentage: details.batteryLife.percentage })
+                ...(details.batteryLife.percentage && { 
+                  percentage: Math.min(Math.max(details.batteryLife.percentage, 0), 100) 
+                })
               }
             })
           }
@@ -67,7 +74,7 @@ router.put(
       const updated = await Device.findOneAndUpdate(
         { deviceId: req.params.id },
         updateData,
-        { new: true }
+        { new: true, runValidators: true }
       );
 
       if (!updated) {
@@ -76,8 +83,11 @@ router.put(
 
       res.json(updated);
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Update error:", e);
+      res.status(500).json({ 
+        message: "Internal server error",
+        error: e.message 
+      });
     }
   }
 );
@@ -95,42 +105,38 @@ router.post(
         colors,
         images,
         price,
-        featured,
+        featured = false,
         amountInStock,
-        details: {
-          age,
-          storage,
-          RAM,
-          processorType,
-          CAMResolution,
-          os,
-          batteryLife: {
-            hours: batteryHours,
-            percentage: batteryPercentage
-          }
-        }
+        details = {}
       } = req.body;
+
+      // Validate required fields
+      if (!brand || !model || !price || amountInStock === undefined) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
 
       const device = new Device({
         deviceId: uuidv4(),
         brand,
         model,
-        build: build || undefined, // Optional field
+        build: build || undefined,
         colors: colors || [],
         images: images || [],
         price,
-        featured: featured || false,
+        featured,
         amountInStock,
         details: {
-          age,
-          storage,
-          RAM,
-          processorType,
-          CAMResolution: CAMResolution || [],
-          os,
+          age: details.age || undefined,
+          storage: details.storage || undefined,
+          RAM: details.RAM || undefined,
+          processorType: details.processorType || undefined,
+          CAMResolution: details.CAMResolution || [],
+          os: details.os || undefined,
           batteryLife: {
-            hours: batteryHours,
-            percentage: batteryPercentage
+            hours: details.batteryLife?.hours || 0,
+            percentage: details.batteryLife?.percentage 
+              ? Math.min(Math.max(details.batteryLife.percentage, 0), 100)
+              : 0
           }
         }
       });
@@ -138,8 +144,17 @@ router.post(
       await device.save();
       res.status(201).json(device);
     } catch (error) {
-      console.error("Error saving device:", error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("Add error:", error);
+      if (error.name === 'ValidationError') {
+        return res.status(400).json({ 
+          message: "Validation failed",
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ 
+        message: "Internal server error",
+        error: error.message 
+      });
     }
   }
 );
