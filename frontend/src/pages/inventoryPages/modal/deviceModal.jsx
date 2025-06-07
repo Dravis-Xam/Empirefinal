@@ -96,7 +96,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
       const urls = results.map((result) => result.url);
 
-      console.log(urls);
+      //console.log(urls);
 
       if (results.length === 0) {
         toast.error("Upload succeeded but no image URLs returned.");
@@ -119,7 +119,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     let uploadedImageUrls = await uploadImage();
 
-    console.log(uploadedImageUrls);
+    //console.log(uploadedImageUrls);
 
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
@@ -133,6 +133,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
         ],
       },
     };
+
+    console.log(finalData);
 
     const formData = new FormData();
     for (const [key, value] of Object.entries(finalData)) {
