@@ -21,21 +21,21 @@ const deviceSchema = new Schema({
     required: false,
     unique: true,
   },
+  colors: {
+    type: [String] //set to receive colors array of strings  - good
+  },
+  images: {//set to receive image url array of strings  - good
+    type: [String],
+    default: [],
+  },
   price: {
     type: Number,
     required: true,
     min: 0,
   },
   details: {
-    images: {//set to receive image url array of strings  - good
-      type: [String],
-      default: [],
-    },
     age: {
       type: String,
-    },
-    color: {
-      type: [String] //set to receive colors array of strings  - good
     },
     storage: {
       type: Number

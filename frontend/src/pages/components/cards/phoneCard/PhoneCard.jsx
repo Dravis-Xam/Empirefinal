@@ -10,17 +10,19 @@ export default function PhoneCard({ device }) {
     model,
     price ,
     featured,
+    images,
+    color,
     details
   } = device || {};
 
   const navigate = useNavigate();
 
-  const images = Array.isArray(details.images)
-    ? details.images.filter(url => typeof url === 'string')
+  const f_images = Array.isArray(images)
+    ? images.filter(url => typeof url === 'string')
     : [];
 
 
-  const hasImages = images.length > 0;
+  const hasImages = f_images.length > 0;
   const fallbackImage = (
     <DotLottieReact
       src="https://lottie.host/d907efa7-5bff-49e8-8879-72d8c97a44d7/BJJL5Xq85T.lottie"

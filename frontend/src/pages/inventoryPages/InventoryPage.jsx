@@ -56,7 +56,7 @@ export default function InventoryPage() {
 
   const fetchDevices = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/inventory/`, {
+        const res = await fetch(`${BASE_URL}/inventory/all`, {
           credentials: "include",
         });
         const data = await res.json();

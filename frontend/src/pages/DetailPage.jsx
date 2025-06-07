@@ -34,10 +34,10 @@ export default function DetailPage() {
       build: device.build || 'N/A',
       model: device.model || 'N/A',
       price: device.price || 0,
+      images: device?.images || [],
+      colors: device.colors || [],
       details: {
         ...device.details,
-        images: device?.details?.images || [],
-        colors: device.details?.colors || [],
         storage: device.details?.storage || 0,
         RAM: device.details?.RAM || 0,
         processorType: device.details?.processorType || 'Not specified',
@@ -58,7 +58,7 @@ export default function DetailPage() {
  useEffect(() => {
   if (!deviceData) return;
   
-  const validImages = device.details?.images;
+  const validImages = device.images;
 
   const finalImages = validImages.length > 0 ? validImages : [fallbackImage];
 

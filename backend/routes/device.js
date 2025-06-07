@@ -35,6 +35,8 @@ router.post('/add', authenticateToken, authorizeRole('inventory manager'), uploa
       model: data.model,
       build: data.build,
       price: data.price,
+      colors: data.colors,
+      images: data.images,
       details: data.details,
       featured: data.isFeatured,
       comments: data.comments,
@@ -72,45 +74,6 @@ router.get('/get/:id', async (req, res) => {
   }
 });
 
-router.put('/update/:id', authenticateToken, authorizeRole('inventory manager'), upload.none(), async (req, res) => {
-  try {
-    const  data  = req.body;
-
-    //console.log(data); //test - good - does not alter data b4 submission
-
-    Object.keys(data).forEach(key => {
-      try {
-        data[key] = JSON.parse(data[key]);
-      } catch (e) {}
-    });
-
-    const { id } = req.params;
-    const device = await Device.findOneAndUpdate({ id }, data, { new: true });
-
-    if (!device) return res.status(404).json({ message: 'Device not found' });
-
-    res.status(200).json(device);
-  } catch (error) {
-    console.error('Error updating device:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-router.delete('/remove/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await Device.deleteOne({ id });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: 'Device not found' });
-    }
-
-    res.status(200).json({ message: 'Device removed successfully' });
-  } catch (error) {
-    console.error('Error deleting device:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 router.get('/search', async (req, res) => {
   const { q, brand, minPrice, maxPrice, ram } = req.query;

@@ -14,13 +14,13 @@ const DeviceModal = ({ device, onClose, onSave }) => {
     price: device?.price || 0,
     amountInStock: device?.amountInStock || 0,
     featured: device?.featured || false,
+    images: device?.images || [],
+    colors: device?.colors || [],
     details: {
-      images: device?.details?.images || [],
       RAM: device?.details?.RAM || 0,
       storage: device?.details?.storage || 0,
       os: device?.details?.os || "",
       processorType: device?.details?.processorType || "",
-      colors: device?.details?.colors || [],
       CAMResolution: device?.details?.CAMResolution || [],
       batteryLife: {
         hours: device?.details?.batteryLife?.hours || 0,
@@ -30,7 +30,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
   });
 
   const [imageFiles, setImageFiles] = useState([]);
-  const [previewURLs, setPreviewURLs] = useState(device?.details?.images || []);
+  const [previewURLs, setPreviewURLs] = useState(device?.images || []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -122,10 +122,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     const updatedPayload = {
       ...updatedDevice,
-      details: {
-        ...updatedDevice.details,
-        images: uploadedImageUrls.length > 0 ? uploadedImageUrls : updatedDevice.details.images,
-      },
+      images: uploadedImageUrls.length > 0 ? uploadedImageUrls : updatedDevice.images,
     };
 
     const formData = new FormData();
@@ -160,8 +157,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 };
 
 useEffect(() => {
-  if (!imageFiles.length && device?.details?.images?.length) {
-    setPreviewURLs(device.details.images);
+  if (!imageFiles.length && device?.images?.length) {
+    setPreviewURLs(deviceimages);
   }
 }, [imageFiles, device]);
 
@@ -215,7 +212,7 @@ useEffect(() => {
 
           <label>Colors (comma separated):</label>
           <input className="modal-input-text"
-            value={updatedDevice.details.colors.join(', ')}
+            value={updatedDevice.colors.join(', ')}
             onChange={e => setUpdatedDevice(prev => ({
               ...prev,
               details: {
