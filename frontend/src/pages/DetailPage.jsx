@@ -19,12 +19,11 @@ export default function DetailPage() {
   const device = state?.device;
 
   const { cart, addToCart, removeFromCart } = useCart();
-  const fallbackImage = '/public/phones/samsungA56.jpg'; 
 
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState(null);
   const [images, setImages] = useState([]);
-  const [c, sc] = useState(null) //selecting color
+  const [c, sc] = useState( localStorage.getItem('color') || null) //selecting color
 
   // Memoized device data with fallbacks
   const deviceData = useMemo(() => {
@@ -67,6 +66,7 @@ export default function DetailPage() {
   const handleColorSelect = (color) => {
     toast.info(`Selected color: ${color}`);
     sc(color); //select color
+    localStorage.setItem("color", color)
   };
 
   const cartItem = useMemo(() => ({
