@@ -37,6 +37,9 @@ export default function DeviceGallery() {
         if (!res.ok) throw new Error('Failed to fetch devices');
 
         const data = await res.json();
+        
+        console.log(data);//TEST
+
         if (Array.isArray(data)) {
           setDevices(data);
         } else {
@@ -142,7 +145,7 @@ export default function DeviceGallery() {
     touchAction: 'pan-y',
   };
 
-  devices.map(device=>console.log(device))
+  //devices.map(device=>console.log(device))
 
   return (
     <div className="phoneCardsContainer" style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
