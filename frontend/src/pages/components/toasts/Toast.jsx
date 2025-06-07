@@ -26,5 +26,6 @@ export const toast = (() => {
   return {
     success: (msg) => createToast(msg, 'success'),
     error: (msg) => createToast(msg, 'error'),
+    info: (msg) => createToast(msg, 'info'),
   };
 })();

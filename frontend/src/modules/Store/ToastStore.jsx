@@ -7,6 +7,7 @@ let idCounter = 0;
 export const toast = {
   success: (message) => addToast('success', message),
   error: (message) => addToast('error', message),
+  info: (message) => addToast('info', message),
 };
 
 function addToast(type, message) {

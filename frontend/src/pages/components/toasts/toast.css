@@ -30,6 +30,10 @@
   background-color: #f44336;
 }
 
+.toast-inf0 {
+  background-color: rgba(221, 218, 7, 0.747);
+}
+
 .toast-close {
   position: absolute;
   top: 6px;
