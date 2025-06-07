@@ -215,10 +215,7 @@ useEffect(() => {
             value ={updatedDevice?.colors?.join(', ') || ''}
             onChange={e => setUpdatedDevice(prev => ({
               ...prev,
-              details: {
-                ...prev.details,
-                colors: e.target.value.split(',').map(s => s.trim()),
-              }
+                colors: e.target.value.split(',').map(s => s.trim())
             }))}
           />
 
