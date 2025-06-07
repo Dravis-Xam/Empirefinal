@@ -19,6 +19,10 @@ router.post('/add', authenticateToken, authorizeRole('inventory manager'), async
       return res.status(409).json({ message: 'Device already exists' });
     }
 
+    
+    console.log(data); //test
+    
+
     const device = await Device.create({
       id: uuidv4(),
       brand: data.brand,
@@ -31,6 +35,8 @@ router.post('/add', authenticateToken, authorizeRole('inventory manager'), async
       rating: data.rating,
       amountInStock: data.amount,
     });
+
+    console.log(device) //test
 
     res.status(200).json(device);
   } catch (error) {
@@ -64,6 +70,9 @@ router.get('/get/:id', async (req, res) => {
 router.put('/update/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
     const  data  = req.body;
+
+    console.log(data); //test
+
     const { id } = req.params;
     const device = await Device.findOneAndUpdate({ id }, data, { new: true });
 
