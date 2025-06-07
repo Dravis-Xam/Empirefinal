@@ -25,9 +25,7 @@ router.post("/devices/add", authenticateToken, authorizeRole('inventory manager'
 
     const device = new Device({
       ...data,
-      amountInStock,
       deviceId: uuidv4(),
-      featured: featured === true,
     });
 
     await device.save();
@@ -38,9 +36,20 @@ router.post("/devices/add", authenticateToken, authorizeRole('inventory manager'
   }
 });
 
-router.put("/devices/update/:id", authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
+import multer from 'multer';
+const upload = multer(); 
+
+router.put("/devices/update/:id", authenticateToken, authorizeRole('inventory manager'), upload.none(), async (req, res) => {
   try {
-    const d = JSON.parse(req.body);
+    const d = {};
+
+    for (const [key, val] of Object.entries(req.body)) {
+      try {
+        d[key] = JSON.parse(val);
+      } catch {
+        d[key] = val;
+      }
+    }
 
     const updated = await Device.findOneAndUpdate(
       { deviceId: req.params.id },
@@ -48,12 +57,15 @@ router.put("/devices/update/:id", authenticateToken, authorizeRole('inventory ma
       { new: true }
     );
 
+    if (!updated) return res.status(404).json({ message: "Device not found" });
+
     res.json(updated);
   } catch (e) {
     console.error(e);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 router.delete('/remove/:id', authenticateToken, authorizeRole('inventory manager'), async (req, res) => {
   try {
