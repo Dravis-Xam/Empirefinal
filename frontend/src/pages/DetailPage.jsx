@@ -24,6 +24,7 @@ export default function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState(null);
   const [images, setImages] = useState([]);
+  const [c, sc] = useState(null) //selecting color
 
   // Memoized device data with fallbacks
   const deviceData = useMemo(() => {
@@ -65,6 +66,7 @@ export default function DetailPage() {
 
   const handleColorSelect = (color) => {
     toast.success(`Selected color: ${color}`);
+    sc(color); //select color
   };
 
   const cartItem = useMemo(() => ({
@@ -72,7 +74,8 @@ export default function DetailPage() {
     build: deviceData?.build,
     model: deviceData?.model,
     price: deviceData?.price,
-    details: deviceData?.details
+    details: deviceData?.details,
+    color: c//save to cart
   }), [deviceData]);
 
   const quantity = useMemo(() => (
@@ -138,7 +141,8 @@ export default function DetailPage() {
                       className="color-button"
                       style={{ 
                         backgroundColor: color,
-                        border: color === '#FFFFFF' ? '1px solid #ddd' : 'none'
+                        border: color === '#FFFFFF' ? '1px solid #ddd' : 'none',
+                        outline: c === color ? '1px solid green' : 'none'
                       }}
                       aria-label={`Select ${color} color`}
                       onClick={() => handleColorSelect(color)}
