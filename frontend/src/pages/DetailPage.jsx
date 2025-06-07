@@ -141,7 +141,7 @@ export default function DetailPage() {
                       className="color-button"
                       style={{ 
                         backgroundColor: color,
-                        border: c === color ? '1px solid green' : color === '#FFFFFF' ? '1px solid #ddd' : 'none',
+                        border: c === color ? '5px solid green' : color === '#FFFFFF' ? '1px solid #ddd' : 'none',
                       }}
                       aria-label={`Select ${color} color`}
                       onClick={() => handleColorSelect(color)}
