@@ -152,7 +152,7 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     const data = await res.json();
     toast.success("Device saved successfully!");
-    onSave(data.device);
+    onSave(data);
     onClose();
 
   } catch (err) {
