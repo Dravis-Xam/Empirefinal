@@ -38,7 +38,6 @@ export default function DeviceGallery() {
 
         const data = await res.json();
         if (Array.isArray(data)) {
-          //data.map((item) => console.log(item))//log device
           setDevices(data);
         } else {
           setError('Invalid data format: expected an array of devices');
@@ -53,6 +52,7 @@ export default function DeviceGallery() {
 
     fetchDevices();
   }, []);
+
 
   useEffect(() => {
     const updateCardsPerView = () => {

@@ -119,6 +119,8 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
     let uploadedImageUrls = await uploadImage();
 
+    console.log(uploadedImageUrls);
+
     if (imageFiles.length > 0 && uploadedImageUrls.length === 0) return;
 
     const finalData = {
