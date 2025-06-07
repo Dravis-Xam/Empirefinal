@@ -19,7 +19,7 @@ export default function PhoneCard({ device }) {
     ? details.images.filter(url => typeof url === 'string')
     : [];
 
-console.log(images);
+  console.log(images); //test
 
   const hasImages = images.length > 0;
   const fallbackImage = (
@@ -49,8 +49,6 @@ console.log(images);
   const handleViewMore = () => {
     navigate('/details', { state: { device } });
   };
-
-  const battery = details.batteryLife || { hours: 'N/A', percentage: 'N/A' };
 
   return (
     <div className={`phoneCard ${featured ? 'featured' : ''}`}>
