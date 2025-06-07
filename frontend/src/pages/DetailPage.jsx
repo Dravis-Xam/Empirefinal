@@ -36,6 +36,7 @@ export default function DetailPage() {
       price: device.price || 0,
       details: {
         ...device.details,
+        images: device?.details?.images || [],
         colors: device.details?.colors || [],
         storage: device.details?.storage || 0,
         RAM: device.details?.RAM || 0,
@@ -56,9 +57,8 @@ export default function DetailPage() {
 
  useEffect(() => {
   if (!deviceData) return;
-
-  const deviceImages = deviceData.details?.images || [];
-  const validImages = deviceImages.filter(img => typeof img === 'string' && img.startsWith('http'));
+  
+  const validImages = device.details?.images?.filter(img => typeof img === 'string' && img.startsWith('http'));
   const finalImages = validImages.length > 0 ? validImages : [fallbackImage];
 
   setMainImage(finalImages[0]);
@@ -67,7 +67,7 @@ export default function DetailPage() {
 
 
   const handleColorSelect = (color) => {
-    toast.info(`Selected color: ${color}`);
+    toast.success(`Selected color: ${color}`);
   };
 
   const cartItem = useMemo(() => ({

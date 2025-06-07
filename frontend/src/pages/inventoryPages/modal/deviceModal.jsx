@@ -94,11 +94,11 @@ const DeviceModal = ({ device, onClose, onSave }) => {
 
       const results = await Promise.all(uploadPromises);
 
-      const urls = results
-        .map((result) => result.secure_url)
-        .filter((url) => !!url);
+      const urls = results.map((result) => result.url);
 
-      if (urls.length === 0) {
+      console.log(urls);
+
+      if (results.length === 0) {
         toast.error("Upload succeeded but no image URLs returned.");
         return [];
       }
