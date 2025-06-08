@@ -52,7 +52,7 @@ export default function PhoneCard({ device }) {
   };
 
   return (
-    <div className={`phoneCard ${featured ? 'featured' : ''}`}>
+    <div className={`phoneCard ${featured ? 'featured' : ''}`} onClick={handleViewMore}>
       <div className="imageSection">
         {typeof mainImage === 'string'
           ? <img src={mainImage} alt={`${brand} ${model}`} className="mainImage" />
