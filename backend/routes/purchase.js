@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Order from '../models/order.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
-import { registerC2BUrls } from '../utils/stkpush.js';
+import { initiateStkPush } from '../utils/stkpush.js';
 
 let orderI = 0 
 let pay_details = [];
