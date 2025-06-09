@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Order from '../models/order.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
+import { registerC2BUrls } from '../utils/stkpush.js';
 
 let orderI = 0 
 let pay_details = [];
@@ -32,6 +33,15 @@ router.post('/', authenticateToken, async (req, res) => {
       items.devices.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
     );
 
+    const p_res = await initiateStkPush(contact, paymentDetails.details.pay, `ORD${orderI}`);
+
+    let s = 'pending delivery';
+    if (p_res.ResponseCode === "0") {
+      s = 'dispatched'; 
+    } else {
+      console.log('STK Push Error:', p_res.errorMessage || p_res.ResponseDescription);
+    }
+
     const order = await Order.create({
       orderId: `ORD${orderI}`,
       username,
@@ -44,7 +54,7 @@ router.post('/', authenticateToken, async (req, res) => {
         totalPrice
       },
       orderedAt: new Date(),
-      status,
+      status: s,
       paymentDetails
     });
 
