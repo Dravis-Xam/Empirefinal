@@ -35,11 +35,13 @@ router.post('/', authenticateToken, async (req, res) => {
 
     const p_res = await initiateStkPush(contact, paymentDetails.details.pay, `ORD${orderI}`);
 
-    let s = 'pending delivery';
-    if (p_res.ResponseCode === "0") {
-      s = 'dispatched'; 
-    } else {
-      console.log('STK Push Error:', p_res.errorMessage || p_res.ResponseDescription);
+    if (paymentDetails.method === "mpesa") {
+      let s = 'pending delivery';
+      if (p_res.ResponseCode === "0") {
+        s = 'dispatched'; 
+      } else {
+        console.log('STK Push Error:', p_res.errorMessage || p_res.ResponseDescription);
+      }
     }
 
     const order = await Order.create({

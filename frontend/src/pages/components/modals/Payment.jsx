@@ -92,13 +92,6 @@ export default function Payment() {
     if (paymentMethod === "mpesa") {
       if (!validatePhone(mpesaNumber)) return toast.error("Invalid Mpesa number.");
       details = { number: mpesaNumber };
-      
-      try {
-        await runSTK({ mpesaNumber, totalAmount }); // ✅ call STK push here
-      } catch (err) {
-        console.error(err);
-        return toast.error("STK Push failed.");
-      }
     } /*else if (paymentMethod === "paypal") {
       if (!validateEmail(paypalEmail)) return toast.error("Invalid PayPal email address.");
       details = { email: paypalEmail };
@@ -143,6 +136,12 @@ export default function Payment() {
       const result = await response.json();
       if (!response.ok) return toast.error(`Error: ${result.message}`);
 
+
+      setPaymentInfo({ method: paymentMethod, bankType, mpesaNumber, paypalEmail, contactNumber, totalAmount });
+      setDeliveryInfo(location);
+      toast.success('Purchase completed successfully!');
+
+
       localStorage.setItem("paymentInfo", JSON.stringify({
         method: paymentMethod,
         bankType,
@@ -151,11 +150,8 @@ export default function Payment() {
         contactNumber,
         totalAmount
       }));
+      
       localStorage.setItem("deliveryLocation", JSON.stringify(location));
-
-      setPaymentInfo({ method: paymentMethod, bankType, mpesaNumber, paypalEmail, contactNumber, totalAmount });
-      setDeliveryInfo(location);
-      toast.success('Purchase completed successfully!');
       clearCart();
     } catch (err) {
       toast.error('Something went wrong while completing the purchase.');
