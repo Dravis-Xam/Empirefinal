@@ -7,6 +7,8 @@ import { initiateStkPush } from '../utils/stkpush.js';
 import PaymentLog from '../models/paymentLogs.js';
 import pesapal from '../utils/pesapal.js';
 
+const router = express.Router();
+
 let orderI = Order.countDocuments() + 1;
 const CALLBACK_URL='https://empirehubphones.onrender.com/api/buy/cc-callback'
 const IPN_URL='https://empirehubphones.onrender.com/api/buy/ipn'
