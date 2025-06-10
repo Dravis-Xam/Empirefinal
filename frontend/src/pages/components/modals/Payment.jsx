@@ -7,8 +7,8 @@ import ToastContainer from "../toasts/ToastContainer";
 import { toast } from "../../../modules/Store/ToastStore";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../modules/Store/AuthContext";
-import { runSTK } from "../../../modules/STK/stkpush.js";
 import { v4 as uuidv4 } from 'uuid';
+import PesapalPayButton from "./Pesapalbtn";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -18,9 +18,9 @@ export default function Payment() {
   const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
 
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [bankType, setBankType] = useState("");
+  const [ccName, setCCName] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
-  const [paypalEmail, setPaypalEmail] = useState("");
+  //const [paypalEmail, setPaypalEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const { user } = useAuth();
   const t_ID = uuidv4()
@@ -39,7 +39,7 @@ export default function Payment() {
     const savedPayment = JSON.parse(localStorage.getItem("paymentInfo"));
     if (savedPayment) {
       setPaymentMethod(savedPayment.method);
-      setBankType(savedPayment.bankType || "");
+      setCCName(savedPayment.ccName || "");
       setMpesaNumber(savedPayment.mpesaNumber || "");
       setPaypalEmail(savedPayment.paypalEmail || "");
       setContactNumber(savedPayment.contactNumber || "");
@@ -150,7 +150,7 @@ export default function Payment() {
         contactNumber,
         totalAmount
       }));
-      
+
       localStorage.setItem("deliveryLocation", JSON.stringify(location));
       clearCart();
     } catch (err) {
@@ -177,31 +177,20 @@ export default function Payment() {
       <div className="sections">
         <section className="payment-section">
           <h3>Select Payment Method</h3>
-{/** 
-          <label><input type="radio" value="bank" checked={paymentMethod === "bank"} onChange={() => setPaymentMethod("bank")} /> Bank Payment</label>
-          {paymentMethod === "bank" && (
+          <label><input type="radio" value="card" checked={paymentMethod === "card"} onChange={() => setPaymentMethod("card")} /> Credit Card Payment</label>
+          {paymentMethod === "card" && (
             <div className="sub-option">
-              <label>
-                Bank Type:
-                <select value={bankType} onChange={(e) => setBankType(e.target.value)}>
-                  <option value="">--Select--</option>
-                  <option value="bank-card">Bank Card</option>
-                  <option value="credit-card">Credit Card</option>
-                </select>
+              <label>Name as per id:
+                <input type="text" value={ccName} onChange={(e) => setCCName(e.target.value)} placeholder="Enter your name" />
               </label>
-              {bankType && (
-                <div className="card-inputs">
-                  <input type="text" placeholder="Card Number" maxLength="19" />
-                  <input type="text" placeholder="Cardholder Name" />
-                  <div className="expiry-cvc">
-                    <input type="text" placeholder="MM/YY" maxLength="5" />
-                    <input type="text" placeholder="CVC" maxLength="3" />
-                  </div>
-                </div>
-              )}
+              <PesapalPayButton 
+                name={ccName}
+                email={user.email}
+                phone={contactNumber}
+                amount={totalAmount}
+              />
             </div>
           )}
-*/}
           <label><input type="radio" value="mpesa" checked={paymentMethod === "mpesa"} onChange={() => setPaymentMethod("mpesa")} /> Mpesa Payment</label>
           {paymentMethod === "mpesa" && (
             <div className="sub-option">
@@ -244,7 +233,7 @@ export default function Payment() {
       </div>
 
       <div className="checkout-buttons">
-        <button onClick={handleCompletePurchase}>Complete Purchase</button>
+        <button onClick={handleCompletePurchase} disabled={paymentMethod==="card"}>Complete Purchase</button>
         <button onClick={handleTrackDelivery}>Track Delivery</button>
       </div>
 

@@ -21,13 +21,13 @@ export const AuthProvider = ({ children }) => {
       if (!res.ok) throw new Error("Not authenticated");
 
       const data = await res.json();
-      const { userId, username, role, exp } = data;
+      const { userId, username, email, role, exp } = data;
 
       localStorage.setItem("username", username);
       localStorage.setItem("userId", userId);
       sessionStorage.setItem("role", role);
 
-      setUser({ userId, username, role, exp });
+      setUser({ userId, username, email, role, exp });
     } catch (err) {
       console.error("Fetch user failed:", err);
       setUser(null);

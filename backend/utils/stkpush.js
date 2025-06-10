@@ -5,9 +5,6 @@ const SHORT_CODE = "542542";
 const CALLBACK_URL = `https://empirehubphones.onrender.com/api/buy/callback`;
 const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '').slice(0, 14);
 
-const env = process.env.NODE_ENV;
-const uri = env === 'developer' ? 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' : 'https://api.safaricom.co.ke/oauth/v2/generate?grant_type=client_credentials';
-
 const getAccessToken = async () => {
   const uri = process.env.NODE_ENV === 'developer'
     ? 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
@@ -27,7 +24,6 @@ const getAccessToken = async () => {
 
 export const initiateStkPush = async (phone, amount, orderId) => {
   const token = await getAccessToken();
-  const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '').slice(0, 14);
   const password = Buffer.from(SHORT_CODE + PASSKEY + timestamp).toString('base64');
 
   const res = await fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
