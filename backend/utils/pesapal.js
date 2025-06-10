@@ -1,32 +1,29 @@
-import Pesapal from 'pesapaljs-v3';
+import pesapal from 'pesapaljs-v3';
 import dotenv from 'dotenv';
 dotenv.config();
 
 let instance;
-let accessToken;
 
 function init() {
   if (!instance) {
-    instance = new Pesapal({
+    instance = pesapal({
       key: process.env.PESAPAL_CONSUMER_KEY,
       secret: process.env.PESAPAL_CONSUMER_SECRET,
-      debug: process.env.NODE_ENV === 'developer',
+      debug: process.env.NODE_ENV === 'development',
     });
   }
   return instance;
 }
 
 async function authenticate() {
-  const pesapal = init();
-  accessToken = await pesapal.authenticate();
-  return accessToken;
+  const client = init();
+  return await client.authenticate();
 }
 
 async function register_ipn_url({ url, ipn_notification_type = 'GET' }) {
-  const pesapal = init();
-  await authenticate(); 
-  const result = await pesapal.register_ipn_url({ url, ipn_notification_type });
-  return result;
+  const client = init();
+  await authenticate();
+  return await client.register_ipn_url({ url, ipn_notification_type });
 }
 
 async function submit_order({
@@ -38,9 +35,9 @@ async function submit_order({
   notification_id,
   billing_address,
 }) {
-  const pesapal = init();
+  const client = init();
   await authenticate();
-  const order = await pesapal.submit_order({
+  return await client.submit_order({
     id,
     currency,
     amount,
@@ -49,13 +46,12 @@ async function submit_order({
     notification_id,
     billing_address,
   });
-  return order;
 }
 
 async function get_transaction_status({ OrderTrackingId }) {
-  const pesapal = init();
+  const client = init();
   await authenticate();
-  return await pesapal.get_transaction_status({ OrderTrackingId });
+  return await client.get_transaction_status({ OrderTrackingId });
 }
 
 export default {

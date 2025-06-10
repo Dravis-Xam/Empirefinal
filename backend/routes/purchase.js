@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
 import { initiateStkPush } from '../utils/stkpush.js';
 import PaymentLog from '../models/paymentLogs.js';
-import pesapal from '../utils/pesapal.js';
+import pesapal from '../utils/pesapal';
 
 const router = express.Router();
 
