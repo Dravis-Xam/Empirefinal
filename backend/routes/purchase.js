@@ -4,7 +4,7 @@ import Order from '../models/order.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
 import { initiateStkPush } from '../utils/stkpush.js';
-import { PaymentLog } from '../models/paymentLogs.js';
+import PaymentLog from '../models/paymentLogs.js';
 
 let orderI = Order.countDocuments() + 1;
 const CALLBACK_URL='https://empirehubphones.onrender.com/api/buy/cc-callback'
