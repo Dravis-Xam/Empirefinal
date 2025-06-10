@@ -4,22 +4,19 @@ import Order from '../models/order.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
 import { initiateStkPush } from '../utils/stkpush.js';
-import { init } from 'pesapaljs-v3';
+import { PaymentLog } from '../models/paymentLogs.js';
 
-let orderI = 0 
-let pay_details = [];
+let orderI = Order.countDocuments() + 1;
 const CALLBACK_URL='https://empirehubphones.onrender.com/api/buy/cc-callback'
 const IPN_URL='https://empirehubphones.onrender.com/api/buy/ipn'
 
 const router = express.Router();
 
 router.post('/', authenticateToken, async (req, res) => {
-  console.log("Request body:", req.body);
-
-  const { paymentDetails, items, coordinates, contact, status} = req.body;
+  const { paymentDetails, items, coordinates, contact, status: incomingStatus, email, name } = req.body;
   const username = req.user?.username || 'unknown_user';
 
-  orderI = orderI + 1;
+  let status = 'pending';
 
   try {
     if (
@@ -36,49 +33,21 @@ router.post('/', authenticateToken, async (req, res) => {
       items.devices.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
     );
 
-    
-
-    if (paymentDetails.method === "mpesa") {
+    if (paymentDetails.method === 'mpesa') {
       const p_res = await initiateStkPush(contact, paymentDetails.details.pay, `ORD${orderI}`);
-
-      status = 'pending delivery';
-      if (p_res.ResponseCode === "0") {
-        status = 'dispatched'; 
-      } else {
-        console.log('STK Push Error:', p_res.errorMessage || p_res.ResponseDescription);
-      }
+      status = p_res.ResponseCode === "0" ? 'dispatched' : 'pending delivery';
     }
 
-    if (paymentDetails.method === 'card') {      
-      const pesapal = init({
-        key: process.env.PESAPAL_CONSUMER_KEY,
-        secret: process.env.PESAPAL_CONSUMER_SECRET,
-        debug: process.env.NODE_ENV === "developer",
-      });
-
-      let notification_id;
-
-      // 1. Authenticate and register IPN once
-      (async () => {
-        try {
-          pesapal.authenticate();
-
-          const result = await pesapal.register_ipn_url({
-            url: IPN_URL,
-            ipn_notification_type: "GET",
-          });
-
-          notification_id = result.notification_id;
-          console.log("Registered IPN ID:", notification_id);
-        } catch (err) {
-          console.error("Pesapal setup error:", err.message);
-        }
-      })();
-
-       const { email, name } = req.body;
-
+    if (paymentDetails.method === 'card') {
       try {
-        pesapal.authenticate(); // renew token
+        await pesapal.authenticate();
+
+        const result = await pesapal.register_ipn_url({
+          url: IPN_URL,
+          ipn_notification_type: "GET",
+        });
+
+        const notification_id = result.notification_id;
 
         const tx_ref = "TX-" + Date.now();
 
@@ -92,14 +61,14 @@ router.post('/', authenticateToken, async (req, res) => {
           billing_address: {
             email_address: email,
             phone_number: contact,
-            username: username
+            username,
           },
         });
 
-        res.json({ iframe: order.iframe_url, trackingId: order.order_tracking_id });
+        return res.json({ iframe: order.iframe_url, trackingId: order.order_tracking_id });
       } catch (err) {
-        console.error("Order submission failed:", err.message);
-        res.status(500).json({ error: err.message });
+        console.error("Pesapal error:", err.message);
+        return res.status(500).json({ error: err.message });
       }
     }
 
@@ -126,6 +95,7 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+
 router.get("/cc-callback", (req, res) => {
   const { OrderTrackingId } = req.query;
   console.log("Payment callback received for:", OrderTrackingId);
@@ -134,17 +104,36 @@ router.get("/cc-callback", (req, res) => {
 
 router.get("/ipn", async (req, res) => {
   const { OrderTrackingId } = req.query;
+
   try {
     await pesapal.authenticate();
     const status = await pesapal.get_transaction_status({ OrderTrackingId });
-    console.log("Payment IPN received:", status);
+
+    await PaymentLog.create({
+      trackingId: OrderTrackingId,
+      status: status.payment_status_description || 'Unknown',
+      logType: 'success',
+      rawResponse: status,
+    });
+
+    console.log("✅ Payment IPN received:", status);
     res.status(200).send("IPN Received");
   } catch (err) {
-    console.error("IPN error:", err.message);
-    res.status(500).send("Error");
+    console.error("❌ IPN error:", err.message);
+
+    await PaymentLog.create({
+      trackingId: OrderTrackingId || 'unknown',
+      status: 'error',
+      logType: 'error',
+      rawResponse: { message: err.message },
+    });
+
+    res.status(200).send("IPN Error handled internally");
   }
 });
 
+
+/*
 router.post("/validate-charge", async (req, res) => {
   const { otp, flw_ref } = req.body;
   try {
@@ -153,7 +142,7 @@ router.post("/validate-charge", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+});*/
 
 router.get('/status/by-transaction/:t_ID', async (req, res) => {
   try {
