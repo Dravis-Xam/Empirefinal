@@ -5,15 +5,14 @@ import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/authorise.js';
 import { initiateStkPush } from '../utils/stkpush.js';
 import PaymentLog from '../models/paymentLogs.js';
+import pesapal from '../utils/pesapal.js';
 
 let orderI = Order.countDocuments() + 1;
 const CALLBACK_URL='https://empirehubphones.onrender.com/api/buy/cc-callback'
 const IPN_URL='https://empirehubphones.onrender.com/api/buy/ipn'
 
-const router = express.Router();
-
 router.post('/', authenticateToken, async (req, res) => {
-  const { paymentDetails, items, coordinates, contact, status: incomingStatus, email, name } = req.body;
+  const { paymentDetails, items, coordinates, contact } = req.body;
   const username = req.user?.username || 'unknown_user';
 
   let status = 'pending';
@@ -38,42 +37,9 @@ router.post('/', authenticateToken, async (req, res) => {
       status = p_res.ResponseCode === "0" ? 'dispatched' : 'pending delivery';
     }
 
-    if (paymentDetails.method === 'card') {
-      try {
-        await pesapal.authenticate();
-
-        const result = await pesapal.register_ipn_url({
-          url: IPN_URL,
-          ipn_notification_type: "GET",
-        });
-
-        const notification_id = result.notification_id;
-
-        const tx_ref = "TX-" + Date.now();
-
-        const order = await pesapal.submit_order({
-          id: tx_ref,
-          currency: "KES",
-          amount: paymentDetails.details.pay,
-          description: "Payment from " + name,
-          callback_url: CALLBACK_URL,
-          notification_id,
-          billing_address: {
-            email_address: email,
-            phone_number: contact,
-            username,
-          },
-        });
-
-        return res.json({ iframe: order.iframe_url, trackingId: order.order_tracking_id });
-      } catch (err) {
-        console.error("Pesapal error:", err.message);
-        return res.status(500).json({ error: err.message });
-      }
-    }
-
+    // Skip card payment; it should be handled in /card
     const order = await Order.create({
-      orderId: `ORD${orderI}`,
+      orderId: `ORD${orderI++}`,
       username,
       userId: uuidv4(),
       contact,
@@ -95,6 +61,44 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+router.post('/card', authenticateToken, async (req, res) => {
+  const { amount, name, email, contact } = req.body;
+  const username = req.user?.username || 'unknown_user';
+
+  try {
+    await pesapal.authenticate();
+
+    const ipnResult = await pesapal.register_ipn_url({
+      url: IPN_URL,
+      ipn_notification_type: "GET",
+    });
+
+    const notification_id = ipnResult.notification_id;
+    const tx_ref = "TX-" + Date.now();
+
+    const order = await pesapal.submit_order({
+      id: tx_ref,
+      currency: "KES",
+      amount,
+      description: "Payment from " + name,
+      callback_url: CALLBACK_URL,
+      notification_id,
+      billing_address: {
+        email_address: email,
+        phone_number: contact,
+        username
+      },
+    });
+
+    res.status(200).json({
+      iframe: order.iframe_url,
+      trackingId: order.order_tracking_id,
+    });
+  } catch (err) {
+    console.error("Pesapal Card Payment error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 router.get("/cc-callback", (req, res) => {
   const { OrderTrackingId } = req.query;
