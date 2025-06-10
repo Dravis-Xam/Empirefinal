@@ -86,7 +86,7 @@ export default function Payment() {
     if (!paymentMethod) return toast.error("Please select a payment method.");
     if (!validateLocation()) return;
     if (!validatePhone(contactNumber)) return toast.error("Invalid contact number.");
-    if (!t_id.trim()) return toast.error("Please enter transaction code.");
+    if (!t_ID.trim()) return toast.error("Please enter transaction code.");
 
     let details = {};
     if (paymentMethod === "mpesa") {
@@ -117,7 +117,7 @@ export default function Payment() {
       paymentDetails: {
         method: paymentMethod,
         details: {
-          t_id: t_ID,
+          t_id: t_ID && uuidv4(),
           pay: totalAmount,
           currency: 'Ksh',
           ...details

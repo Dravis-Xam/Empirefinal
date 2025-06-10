@@ -259,7 +259,7 @@ router.post('/callback', async (req, res) => {
       { "paymentDetails.phone": phone },
       {
         $set: {
-          "paymentDetails.t_id": checkoutRequestID,
+          "paymentDetails.details.t_id": checkoutRequestID,
           "status": "dispatched"
         }
       },
