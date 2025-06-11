@@ -16,6 +16,7 @@ const PesapalPayButton = ({ name, email, phone, amount }) => {
       });
 
       const data = await res.json();
+      console.log(data)
       if (data.iframe) {
         window.location.href = data.iframe;
       } else {
