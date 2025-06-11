@@ -65,10 +65,6 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.post('/card', authenticateToken, async (req, res) => {
   const { amount, name, email, phone } = req.body;
-  const username = req.user?.username || null;
-
-  if (username ) return res.status(400).json({message: 'Username cannot be null'})
-
   // Input validation
   if (!amount || !name || !email || !phone) {
     return res.status(400).json({ message: "Missing required fields" });
