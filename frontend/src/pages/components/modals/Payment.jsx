@@ -19,6 +19,7 @@ export default function Payment() {
 
   const [paymentMethod, setPaymentMethod] = useState("");
   const [ccName, setCCName] = useState("");
+  const [ccEmail, setCCEmail] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
   //const [paypalEmail, setPaypalEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -183,9 +184,12 @@ export default function Payment() {
               <label>Name as per id:
                 <input type="text" value={ccName} onChange={(e) => setCCName(e.target.value)} placeholder="Enter your name" />
               </label>
+              <label>Email:
+                <input type="email" value={ccEmail} onChange={(e) => setCCEmail(e.target.value)} placeholder="Enter your email" />
+              </label>
               <PesapalPayButton 
                 name={ccName}
-                email={user.email}
+                email={ccEmail}
                 phone={contactNumber}
                 amount={totalAmount}
               />
@@ -215,12 +219,12 @@ export default function Payment() {
           <form>
             {['county', 'town', 'street', 'roomNo'].map((field) => (
               <div key={field} className="inputContainer">
-                <input name={field} value={location[field]} onChange={handleLocationChange} />
+                <input name={field} value={location[field]} onChange={handleLocationChange} required/>
                 <label className="floatingLabel">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
               </div>
             ))}
             <div className="inputContainer">
-              <input name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
+              <input name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required/>
               <label className="floatingLabel">Contact number</label>
             </div>
             {/** <div className="inputContainer">
