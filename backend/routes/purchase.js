@@ -65,7 +65,9 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.post('/card', authenticateToken, async (req, res) => {
   const { amount, name, email, phone } = req.body;
-  const username = req.user?.username || 'unknown_user';
+  const username = req.user?.username || null;
+
+  if (username ) return res.status(400).json({message: 'Username cannot be null'})
 
   // Input validation
   if (!amount || !name || !email || !phone) {
@@ -96,7 +98,7 @@ router.post('/card', authenticateToken, async (req, res) => {
         first_name: name.split(' ')[0] || '',
         last_name: name.split(' ')[1] || '',
         country_code: "KE",
-        line_1: "N/A", // Required field
+        line_1: phone, // Required field
         city: "Nairobi", // Adjust as needed
         postal_code: "00100" // Adjust as needed
       }

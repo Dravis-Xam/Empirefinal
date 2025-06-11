@@ -6,6 +6,7 @@ const PesapalPayButton = ({ name, email, phone, amount }) => {
   const [loading, setLoading] = useState(false);
 
   const handlePay = async () => {
+    console.log(name, email, phone, amount);
     setLoading(true);
     try {
       const res = await fetch(`https://empirehubphones.onrender.com/api/buy/card`, {
@@ -16,11 +17,11 @@ const PesapalPayButton = ({ name, email, phone, amount }) => {
       });
 
       const data = await res.json();
-      console.log(data)
+      
       if (data.iframe) {
         window.location.href = data.iframe;
       } else {
-        toast.error('Payment link not available');
+        toast.error(data.message);
       }
     } catch (err) {
       toast.error('Error starting payment');
