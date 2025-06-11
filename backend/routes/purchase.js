@@ -10,8 +10,8 @@ import pesapal from '../utils/pesapal.js';
 const router = express.Router();
 
 let orderI = Order.countDocuments() + 1;
-const CALLBACK_URL='https://empirehubphones.onrender.com/api/buy/cc-callback'
-const IPN_URL='https://empirehubphones.onrender.com/api/buy/ipn'
+const CALLBACK_URL=process.env.CALLBACK_URL
+const IPN_URL=process.env.IPN_URL
 
 router.post('/', authenticateToken, async (req, res) => {
   const { paymentDetails, items, coordinates, contact } = req.body;
@@ -64,80 +64,157 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 router.post('/card', authenticateToken, async (req, res) => {
-  const { amount, name, email, contact } = req.body;
+  const { amount, name, email, phone } = req.body;
   const username = req.user?.username || 'unknown_user';
 
-  try {
-    await pesapal.authenticate();
+  // Input validation
+  if (!amount || !name || !email || !phone) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
 
-    const ipnResult = await pesapal.register_ipn_url({
+  try {
+    // Register IPN URL
+    const ipnResult = await register_ipn_url({
       url: IPN_URL,
       ipn_notification_type: "GET",
     });
 
-    const notification_id = ipnResult.notification_id;
-    const tx_ref = "TX-" + Date.now();
+    const notification_id = ipnResult.ipn_id; // Note: field name is ipn_id in API response
+    const merchantReference = `TX-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-    const order = await pesapal.submit_order({
-      id: tx_ref,
+    // Submit order with enhanced billing details
+    const order = await submit_order({
+      id: merchantReference,
       currency: "KES",
       amount,
-      description: "Payment from " + name,
+      description: `Payment from ${name} (${username})`,
       callback_url: CALLBACK_URL,
       notification_id,
       billing_address: {
         email_address: email,
-        phone_number: contact,
-        username
-      },
+        phone_number: phone,
+        first_name: name.split(' ')[0] || '',
+        last_name: name.split(' ')[1] || '',
+        country_code: "KE",
+        line_1: "N/A", // Required field
+        city: "Nairobi", // Adjust as needed
+        postal_code: "00100" // Adjust as needed
+      }
+    });
+
+    // Log the initial payment request
+    await PaymentLog.create({
+      trackingId: order.order_tracking_id,
+      status: 'initiated',
+      logType: 'request',
+      amount: amount,
+      customerEmail: email,
+      customerPhone: phone
     });
 
     res.status(200).json({
-      iframe: order.iframe_url,
+      iframe: order.redirect_url, // Note: field name is redirect_url in API response
       trackingId: order.order_tracking_id,
+      merchantReference: merchantReference,
+      message: "Payment initiated successfully"
     });
+
   } catch (err) {
-    console.error("Pesapal Card Payment error:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error("Pesapal Payment error:", err);
+
+    await PaymentLog.create({
+      trackingId: 'failed-' + Date.now(),
+      status: 'failed',
+      logType: 'error',
+      rawResponse: { message: err.message },
+      amount: amount,
+      customerEmail: email,
+      customerPhone: phone
+    });
+
+    res.status(500).json({ 
+      error: "Payment processing failed",
+      details: err.message 
+    });
   }
 });
 
-router.get("/cc-callback", (req, res) => {
-  const { OrderTrackingId } = req.query;
-  console.log("Payment callback received for:", OrderTrackingId);
-  res.send("Payment processing... You may close this page.");
-});
-
-router.get("/ipn", async (req, res) => {
-  const { OrderTrackingId } = req.query;
-
+// Enhanced callback handler
+router.get("/cc-callback", async (req, res) => {
+  const { OrderTrackingId, OrderMerchantReference, OrderNotificationType } = req.query;
+  
+  console.log(`Payment callback received for: ${OrderTrackingId}`);
+  
   try {
-    await pesapal.authenticate();
-    const status = await pesapal.get_transaction_status({ OrderTrackingId });
-
+    // Log the callback
     await PaymentLog.create({
       trackingId: OrderTrackingId,
-      status: status.payment_status_description || 'Unknown',
-      logType: 'success',
-      rawResponse: status,
+      merchantReference: OrderMerchantReference,
+      status: 'callback_received',
+      logType: 'callback',
+      notificationType: OrderNotificationType
     });
 
-    console.log("✅ Payment IPN received:", status);
+    
+    //res.redirect(`https://empirefinal-osrw.vercel.app/track-delivery?trackingId=${OrderTrackingId}`);
+    
+    res.send(`
+      <html>
+        <body>
+          <h1>Payment processing complete</h1>
+          <p>You may close this window or <a href="https://empirefinal-osrw.vercel.app">return to our site</a>.</p>
+          <script>
+            // Optional: Notify parent window
+            window.opener.postMessage({ pesapalPaymentComplete: true, trackingId: '${OrderTrackingId}' }, '*');
+          </script>
+        </body>
+      </html>
+    `);
+  } catch (err) {
+    console.error("Callback logging error:", err);
+    res.send("Payment received. Thank you!");
+  }
+});
+
+// Enhanced IPN handler
+router.post("/ipn", async (req, res) => {
+  const { OrderTrackingId, OrderNotificationType, OrderMerchantReference } = req.body;
+
+  try {
+    // Get transaction status from Pesapal
+    const status = await pesapal.get_transaction_status({ OrderTrackingId });
+
+    // Log the IPN
+    await PaymentLog.create({
+      trackingId: OrderTrackingId,
+      merchantReference: OrderMerchantReference,
+      status: status.payment_status_description || 'Unknown',
+      logType: 'ipn',
+      notificationType: OrderNotificationType,
+      rawResponse: status
+    });
+
+    console.log(`✅ Payment IPN received for ${OrderTrackingId}:`, status);
+
+    // Here you would typically:
+    // 1. Update your database with payment status
+    // 2. Send email notifications
+    // 3. Trigger any post-payment actions
+
     res.status(200).send("IPN Received");
   } catch (err) {
     console.error("❌ IPN error:", err.message);
 
     await PaymentLog.create({
       trackingId: OrderTrackingId || 'unknown',
-      status: 'error',
+      status: 'ipn_error',
       logType: 'error',
-      rawResponse: { message: err.message },
+      rawResponse: { message: err.message }
     });
 
     res.status(200).send("IPN Error handled internally");
   }
 });
-
 
 /*
 router.post("/validate-charge", async (req, res) => {
